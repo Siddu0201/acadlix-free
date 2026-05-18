@@ -9,7 +9,6 @@ import { __ } from "@wordpress/i18n";
 import { RawHTML } from "@wordpress/element";
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 import CustomButton from "@acadlix/components/CustomButton";
-import { redirect } from "react-router-dom";
 
 const DescriptionSection = (props) => {
   const rand = function () {
@@ -36,6 +35,7 @@ const DescriptionSection = (props) => {
       let advance_quiz_url = acadlixOptions?.advance_quiz_url;
       let queryParams = {
         redirect_url: window.location.href,
+        opener: true,
       };
       if (
         props?.course_section_content_id &&
@@ -106,7 +106,8 @@ const DescriptionSection = (props) => {
   const handleQuizStart = () => {
     if (
       props?.watch("enable_login_register") &&
-      props?.watch("user_id") == 0
+      props?.watch("user_id") == 0 &&
+      props?.watch("required_login_to") === "start_quiz"
     ) {
       props?.setValue("login_modal", true, { shouldDirty: true });
       return;
@@ -123,7 +124,7 @@ const DescriptionSection = (props) => {
     handleStart();
   }
 
-  const handleUserLogin = (data) => {
+  const handleUserLoginAtStart = (data) => {
     if (data?.user) {
       props?.setValue("user_id", Number(data?.user?.ID), {
         shouldDirty: true,
@@ -189,8 +190,8 @@ const DescriptionSection = (props) => {
         ajax_url={acadlixOptions?.ajax_url}
         nonce={acadlixOptions?.nonces?.auth || ""}
         handleClose={() => props?.setValue("login_modal", false)}
-        onSuccessLogin={handleUserLogin}
-        onSuccessRegister={handleUserLogin}
+        onSuccessLogin={handleUserLoginAtStart}
+        onSuccessRegister={handleUserLoginAtStart}
       />
       {props?.watch("quiz_error") && (
         <Box

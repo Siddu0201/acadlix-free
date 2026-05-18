@@ -92,7 +92,7 @@ const FrontButtonListener = () => {
           (response) => {
             if (response && response.data && response.data.success) {
               const { cartToken, tokenExpiry } = methods.getTokenWithExpiry(response?.data);
-              console.log(cartToken, tokenExpiry);
+              // console.log(cartToken, tokenExpiry);
               if (cartToken === undefined || tokenExpiry === undefined) {
                 console.error("Failed to get cart token and expiry.");
                 return;
@@ -168,7 +168,7 @@ const FrontButtonListener = () => {
           (response) => {
             if (response && response.data && response.data.success) {
               const { cartToken, tokenExpiry } = methods.getTokenWithExpiry(response?.data);
-              console.log(cartToken, tokenExpiry);
+              // console.log(cartToken, tokenExpiry);
               if (cartToken === undefined || tokenExpiry === undefined) {
                 console.error("Failed to get cart token and expiry.");
                 return;

@@ -172,6 +172,18 @@ class FrontDashboardController
 
     register_rest_route(
       $this->namespace,
+      '/' . $this->base . '/post-update-user-password',
+      [
+        [
+          'methods' => WP_REST_Server::EDITABLE,
+          'callback' => [$this, 'post_update_user_password'],
+          'permission_callback' => [$this, 'check_permission'],
+        ],
+      ]
+    );
+
+    register_rest_route(
+      $this->namespace,
       '/' . $this->base . '/get-user-certificate-by-id',
       [
         [
@@ -827,6 +839,50 @@ class FrontDashboardController
     // update_user_meta($user_id, '_acadlix_profile_photo', sanitize_text_field($params['photo']));
 
     $res['user'] = acadlix()->model()->wpUsers()->with('user_metas')->where('ID', $user_id)->first();
+    return rest_ensure_response($res);
+  }
+
+  public function post_update_user_password($request)
+  {
+    $res = [];
+    $user = wp_get_current_user();
+
+    if (!$user || !$user->ID) {
+      return new WP_Error('no_user', __('User not found', 'acadlix'), array('status' => 404));
+    }
+
+    $old_password = $request['old_password'];
+    $new_password = $request['new_password'];
+    $confirm_password = $request['confirm_new_password'];
+
+    // Validate fields
+    if (empty($old_password) || empty($new_password) || empty($confirm_password)) {
+      return new WP_Error('missing_fields', __('All password fields are required', 'acadlix'), array('status' => 400));
+    }
+
+    // Check old password
+    if (!wp_check_password($old_password, $user->user_pass, $user->ID)) {
+      return new WP_Error('incorrect_old_password', __('Old password is incorrect', 'acadlix'), array('status' => 400));
+    }
+
+    // Check new password match
+    if ($new_password !== $confirm_password) {
+      return new WP_Error('password_mismatch', __('Passwords do not match', 'acadlix'), array('status' => 400));
+    }
+
+    // Optional password strength validation
+    if (strlen($new_password) < 8) {
+      return new WP_Error('weak_password', __('Password must be at least 8 characters', 'acadlix'), array('status' => 400));
+    }
+
+    // Update password
+    wp_set_password($new_password, $user->ID);
+
+    // Re-login user (important)
+    wp_set_auth_cookie($user->ID);
+
+    $res['message'] = __('Password updated successfully', 'acadlix');
+    $res['user'] = acadlix()->model()->wpUsers()->with('user_metas')->where('ID', $user->ID)->first();
     return rest_ensure_response($res);
   }
 

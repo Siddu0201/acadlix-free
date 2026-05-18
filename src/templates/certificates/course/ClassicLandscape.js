@@ -44,6 +44,7 @@ const ClassicLandscape = (props) => {
             maxWidth: 800,
             fontWeight: 'bold',
             paddingTop: 5,
+            textTransform: 'capitalize',
           }}>
             {props?.watch('course_name') || ""}
           </Text>
@@ -64,6 +65,7 @@ const ClassicLandscape = (props) => {
                 <Text style={{
                   fontSize: 12,
                   fontWeight: 'bold',
+                  textTransform: 'capitalize',
                 }}>
                   {props?.watch('instructor') || ""}
                 </Text>
@@ -90,6 +92,7 @@ const ClassicLandscape = (props) => {
               <Text style={{
                 fontSize: 28,
                 fontWeight: 'bold',
+                textTransform: 'capitalize',
               }}>
                 {props?.watch('user_name') || ""}
               </Text>
@@ -141,6 +144,7 @@ const ClassicLandscape = (props) => {
                   <Text style={{
                     fontSize: 16,
                     fontWeight: 'bold',
+                    textTransform: 'capitalize',
                   }}>
                     {props?.watch('acadlix_certificate_authorised_name') || ""}
                   </Text>
@@ -151,6 +155,7 @@ const ClassicLandscape = (props) => {
                   <Text style={{
                     fontSize: 14,
                     textAlign: 'center',
+                    textTransform: 'capitalize',
                   }}>
                     {props?.watch('acadlix_certificate_authorised_company') || ""}
                   </Text>

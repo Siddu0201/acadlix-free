@@ -575,15 +575,12 @@ const Checkout = () => {
   };
 
   const is_checkout_disabled = () => {
-    if (
-      methods?.watch("cart")?.length === 0 ||
-      !is_payment_gateway_active() ||
+    return (
+      !methods?.watch("cart")?.length ||
       !methods?.watch("is_user_logged_in") ||
-      methods?.watch("is_checkout_locked")
-    ) {
-      return true;
-    }
-    return false;
+      methods?.watch("is_checkout_locked") ||
+      (methods?.watch("total_amount") > 0 && !is_payment_gateway_active())
+    );
   };
 
   if (getCart?.isFetching) {

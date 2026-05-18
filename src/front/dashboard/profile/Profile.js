@@ -2,7 +2,6 @@ import React from "react";
 import {
   Card,
   CardContent,
-  CardMedia,
   Typography,
   TextField,
   Button,
@@ -26,6 +25,7 @@ import { __ } from "@wordpress/i18n";
 import CustomTextField from "@acadlix/components/CustomTextField";
 import { formatPhoneCode, nameToInitials } from "@acadlix/helpers/util";
 import { useOutletContext } from "react-router-dom";
+import ChangePassword from "./ChangePassword";
 
 const Profile = () => {
   const methods = useForm({
@@ -48,6 +48,7 @@ const Profile = () => {
       user_login: "",
     },
   });
+  const [tab, setTab] = React.useState("profile");
   const { open } = useOutletContext();
   const { isFetching, data } = GetUserProfile(acadlixOptions?.user?.ID);
 
@@ -124,7 +125,11 @@ const Profile = () => {
     });
   };
 
-  if(process.env.REACT_APP_MODE === "development"){
+  const handleTabChange = (tab) => {
+    setTab(tab);
+  };
+
+  if (process.env.REACT_APP_MODE === "development") {
     console.log(methods?.watch());
   }
 
@@ -142,508 +147,542 @@ const Profile = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <form onSubmit={methods?.handleSubmit(onSubmit)}>
-        <Grid container spacing={{ xs: 2, md: 3 }}>
-          <Grid size={{
-            xs: 12,
-            md: open ? 4 : 3
-          }}
-          >
-            <Grid container spacing={{ xs: 2, md: 3 }}>
-              <Grid size={{ xs: 12, md: 12 }}>
-                <Card
+      <Grid container spacing={{ xs: 2, md: 3 }}>
+        <Grid size={{
+          xs: 12,
+          md: open ? 4 : 3
+        }}
+        >
+          <Grid container spacing={{ xs: 2, md: 3 }}>
+            <Grid size={{ xs: 12, md: 12 }}>
+              <Card
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  flexDirection: {
+                    xs: "column",
+                    sm: "row",
+                    md: "column",
+                    lg: "column",
+                  },
+                }}
+              >
+                <Box
                   sx={{
+                    paddingX: 4,
+                    paddingY: 2,
                     display: "flex",
-                    justifyContent: "space-evenly",
-                    flexDirection: {
-                      xs: "column",
-                      sm: "row",
-                      md: "column",
-                      lg: "column",
-                    },
+                    flexDirection: "column",
+                    alignItems: "center",
                   }}
                 >
+                  {
+                    methods?.watch("photo") !== ""
+                      ? (
+                        <Avatar
+                          src={
+                            methods?.watch("photo")
+                          }
+                          alt="Profile"
+                          sx={{
+                            height: {
+                              xs: "150px",
+                              sm: "150px",
+                              md: "151px",
+                              lg: "165px",
+                            },
+                            width: {
+                              xs: "150px",
+                              sm: "150px",
+                              md: "151px",
+                              lg: "165px",
+                            },
+                            margin: { lg: "20px auto", xs: "10px" },
+                          }}
+                        />
+                      )
+                      :
+                      (
+                        <Avatar
+                          sx={{
+                            height: {
+                              xs: "150px",
+                              sm: "150px",
+                              md: "151px",
+                              lg: "165px",
+                            },
+                            width: {
+                              xs: "150px",
+                              sm: "150px",
+                              md: "151px",
+                              lg: "165px",
+                            },
+                            margin: { lg: "20px auto", xs: "10px" },
+                          }}>
+                          {nameToInitials(methods?.watch("display_name"))}
+                        </Avatar>
+                      )
+                  }
                   <Box
                     sx={{
-                      paddingX: 4,
-                      paddingY: 2,
                       display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
+                      justifyContent: "center",
+                      marginY: {
+                        sm: 2,
+                        md: 2,
+                        lg: 0,
+                      },
                     }}
                   >
-                    {
-                      methods?.watch("photo") !== ""
-                        ? (
-                          <Avatar
-                            src={
-                              methods?.watch("photo")
-                            }
-                            alt="Profile"
-                            sx={{
-                              height: {
-                                xs: "150px",
-                                sm: "150px",
-                                md: "151px",
-                                lg: "165px",
-                              },
-                              width: {
-                                xs: "150px",
-                                sm: "150px",
-                                md: "151px",
-                                lg: "165px",
-                              },
-                              margin: { lg: "20px auto", xs: "10px" },
-                            }}
-                          />
-                        )
-                        :
-                        (
-                          <Avatar
-                            sx={{
-                              height: {
-                                xs: "150px",
-                                sm: "150px",
-                                md: "151px",
-                                lg: "165px",
-                              },
-                              width: {
-                                xs: "150px",
-                                sm: "150px",
-                                md: "151px",
-                                lg: "165px",
-                              },
-                              margin: { lg: "20px auto", xs: "10px" },
-                            }}>
-                            {nameToInitials(methods?.watch("display_name"))}
-                          </Avatar>
-                        )
-                    }
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginY: {
-                          sm: 2,
-                          md: 2,
-                          lg: 0,
-                        },
-                      }}
-                    >
-                      <>
-                        <input
-                          type="file"
-                          ref={inputRef}
-                          style={{ display: "none" }}
-                          onChange={handleMediaChange}
-                          accept=".jpg,.jpeg,.png"
-                        />
-                        <Button className="acadlix-btn" variant="contained" onClick={handleUploadPhoto}>
-                          {updatePhotoMutation?.isPending ? (
-                            <CircularProgress size={20} color="inherit" />
-                          ) : (
-                            __("Upload Profile Photo", "acadlix")
-                          )}
-                        </Button>
-                      </>
-                    </Box>
+                    <>
+                      <input
+                        type="file"
+                        ref={inputRef}
+                        style={{ display: "none" }}
+                        onChange={handleMediaChange}
+                        accept=".jpg,.jpeg,.png"
+                      />
+                      <Button className="acadlix-btn" variant="contained" onClick={handleUploadPhoto}>
+                        {updatePhotoMutation?.isPending ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : (
+                          __("Upload Profile Photo", "acadlix")
+                        )}
+                      </Button>
+                    </>
                   </Box>
-                  <CardContent
+                </Box>
+                <CardContent
+                  sx={{
+                    textAlign: "left",
+                    paddingY: 2,
+                  }}
+                >
+                  <Typography variant="h4" component="div">
+                    {methods?.watch("display_name")}
+                  </Typography>
+                  <Box
                     sx={{
-                      textAlign: "left",
-                      paddingY: 2,
+                      display: "flex",
+                      alignItems: "flex-start",
+                      flexDirection: "column",
+                      gap: 1,
                     }}
                   >
-                    <Typography variant="h4" component="div">
-                      {methods?.watch("display_name")}
-                    </Typography>
-                    <Box
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="div"
                       sx={{
                         display: "flex",
-                        alignItems: "flex-start",
-                        flexDirection: "column",
-                        gap: 1,
+                        alignItems: "center",
                       }}
                     >
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="div"
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
+                      <GrUserManager
+                        style={{
+                          marginRight: 6,
                         }}
-                      >
-                        <GrUserManager
-                          style={{
-                            marginRight: 6,
-                          }}
-                        />
-                        {methods?.watch("user_login")}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        component="div"
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
+                      />
+                      {methods?.watch("user_login")}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      component="div"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <SlLocationPin
+                        style={{
+                          marginRight: 6,
                         }}
-                      >
-                        <SlLocationPin
-                          style={{
-                            marginRight: 6,
-                          }}
-                        />
-                        {methods?.watch("city")}{methods?.watch("city") ? ", " : ""}{methods?.watch("country")}
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid size={{ xs: 12, md: 12 }}>
-                <Card>
-                  <CardContent sx={{ mb: 4 }}>
-                    <Typography variant="h4" component="div" gutterBottom>
-                      {__("Bio", "acadlix")}
+                      />
+                      {methods?.watch("city")}{methods?.watch("city") ? ", " : ""}{methods?.watch("country")}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" component="div">
-                      {methods?.watch("description")}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid size={{ xs: 12, md: 12 }}>
+              <Card>
+                <CardContent sx={{ mb: 4 }}>
+                  <Typography variant="h4" component="div" gutterBottom>
+                    {__("Bio", "acadlix")}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" component="div">
+                    {methods?.watch("description")}
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
           </Grid>
-
-          <Grid size={{
-            xs: 12,
-            md: open ? 8 : 9
-          }}>
-            <Card>
-              <CardContent>
-                <Typography variant="h4" component="div" gutterBottom>
-                  {__("Personal", "acadlix")}
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <CustomTextField
-                      {...methods?.register("first_name", {
-                        required: "First name is required.",
-                      })}
-                      required
-                      fullWidth
-                      label={__('First name', 'acadlix')}
-                      variant="outlined"
-                      size="small"
-                      value={methods?.watch("first_name")}
-                      onChange={(e) => {
-                        methods?.setValue("first_name", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      }}
-                      error={Boolean(
-                        methods?.formState?.errors?.billing_info?.first_name
-                      )}
-                      helperText={
-                        methods?.formState?.errors?.billing_info?.first_name
-                          ?.message
-                      }
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <CustomTextField
-                      fullWidth
-                      label={__("Last name", "acadlix")}
-                      variant="outlined"
-                      size="small"
-                      value={methods?.watch("last_name")}
-                      onChange={(e) => {
-                        methods?.setValue("last_name", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 12 }}>
-                    <CustomTextField
-                      fullWidth
-                      label={__("Email Address", "acadlix")}
-                      variant="outlined"
-                      size="small"
-                      value={methods?.watch("email")}
-                      onChange={(e) => {
-                        methods?.setValue("email", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      }}
-                      disabled={true}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 5, sm: 4 }}>
-                    <Autocomplete
-                      fullWidth
-                      slotProps={{
-                        popper: {
-                          modifiers: [
-                            { name: 'flip', enabled: false },
-                          ],
-                        },
-                        popupIndicator: {
-                          className: "acadlix-icon-btn",
-                        },
-                        clearIndicator: {
-                          className: "acadlix-icon-btn",
-                        }
-                      }}
-                      id="phonecode"
-                      autoComplete
-                      size="small"
-                      options={Country.getAllCountries()}
-                      getOptionLabel={(option) =>
-                        `${formatPhoneCode(option.phonecode)} (${option.name})`
-                      }
-                      value={
-                        methods.watch("phonecode") !== null
-                          ? Country?.getAllCountries()?.find(
-                            (country) => {
-                              const isocode = methods.watch("isocode");
-                              if (isocode) {
-                                return (
-                                  country.isoCode === isocode &&
-                                  country.phonecode === methods?.watch("phonecode")
-                                );
-                              }
-                              return (
-                                country?.phonecode ===
-                                methods?.watch("phonecode")
-                              );
-                            }
-                          ) ?? null
-                          : null
-                      }
-                      onChange={(_, newValue) => {
-                        methods.setValue("phonecode", newValue?.phonecode, {
-                          shouldDirty: true,
-                        });
-                        methods.setValue("isocode", newValue?.isoCode, {
-                          shouldDirty: true,
-                        });
-                      }}
-                      renderOption={(props, option) => {
-                        const { key, ...optionProps } = props;
-
-                        return (
-                          <Box
-                            component="li"
-                            key={key}
-                            {...optionProps}
-                            sx={{
-                              fontSize: "11px",
-                            }}
-                          >
-                            {formatPhoneCode(option.phonecode)} ({option.name})
-                          </Box>
-                        );
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label={__("Code", "acadlix")}
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "code",
-                          }}
-                          sx={{
-                            "& .MuiInputBase-input": {
-                              height: "auto",
-                            },
-                          }}
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 7, sm: 8 }}>
-                    <CustomTextField
-                      fullWidth
-                      label={__("Phone / Mobile", "acadlix")}
-                      variant="outlined"
-                      size="small"
-                      value={methods?.watch("phone_number")}
-                      onChange={(e) => {
-                        methods?.setValue("phone_number", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 12 }}>
-                    <CustomTextField
-                      fullWidth
-                      label={__("Website", "acadlix")}
-                      variant="outlined"
-                      size="small"
-                      value={methods?.watch("user_url")}
-                      onChange={(e) => {
-                        methods?.setValue("user_url", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 12 }}>
-                    <CustomTextField
-                      fullWidth
-                      label={__("Address", "acadlix")}
-                      variant="outlined"
-                      size="small"
-                      value={methods?.watch("address")}
-                      onChange={(e) => {
-                        methods?.setValue("address", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 4 }}>
-                    <Autocomplete
-                      fullWidth
-                      slotProps={{
-                        popper: {
-                          modifiers: [
-                            { name: 'flip', enabled: false },
-                          ],
-                        },
-                        popupIndicator: {
-                          className: "acadlix-icon-btn",
-                        },
-                        clearIndicator: {
-                          className: "acadlix-icon-btn",
-                        }
-                      }}
-                      id="acadlix-country"
-                      autoComplete
-                      size="small"
-                      options={Country.getAllCountries()}
-                      getOptionLabel={(option) => `${option.name}`}
-                      value={
-                        methods.watch("country") !== null
-                          ? Country.getAllCountries()?.find(
-                            (country) =>
-                              country?.name === methods.watch("country")
-                          ) ?? null
-                          : null
-                      }
-                      onChange={(_, newValue) => {
-                        methods.setValue("country", newValue?.name, {
-                          shouldDirty: true,
-                        });
-                      }}
-                      renderOption={(props, option) => {
-                        const { key, ...optionProps } = props;
-
-                        return (
-                          <Box
-                            component="li"
-                            key={key}
-                            {...optionProps}
-                            sx={{
-                              fontSize: "11px",
-                            }}
-                          >
-                            {option.name}
-                          </Box>
-                        );
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          placeholder="country"
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "acadlix-country",
-                          }}
-                          sx={{
-                            "& .MuiInputBase-input": {
-                              height: "auto",
-                            },
-                          }}
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 4 }}>
-                    <CustomTextField
-                      fullWidth
-                      label={__("Town/City", "acadlix")}
-                      variant="outlined"
-                      size="small"
-                      value={methods?.watch("city")}
-                      onChange={(e) => {
-                        methods?.setValue("city", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 4 }}>
-                    <CustomTextField
-                      fullWidth
-                      label={__("Postal/Zip Code", "acadlix")}
-                      variant="outlined"
-                      size="small"
-                      value={methods?.watch("zip_code")}
-                      onChange={(e) => {
-                        methods?.setValue("zip_code", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 12 }}>
-                    <CustomTextField
-                      fullWidth
-                      multiline
-                      rows={4}
-                      label={__("Bio", "acadlix")}
-                      value={methods?.watch("description")}
-                      onChange={(e) => {
-                        methods?.setValue("description", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      }}
-                      sx={{
-                        height: "auto",
-                        "& .MuiInputBase-root": {
-                          padding: 0, // Set padding for the input to 0
-                        },
-                        "& .MuiInputBase-inputMultiline": {
-                          padding: "10px", // Set custom padding for the textarea
-                        },
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12 }} sx={{ textAlign: "center", mt: 3 }}>
-                    <Button
-                      className="acadlix-btn"
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      sx={{ width: { xs: "100%", sm: "50%", lg: "30%" } }} // Full width on mobile/tablet, smaller on large screens
-                    >
-                      {updateProfileMutation?.isPending ? (
-                        <CircularProgress size={20} color="inherit" />
-                      ) : (
-                        __("Update Profile", "acadlix")
-                      )}
-                    </Button>
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
-          </Grid>
         </Grid>
-      </form>
+
+        <Grid size={{
+          xs: 12,
+          md: open ? 8 : 9
+        }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              marginY: 2,
+            }}
+          >
+            <Button
+              variant={
+                tab === "profile" ? "contained" : "outlined"
+              }
+              color="primary"
+              size="small"
+              onClick={handleTabChange.bind(this, "profile")}
+            >
+              {__("Profile", "acadlix")}
+            </Button>
+            <Button
+              variant={
+                tab === "change_password" ? "contained" : "outlined"
+              }
+              color="primary"
+              size="small"
+              onClick={handleTabChange.bind(this, "change_password")}
+            >
+              {__("Change Password", "acadlix")}
+            </Button>
+          </Box>
+          {
+            tab === "profile" && (
+              <form onSubmit={methods?.handleSubmit(onSubmit)}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h4" component="div" gutterBottom>
+                      {__("Personal", "acadlix")}
+                    </Typography>
+                    <Grid container spacing={2}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <CustomTextField
+                          {...methods?.register("first_name", {
+                            required: "First name is required.",
+                          })}
+                          required
+                          fullWidth
+                          label={__('First name', 'acadlix')}
+                          variant="outlined"
+                          size="small"
+                          value={methods?.watch("first_name")}
+                          onChange={(e) => {
+                            methods?.setValue("first_name", e?.target?.value, {
+                              shouldDirty: true,
+                            });
+                          }}
+                          error={Boolean(
+                            methods?.formState?.errors?.billing_info?.first_name
+                          )}
+                          helperText={
+                            methods?.formState?.errors?.billing_info?.first_name
+                              ?.message
+                          }
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <CustomTextField
+                          fullWidth
+                          label={__("Last name", "acadlix")}
+                          variant="outlined"
+                          size="small"
+                          value={methods?.watch("last_name")}
+                          onChange={(e) => {
+                            methods?.setValue("last_name", e?.target?.value, {
+                              shouldDirty: true,
+                            });
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          fullWidth
+                          label={__("Email Address", "acadlix")}
+                          variant="outlined"
+                          size="small"
+                          value={methods?.watch("email")}
+                          onChange={(e) => {
+                            methods?.setValue("email", e?.target?.value, {
+                              shouldDirty: true,
+                            });
+                          }}
+                          disabled={true}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 5, sm: 4 }}>
+                        <Autocomplete
+                          fullWidth
+                          slotProps={{
+                            popper: {
+                              modifiers: [
+                                { name: 'flip', enabled: false },
+                              ],
+                            },
+                            popupIndicator: {
+                              className: "acadlix-icon-btn",
+                            },
+                            clearIndicator: {
+                              className: "acadlix-icon-btn",
+                            }
+                          }}
+                          id="phonecode"
+                          autoComplete
+                          size="small"
+                          options={Country.getAllCountries()}
+                          getOptionLabel={(option) =>
+                            `${formatPhoneCode(option.phonecode)} (${option.name})`
+                          }
+                          value={
+                            methods.watch("phonecode") !== null
+                              ? Country?.getAllCountries()?.find(
+                                (country) => {
+                                  const isocode = methods.watch("isocode");
+                                  if (isocode) {
+                                    return (
+                                      country.isoCode === isocode &&
+                                      country.phonecode === methods?.watch("phonecode")
+                                    );
+                                  }
+                                  return (
+                                    country?.phonecode ===
+                                    methods?.watch("phonecode")
+                                  );
+                                }
+                              ) ?? null
+                              : null
+                          }
+                          onChange={(_, newValue) => {
+                            methods.setValue("phonecode", newValue?.phonecode, {
+                              shouldDirty: true,
+                            });
+                            methods.setValue("isocode", newValue?.isoCode, {
+                              shouldDirty: true,
+                            });
+                          }}
+                          renderOption={(props, option) => {
+                            const { key, ...optionProps } = props;
+
+                            return (
+                              <Box
+                                component="li"
+                                key={key}
+                                {...optionProps}
+                                sx={{
+                                  fontSize: "11px",
+                                }}
+                              >
+                                {formatPhoneCode(option.phonecode)} ({option.name})
+                              </Box>
+                            );
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label={__("Code", "acadlix")}
+                              inputProps={{
+                                ...params.inputProps,
+                                autoComplete: "code",
+                              }}
+                              sx={{
+                                "& .MuiInputBase-input": {
+                                  height: "auto",
+                                },
+                              }}
+                            />
+                          )}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 7, sm: 8 }}>
+                        <CustomTextField
+                          fullWidth
+                          label={__("Phone / Mobile", "acadlix")}
+                          variant="outlined"
+                          size="small"
+                          value={methods?.watch("phone_number")}
+                          onChange={(e) => {
+                            methods?.setValue("phone_number", e?.target?.value, {
+                              shouldDirty: true,
+                            });
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          fullWidth
+                          label={__("Website", "acadlix")}
+                          variant="outlined"
+                          size="small"
+                          value={methods?.watch("user_url")}
+                          onChange={(e) => {
+                            methods?.setValue("user_url", e?.target?.value, {
+                              shouldDirty: true,
+                            });
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          fullWidth
+                          label={__("Address", "acadlix")}
+                          variant="outlined"
+                          size="small"
+                          value={methods?.watch("address")}
+                          onChange={(e) => {
+                            methods?.setValue("address", e?.target?.value, {
+                              shouldDirty: true,
+                            });
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 4 }}>
+                        <Autocomplete
+                          fullWidth
+                          slotProps={{
+                            popper: {
+                              modifiers: [
+                                { name: 'flip', enabled: false },
+                              ],
+                            },
+                            popupIndicator: {
+                              className: "acadlix-icon-btn",
+                            },
+                            clearIndicator: {
+                              className: "acadlix-icon-btn",
+                            }
+                          }}
+                          id="acadlix-country"
+                          autoComplete
+                          size="small"
+                          options={Country.getAllCountries()}
+                          getOptionLabel={(option) => `${option.name}`}
+                          value={
+                            methods.watch("country") !== null
+                              ? Country.getAllCountries()?.find(
+                                (country) =>
+                                  country?.name === methods.watch("country")
+                              ) ?? null
+                              : null
+                          }
+                          onChange={(_, newValue) => {
+                            methods.setValue("country", newValue?.name, {
+                              shouldDirty: true,
+                            });
+                          }}
+                          renderOption={(props, option) => {
+                            const { key, ...optionProps } = props;
+
+                            return (
+                              <Box
+                                component="li"
+                                key={key}
+                                {...optionProps}
+                                sx={{
+                                  fontSize: "11px",
+                                }}
+                              >
+                                {option.name}
+                              </Box>
+                            );
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="country"
+                              inputProps={{
+                                ...params.inputProps,
+                                autoComplete: "acadlix-country",
+                              }}
+                              sx={{
+                                "& .MuiInputBase-input": {
+                                  height: "auto",
+                                },
+                              }}
+                            />
+                          )}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 4 }}>
+                        <CustomTextField
+                          fullWidth
+                          label={__("Town/City", "acadlix")}
+                          variant="outlined"
+                          size="small"
+                          value={methods?.watch("city")}
+                          onChange={(e) => {
+                            methods?.setValue("city", e?.target?.value, {
+                              shouldDirty: true,
+                            });
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 4 }}>
+                        <CustomTextField
+                          fullWidth
+                          label={__("Postal/Zip Code", "acadlix")}
+                          variant="outlined"
+                          size="small"
+                          value={methods?.watch("zip_code")}
+                          onChange={(e) => {
+                            methods?.setValue("zip_code", e?.target?.value, {
+                              shouldDirty: true,
+                            });
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          fullWidth
+                          multiline
+                          rows={4}
+                          label={__("Bio", "acadlix")}
+                          value={methods?.watch("description")}
+                          onChange={(e) => {
+                            methods?.setValue("description", e?.target?.value, {
+                              shouldDirty: true,
+                            });
+                          }}
+                          sx={{
+                            height: "auto",
+                            "& .MuiInputBase-root": {
+                              padding: 0, // Set padding for the input to 0
+                            },
+                            "& .MuiInputBase-inputMultiline": {
+                              padding: "10px", // Set custom padding for the textarea
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12 }} sx={{ textAlign: "center", mt: 3 }}>
+                        <Button
+                          className="acadlix-btn"
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                          loading={updateProfileMutation?.isPending}
+                          sx={{ width: { xs: "100%", sm: "50%", lg: "30%" } }} // Full width on mobile/tablet, smaller on large screens
+                        >
+                          {__("Update Profile", "acadlix")}
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </form>
+            )
+          }
+          {
+            tab === "change_password" && (
+              <ChangePassword />
+            )
+          }
+        </Grid>
+      </Grid>
     </Box>
   );
 };

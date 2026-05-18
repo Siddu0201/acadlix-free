@@ -255,6 +255,19 @@ export const PostUpdateUserPhoto = () => {
   });
 }
 
+export const PostUpdateUserPassword = () => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/post-update-user-password`, data, {
+        headers: {
+          'X-WP-Nonce': acadlixOptions.nonce
+        },
+      });
+    },
+  });
+}
+
 export const GetUserCertificateById = (certificate_id = '') => {
   const instance = useInstance();
   return useQuery({

@@ -73,6 +73,7 @@ const QuizContent = (props) => {
         enable_login_register: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
         ),
+        required_login_to: props?.quiz?.rendered_metas?.quiz_settings?.required_login_to ?? "start_quiz", // start_quiz/view_answer_sheet
         per_user_allowed_attempt: props?.quiz?.rendered_metas?.quiz_settings?.per_user_allowed_attempt ?? 0, // 0 => infinity
         save_statistic: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.save_statistic)) ?? 0,
         statistic_ip_lock: props?.quiz?.rendered_metas?.quiz_settings?.statistic_ip_lock ?? 0,

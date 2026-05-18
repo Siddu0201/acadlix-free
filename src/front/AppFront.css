@@ -283,7 +283,7 @@
   display: inline;
 }
 
-.plyr__control {
+.plyr .plyr__control {
   background: #0000;
   border: 0;
   border-radius: 3px;
