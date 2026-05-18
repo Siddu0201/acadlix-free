@@ -126,6 +126,18 @@ class FrontCheckoutController
 
     register_rest_route(
       $this->namespace,
+      '/' . $this->base . '/post-checkout-knitpay',
+      [
+        [
+          'methods' => WP_REST_Server::CREATABLE,
+          'callback' => [$this, 'post_checkout_knitpay'],
+          'permission_callback' => [$this, 'check_user_permission'],
+        ],
+      ]
+    );
+
+    register_rest_route(
+      $this->namespace,
       '/' . $this->base . '/handle-webhook',
       [
         [
@@ -179,7 +191,11 @@ class FrontCheckoutController
     foreach ($cart as $key => $ct) {
       $errors = [];
       $item = $this->getItem($ct);
-      if ($item->isPurchasedBy($userId)) {
+      if(!$item) {
+        $errors[] = __('Item not found.', 'acadlix');
+        continue;
+      }
+      if ($item && $item->isPurchasedBy($userId)) {
         $errors[] = sprintf(
           /* translators: %s is the item title */
           __('%s already purchased.', 'acadlix'),
@@ -801,6 +817,100 @@ class FrontCheckoutController
     ]);
   }
 
+  public function post_checkout_knitpay($request)
+  {
+    try {
+      $required_fields = array('currency', 'user_id', 'total_amount');
+      $params = $request->get_json_params();
+      if (is_array($params) && count($params) == 0) {
+        throw new Exception('No data found');
+      }
+
+      if ($request->get_param('payment_method') != 'knitpay') {
+        throw new Exception('Unacceptable payment gateway');
+      }
+
+      if (empty($request->get_param('order_items')) && count($request->get_param('order_items')) == 0) {
+        throw new Exception('No order found');
+      }
+
+      foreach ($required_fields as $field) {
+        $param = $request->get_param($field);
+
+        if (empty($param)) {
+          /* translators: %s is the required field */
+          $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+        }
+      }
+
+      if (!empty($errors)) {
+        throw new Exception(implode(' ', $errors));
+      }
+
+      $order = acadlix()->model()->order()->create([
+        'user_id' => $request->get_param('user_id'),
+        'status' => 'pending',
+        'total_amount' => $request->get_param('total_amount'),
+        'coupon_id' => $request->get_param('coupon_id'),
+        'coupon_code' => $request->get_param('coupon_code'),
+        'coupon_amount' => $request->get_param('coupon_amount'),
+        'discount_type' => $request->get_param('discount_type'),
+      ]);
+
+      $response = acadlix()
+        ->payments()
+        ->knitpay()
+        ->setAmount($request->get_param('total_amount'))
+        ->setCurrency($request->get_param('currency'))
+        ->setBillingInfo($request->get_param('billing_info'))
+        ->setOrderItems($request->get_param('order_items'))
+        ->setOrderId($order->id) // You can set your own order ID or use the generated one after creating the order in your system
+        ->processOrder();
+
+      $knitpay_order_id = $response->id ?? null;
+      // Check if the order was successfully created
+      if ($response && $knitpay_order_id && $response->redirect_url) {
+        $message = "Knitpay payment id: {$knitpay_order_id}";
+        $order->createActivityLog($message);
+
+        if ($order) {
+          foreach ($request->get_param('order_items') as $item) {
+            $order->order_items()->create([
+              'item_id' => $item['item_id'],
+              'item_title' => $item['item_title'],
+              'type' => $item['type'],
+              'quantity' => $item['quantity'],
+              'price' => $item['price'],
+              'discount' => $item['discount'],
+              'price_after_discount' => $item['price_after_discount'],
+              'additional_fee' => $item['additional_fee'],
+              'tax' => $item['tax'],
+              'price_after_tax' => $item['price_after_tax'],
+            ]);
+          }
+
+          if (!empty($request->get_param('billing_info'))) {
+            $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
+          }
+          $order->updateOrCreateMeta('payment_method', $request->get_param('payment_method'));
+          $order->updateOrCreateMeta('currency', $request->get_param('currency'));
+          $order->updateOrCreateMeta('knitpay_order_id', $knitpay_order_id);
+          $order->updateOrCreateMeta('knitpay_amount', $request->get_param('total_amount'));
+        }
+        // Return Knitpay order ID for further processing
+        return rest_ensure_response([
+          'redirect_url' => $response->redirect_url
+        ]);
+      } else {
+        // Handle error in creating the order
+        $order->delete(); // Clean up the order if Knitpay order creation failed
+        throw new Exception('Error creating Knitpay order');
+      }
+    } catch (Exception $e) {
+      return new WP_Error('error', $e->getMessage(), array('status' => 400));
+    }
+  }
+
   public function handle_webhook()
   {
     try {
@@ -861,6 +971,7 @@ class FrontCheckoutController
         'paypal' => acadlix()->payments()->paypal()->verifyWebhook($webhook_data),
         'payu' => acadlix()->payments()->payu()->verifyWebhook($webhook_data),
         'stripe' => acadlix()->payments()->stripe()->verifyWebhook($webhook_data),
+        'knitpay' => acadlix()->payments()->knitpay()->verifyWebhook($webhook_data),
         default => new WP_Error('invalid_gateway', 'Unsupported payment gateway', ['status' => 400]),
       };
     } catch (Exception $e) {
@@ -910,7 +1021,10 @@ class FrontCheckoutController
     if ($metas['minimum_purchase_amount'] > 0 && $request->get_param('price_after_discount') < $metas['minimum_purchase_amount']) {
       return new WP_Error('invalid_coupon', sprintf(
         /* translators: 1: currency symbol 2: minimum purchase amount */
-        __('This coupon code requires a minimum purchase of %1$s%2$s.', 'acadlix'), $request->get_param('currency_symbol'), $metas['minimum_purchase_amount']), array('status' => 404));
+        __('This coupon code requires a minimum purchase of %1$s%2$s.', 'acadlix'),
+        $request->get_param('currency_symbol'),
+        $metas['minimum_purchase_amount']
+      ), array('status' => 404));
     }
 
     $current_time = current_time('timestamp');

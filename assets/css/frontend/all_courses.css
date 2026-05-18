@@ -252,6 +252,14 @@
   width: 100%;
 }
 
+.acadlix-all-course-page .acadlix-course-filter-bar {
+  border: none;
+}
+
+.acadlix-all-course-page .acadlix-course-search-input {
+  border: 1px solid var(--acadlix-border-color) !important;
+}
+
 /* Course filter css */
 .acadlix-all-course-page .acadlix-course-filter-bar-body {
   display: flex;
@@ -421,6 +429,7 @@
   width: 100%;
   justify-content: center;
   border: none;
+  background-image: none;
   padding: 0.5rem;
   cursor: pointer;
   margin-right: 0.5rem;

@@ -1,20 +1,11 @@
 import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
   InputAdornment,
-  Typography,
 } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { __ } from '@wordpress/i18n';
 import { GetStudents } from '@acadlix/requests/admin/AdminStudentRequest';
 import { FaSearch } from '@acadlix/helpers/icons';
-import { DataGrid } from '@mui/x-data-grid';
-import CustomTextField from '@acadlix/components/CustomTextField';
-import CustomRefresh from '@acadlix/components/CustomRefresh';
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 
 const Student = () => {

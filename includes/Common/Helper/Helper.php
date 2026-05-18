@@ -630,7 +630,8 @@ if (!class_exists('Helper')) {
         'acadlix_thankyou_page_id' => null,
         'acadlix_one_click_checkout' => 'no',
         // Course Option
-        'acadlix_no_of_courses_per_page' => 10,
+        'acadlix_no_of_courses_per_page' => 12,
+        'acadlix_column_per_row' => 3,
         'acadlix_disable_wishlist' => 'no',
         'acadlix_enable_rating_and_reviews' => 'no',
         'acadlix_require_admin_approval_for_reviews' => 'no',
@@ -657,6 +658,7 @@ if (!class_exists('Helper')) {
         'acadlix_enable_dashboard_fullwidth' => 'no',
         'acadlix_enable_site_logo_in_header' => 'no',
         'acadlix_enable_course_content_scroll_button' => 'no',
+        'acadlix_custom_logo' => [],
         // Checkout Option
         'acadlix_enable_coupon_code' => 'no',
         // Data management
@@ -687,12 +689,7 @@ if (!class_exists('Helper')) {
         'acadlix_certificate_template' => 'classic-landscape',
         // Authentication option
         'acadlix_default_auth_screen' => 'login',
-        'acadlix_registration_options' => [
-          "phone" => [
-            'enabled' => false,
-            'required' => false,
-          ]
-        ],
+        'acadlix_registration_fields' => $this->acadlix_registration_fields(),
         'acadlix_enable_fraud_protection' => 'no',
         'acadlix_v3_site_key' => '',
       ];
@@ -735,9 +732,338 @@ if (!class_exists('Helper')) {
         'acadlix_offline_enable_file_upload' => 'no',
         'acadlix_offline_max_upload_file_size' => 2,
         'acadlix_offline_allowed_mime_types' => [],
+        'acadlix_knit_pay_active' => 'no',
+        'acadlix_knit_pay_title' => 'Online Payment',
+        'acadlix_knit_pay_configuration' => '',
+        'acadlix_knit_pay_description' => '',
         'acadlix_openai_api_key' => null,
       ];
       return $options;
+    }
+
+    public function acadlix_registration_fields()
+    {
+      return [
+        [
+          'id' => 'first_name',
+          'name' => 'First Name',
+          'label' => 'First Name',
+          'placeholder' => 'First Name',
+          'type' => 'text',
+          'meta_key' => 'first_name',
+          'is_meta' => true,
+          'default' => true,
+          'enabled' => false,
+          'required' => false,
+          'value' => '',
+          'settings' => [
+            "width" => "50%",
+          ],
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'last_name',
+          'name' => 'Last Name',
+          'label' => 'Last Name',
+          'placeholder' => 'Last Name',
+          'type' => 'text',
+          'meta_key' => 'last_name',
+          'is_meta' => true,
+          'default' => true,
+          'enabled' => false,
+          'required' => false,
+          'value' => '',
+          'settings' => [
+            "width" => "50%",
+          ],
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'username',
+          'name' => 'Username',
+          'label' => 'Username',
+          'placeholder' => 'Username',
+          'type' => 'text',
+          'meta_key' => 'user_login',
+          'is_meta' => false,
+          'default' => true,
+          'enabled' => true,
+          'required' => true,
+          'value' => '',
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'email',
+          'name' => 'Email',
+          'label' => 'Email',
+          'placeholder' => 'Email',
+          'type' => 'email',
+          'meta_key' => 'user_email',
+          'is_meta' => false,
+          'default' => true,
+          'enabled' => true,
+          'required' => true,
+          'value' => '',
+          'controls' => [
+            'can_disable' => false,
+            'can_require_toggle' => false,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'password',
+          'name' => 'Password',
+          'label' => 'Password',
+          'placeholder' => 'Password',
+          'type' => 'password',
+          'meta_key' => 'user_pass',
+          'is_meta' => false,
+          'default' => true,
+          'enabled' => true,
+          'required' => true,
+          'value' => '',
+          'controls' => [
+            'can_disable' => false,
+            'can_require_toggle' => false,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'confirm_password',
+          'name' => 'Confirm Password',
+          'label' => 'Confirm Password',
+          'placeholder' => 'Confirm Password',
+          'type' => 'password',
+          'meta_key' => 'user_pass',
+          'is_meta' => false,
+          'default' => true,
+          'enabled' => true,
+          'required' => true,
+          'value' => '',
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'phone_number',
+          'name' => 'Phone Number',
+          'label' => 'Phone Number',
+          'placeholder' => 'Phone Number',
+          'type' => 'tel',
+          'meta_key' => get_option("acadlix_phone_user_meta_key", "_acadlix_profile_phone_number"),
+          'is_meta' => true,
+          'default' => true,
+          'enabled' => get_option("acadlix_registration_options", [])['phone']['enabled'] ?? false,
+          'required' => get_option("acadlix_registration_options", [])['phone']['required'] ?? false,
+          'value' => '',
+          'settings' => [
+            'phonecode' => [
+              'enabled' => true,
+              'placeholder' => 'Code',
+              'default' => get_option("acadlix_registration_options", [])['phone']['default_phonecode'] ?? '',
+              'meta_key' => get_option("acadlix_phonecode_user_meta_key", "_acadlix_profile_phonecode"),
+              'value' => get_option("acadlix_registration_options", [])['phone']['default_phonecode'] ?? '',
+            ],
+            'isocode' => [
+              'default' => get_option("acadlix_registration_options", [])['phone']['default_isocode'] ?? '',
+              'meta_key' => get_option("acadlix_isocode_user_meta_key", "_acadlix_profile_isocode"),
+              'value' => get_option("acadlix_registration_options", [])['phone']['default_isocode'] ?? '',
+            ]
+          ],
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'user_url',
+          'name' => 'Website',
+          'label' => 'Website',
+          'placeholder' => 'https://example.com',
+          'type' => 'url',
+          'meta_key' => 'user_url',
+          'is_meta' => false,
+          'default' => true,
+          'enabled' => false,
+          'required' => false,
+          'value' => '',
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'address',
+          'name' => 'Address',
+          'label' => 'Address',
+          'placeholder' => 'Address',
+          'type' => 'text',
+          'meta_key' => '_acadlix_profile_address',
+          'is_meta' => true,
+          'default' => true,
+          'enabled' => false,
+          'required' => false,
+          'value' => '',
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'country',
+          'name' => 'Country',
+          'label' => 'Country',
+          'placeholder' => 'Country',
+          'type' => 'country',
+          'meta_key' => '_acadlix_profile_country',
+          'is_meta' => true,
+          'default' => true,
+          'enabled' => false,
+          'required' => false,
+          'value' => '',
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'city',
+          'name' => 'City',
+          'label' => 'City',
+          'placeholder' => 'City',
+          'type' => 'text',
+          'meta_key' => '_acadlix_profile_city',
+          'is_meta' => true,
+          'default' => true,
+          'enabled' => false,
+          'required' => false,
+          'value' => '',
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'zip_code',
+          'name' => 'Zip Code',
+          'label' => 'Zip Code',
+          'placeholder' => 'Zip Code',
+          'type' => 'text',
+          'meta_key' => '_acadlix_profile_zip_code',
+          'is_meta' => true,
+          'default' => true,
+          'enabled' => false,
+          'required' => false,
+          'value' => '',
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+        [
+          'id' => 'bio',
+          'name' => 'Bio',
+          'label' => 'Bio',
+          'placeholder' => 'Bio',
+          'type' => 'textarea',
+          'meta_key' => 'description',
+          'is_meta' => true,
+          'default' => true,
+          'enabled' => false,
+          'required' => false,
+          'value' => '',
+          'controls' => [
+            'can_disable' => true,
+            'can_require_toggle' => true,
+            'can_delete' => false,
+            'can_edit_name' => false,
+            'can_edit_type' => false,
+            'can_edit_meta_key' => false,
+            'can_edit_label' => true,
+            'can_edit_placeholder' => true,
+          ],
+        ],
+      ];
     }
 
     public function acadlix_get_webhook_url($payment_method = 'paypal')
@@ -842,6 +1168,7 @@ if (!class_exists('Helper')) {
       if ($timezone) {
         return $timezone;
       }
+      return 'UTC';
     }
 
     public function acadlix_get_date_time_format()
@@ -1051,6 +1378,19 @@ if (!class_exists('Helper')) {
     {
       return [
         [
+          'name' => __('Knit Pay Integration', 'acadlix'),
+          'description' => __('Knit pay integration for seamless payment processing.', 'acadlix'),
+          'pro' => false,
+          'internal' => true,
+          'installed' => true,
+          'active' => $this->acadlix_get_option('acadlix_addon_knit_pay_enabled', false) == 'yes',
+          'url' => '',
+          'option_name' => 'acadlix_addon_knit_pay_enabled',
+          'icon' => 'KnitPayIcon',
+          'icon_color' => '#efefef',
+          'disabled' => acadlix()->integrations()->knit_pay()->is_active() ? false : true,
+        ],
+        [
           'name' => __('Acadlix Bulk Question Upload', 'acadlix'),
           'description' => __('Upload hundreds of questions in seconds via MS Word.', 'acadlix'),
           'pro' => true,
@@ -1061,6 +1401,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_bulk_question_upload_enabled',
           'icon' => 'FaCloudUploadAlt',
           'icon_color' => 'red',
+          'disabled' => false,
         ],
         [
           'name' => __('Acadlix Assignments', 'acadlix'),
@@ -1073,6 +1414,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_assignments_enabled',
           'icon' => 'MdAssignment',
           'icon_color' => '#ffa65a',
+          'disabled' => false,
         ],
         [
           'name' => __('Acadlix Zoom Integration', 'acadlix'),
@@ -1085,6 +1427,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_zoom_integration_enabled',
           'icon' => 'BiLogoZoom',
           'icon_color' => '#2d8cff',
+          'disabled' => false,
         ],
         [
           'name' => __('Acadlix Advanced Report', 'acadlix'),
@@ -1097,6 +1440,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_advanced_report_enabled',
           'icon' => 'HiDocumentReport',
           'icon_color' => '#4A90E2',
+          'disabled' => false,
         ],
         [
           'name' => __('Acadlix Subscriptions', 'acadlix'),
@@ -1109,6 +1453,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_subscriptions_enabled',
           'icon' => 'MdSubscriptions',
           'icon_color' => '#22C55E',
+          'disabled' => false,
         ],
         [
           'name' => __('Acadlix Data Exporter', 'acadlix'),
@@ -1121,6 +1466,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_data_exporter_enabled',
           'icon' => 'FaFileExport',
           'icon_color' => '#3B82F6',
+          'disabled' => false,
         ],
         [
           'name' => __('Question Error Reporting', 'acadlix'),
@@ -1133,6 +1479,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_question_error_reporting_enabled',
           'icon' => 'TbAlertTriangleFilled',
           'icon_color' => '#FFAB00',
+          'disabled' => false,
         ],
         [
           'name' => __('Social Login', 'acadlix'),
@@ -1145,6 +1492,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_social_login_enabled',
           'icon' => 'SocialLogin',
           'icon_color' => '#3B82F6',
+          'disabled' => false,
         ],
         [
           'name' => __('Course Bundle', 'acadlix'),
@@ -1157,6 +1505,7 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_course_bundle_enabled',
           'icon' => 'FaLayerGroup',
           'icon_color' => '#7C3AED',
+          'disabled' => false,
         ],
         [
           'name' => __('Google Meet', 'acadlix'),
@@ -1169,8 +1518,50 @@ if (!class_exists('Helper')) {
           'option_name' => 'acadlix_addon_google_meet_integration_enabled',
           'icon' => 'GoogleMeet',
           'icon_color' => '#e9ecea',
-        ]
+          'disabled' => false,
+        ],
+        [
+          'name' => __('Microsoft Teams', 'acadlix'),
+          'description' => __('Schedule and manage live classes via Microsoft Teams from your dashboard.', 'acadlix'),
+          'pro' => true,
+          'internal' => true,
+          'installed' => false,
+          'active' => $this->acadlix_get_option('acadlix_addon_microsoft_teams_integration_enabled', false) == 'yes',
+          'url' => '',
+          'option_name' => 'acadlix_addon_microsoft_teams_integration_enabled',
+          'icon' => 'BsMicrosoftTeams',
+          'icon_color' => '#5553c1',
+          'disabled' => false,
+        ],
       ];
+    }
+
+    public function is_knit_pay_integration_addon_active()
+    {
+      $value = get_option('acadlix_addon_knit_pay_enabled', false);
+      if ($value != 'yes') {
+        return false;
+      }
+      if (!acadlix()->integrations()->knit_pay()->is_active()) {
+        return false;
+      }
+      return true;
+    }
+
+    public function is_microsoft_teams_integration_addon_active()
+    {
+      $value = get_option('acadlix_addon_microsoft_teams_integration_enabled', false);
+      if ($value != 'yes') {
+        return false;
+      }
+      if (!acadlix()->pro) {
+        return false;
+      } else {
+        if (!acadlix()->license()->isActive) {
+          return false;
+        }
+      }
+      return true;
     }
 
     public function is_google_meet_integration_addon_active()

@@ -1,6 +1,5 @@
 import React from 'react'
 import { __ } from "@wordpress/i18n";
-import { Tooltip, IconButton } from "@mui/material";
 import { FaExpandArrowsAlt } from "@acadlix/helpers/icons";
 import { Link } from 'react-router-dom';
 import CustomFeatureElement from '@acadlix/components/CustomFeatureElement';

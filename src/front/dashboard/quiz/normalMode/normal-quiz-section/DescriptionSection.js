@@ -38,7 +38,6 @@ const DescriptionSection = (props) => {
         redirect_url: window.location.href,
       };
       if (
-        props?.order_item_id &&
         props?.course_section_content_id &&
         props?.user_id
       ) {

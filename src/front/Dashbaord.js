@@ -17,7 +17,7 @@ import ViewAnswersheet from "./dashboard/result/ViewAnswersheet.js";
 import { Toaster } from 'react-hot-toast'
 import Wishlist from "./dashboard/wishlist/Wishlist";
 
-const Dashbaord = () => {
+const Dashbaord = (props) => {
 
   const methods = useForm({
     defaultValues: {
@@ -31,7 +31,7 @@ const Dashbaord = () => {
     }, []);
 
     return (
-      <Provider>
+      <Provider id={props?.id}>
         <Box sx={{
           display: "flex",
           justifyContent: "center",
@@ -121,7 +121,7 @@ const Dashbaord = () => {
   }, []);
 
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <Toaster position="bottom-right" />
       <HashRouter>
         <Routes>

@@ -1,5 +1,4 @@
 import React from "react";
-import Provider from "@acadlix/provider/Provider";
 import Quiz from "./dashboard/quiz/Quiz";
 import QuizError from "./dashboard/quiz/QuizError";
 import { __ } from "@wordpress/i18n";
@@ -15,27 +14,21 @@ const AppFront = (props) => {
     const token = segment?.[segment?.length - 1];
     const localToken = localStorage.getItem("acadlix_advance_quiz_token");
     if (localToken && localToken === token) {
-      if(process.env.REACT_APP_MODE === "production"){
+      if (process.env.REACT_APP_MODE === "production") {
         localStorage.removeItem("acadlix_advance_quiz_token");
       }
       return (
-        <Provider>
-          <Quiz {...props} quiz_id={segment[segment?.length - 2]} />
-        </Provider>
+        <Quiz {...props} quiz_id={segment[segment?.length - 2]} />
       );
     } else {
       return (
-        <Provider>
-          <QuizError code="404" message={__("No Quiz Found", "acadlix")} />
-        </Provider>
+        <QuizError code="404" message={__("No Quiz Found", "acadlix")} />
       );
     }
   }
 
   return (
-    <Provider>
-      <Quiz {...props} quiz_id={props?.quiz_id} />
-    </Provider>
+    <Quiz {...props} quiz_id={props?.quiz_id} />
   );
 };
 

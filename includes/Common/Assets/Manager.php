@@ -252,6 +252,11 @@ class Manager
         'version' => ACADLIX_VERSION,
         'deps' => [],
       ],
+      'acadlix-admin-css' => [
+        'src' => ACADLIX_ASSETS_CSS_URL . 'admin/acadlix_admin.css',
+        'version' => ACADLIX_VERSION,
+        'deps' => [],
+      ],
     ];
   }
 
@@ -489,9 +494,11 @@ class Manager
       'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
       'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
       'certificate_url_path' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'certificate/'),
+      'pdf_url' => ACADLIX_ASSETS_PDF_URL,
       'users_can_register' => acadlix()->helper()->acadlix_get_option('users_can_register'),
       'isActive' => acadlix()->license()->isActive ?? false,
       'isReCaptchaEnabled' => acadlix()->authentications()->recaptchav3()->is_enabled(),
+      'knitpay_title' => acadlix()->payments()->knitpay()->get_title(),
     ];
   }
 
@@ -508,6 +515,7 @@ class Manager
   public function enqueue_common_assets()
   {
     wp_enqueue_script('acadlix-global-hooks');
+    wp_enqueue_style('acadlix-admin-css');
 
     $content_protection_enabled = acadlix()->helper()->acadlix_get_option('acadlix_enable_content_protection') === 'yes';
     if ($content_protection_enabled && !is_admin()) {

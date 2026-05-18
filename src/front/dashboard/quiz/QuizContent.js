@@ -131,6 +131,7 @@ const QuizContent = (props) => {
       Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
     ),
     selectable_questions_rule: props?.quiz?.rendered_metas?.quiz_settings?.selectable_questions_rule, //evaluate_first_x_attempted_questions/allow_only_x_attempts
+    subject_wise_minimum_percent: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_minimum_percent)),
     // Result settings
     hide_result: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_result)),
     hide_negative_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_negative_marks)),
@@ -141,6 +142,10 @@ const QuizContent = (props) => {
     show_average_score: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_average_score)),
     show_subject_wise_analysis: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.show_subject_wise_analysis)
+    ),
+    subject_wise_text: props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_text ?? __("Subject Wise Result", "acadlix"),
+    hide_subject_wise_marks: Boolean(
+      Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_subject_wise_marks)
     ),
     show_marks_distribution: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks_distribution)
@@ -304,7 +309,8 @@ const QuizContent = (props) => {
                     allowed_mime_types: lang?.rendered_answer_data?.assessment?.allowed_mime_types ?? [],
                     allowUploads: lang?.rendered_answer_data?.assessment?.allowUploads ?? false,
                     number_of_uploads: Number(lang?.rendered_answer_data?.assessment?.number_of_uploads ?? 1),
-                    max_file_size: Number(lang?.rendered_answer_data?.assessment?.max_file_size ?? 2)
+                    max_file_size: Number(lang?.rendered_answer_data?.assessment?.max_file_size ?? 2),
+                    adminUploads: [],
                   } : {
                     characterLimit: 0,
                     referenceAnswer: "",
@@ -624,10 +630,10 @@ const QuizContent = (props) => {
   const handleFinishQuiz = (e) => {
     saveResult();
     countdownApi && countdownApi?.stop();
-    methods?.setValue('finish', false, {shouldDirty: true});
-    methods?.setValue('view_result', true, {shouldDirty: true});
-    methods?.setValue('view_question', false, {shouldDirty: true});
-  } 
+    methods?.setValue('finish', false, { shouldDirty: true });
+    methods?.setValue('view_result', true, { shouldDirty: true });
+    methods?.setValue('view_question', false, { shouldDirty: true });
+  }
 
   const checkMode = () => {
     switch (methods?.watch("mode")) {
@@ -643,7 +649,7 @@ const QuizContent = (props) => {
             saveResult={saveResult}
             isPending={saveResultMutation?.isPending}
             isPendingResultFeedback={resultFeedbackMutation?.isPending}
-            hasEvaluatedQuestions={hasEvaluatedQuestions}
+            hasEvaluatedQuestions={hasEvaluatedQuestions()}
             getPoints={getPoints}
             getNegativePoints={getNegativePoints}
             getTotalPoints={getTotalPoints}
@@ -682,7 +688,7 @@ const QuizContent = (props) => {
               saveResult={saveResult}
               isPending={saveResultMutation?.isPending}
               isPendingResultFeedback={resultFeedbackMutation?.isPending}
-              hasEvaluatedQuestions={hasEvaluatedQuestions}
+              hasEvaluatedQuestions={hasEvaluatedQuestions()}
               getPoints={getPoints}
               getNegativePoints={getNegativePoints}
               getTotalPoints={getTotalPoints}

@@ -332,7 +332,7 @@ export const getEmbeddedVideoLink = (embedded = "") => {
       iframe?.getAttribute("href") ||
       "";
   }
-  
+
   // ✅ Detect YouTube
   const youtubeId = getYouTubeVideoId(extractedSrc);
   console.log("Extracted src:", extractedSrc);
@@ -596,5 +596,4 @@ export const formatPhoneCode = (code) => {
   if (!code) return "";
   return code.startsWith("+") ? code : `+${code}`;
 };
-
 

@@ -134,10 +134,10 @@ const DashboardHeader = ({ handleDrawerToggle, isDesktop }) => {
 export default DashboardHeader;
 
 const HeaderLogo = (props) => {
-  if (acadlixOptions?.settings?.acadlix_enable_site_logo_in_header === "yes" && acadlixOptions?.logo_url) {
+  if (acadlixOptions?.settings?.acadlix_enable_site_logo_in_header === "yes") {
     return (
       <img
-        src={acadlixOptions?.logo_url}
+        src={acadlixOptions?.settings?.acadlix_custom_logo?.url ?? acadlixOptions?.logo_url}
         alt={acadlixOptions?.blog_name}
         style={props?.sx}
       />

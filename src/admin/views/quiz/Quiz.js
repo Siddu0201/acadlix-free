@@ -49,6 +49,7 @@ import CustomTextField from "@acadlix/components/CustomTextField";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 import { useJsonExport } from "@acadlix/hooks/useJsonExport";
 import ImportQuizModel from "./actions/ImportQuizModel";
+import BootstrapDialog from "@acadlix/components/BootstrapDialog";
 
 const PragraphOptionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -453,18 +454,6 @@ const Quiz = () => {
     methods?.setValue("search", e?.target?.value, { shouldDirty: true });
   }
 
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    "& .MuiDialogContent-root": {
-      padding: theme.spacing(2),
-    },
-    "& .MuiDialogActions-root": {
-      padding: theme.spacing(1),
-    },
-    "& .MuiPaper-root": {
-      width: "100%",
-    },
-  }));
-
   const handleClose = () => {
     methods?.setValue("category_model", false, { shouldDirty: true });
   };
@@ -483,6 +472,7 @@ const Quiz = () => {
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          md="50%"
         >
           <CategoryModel {...methods} handleClose={handleClose} />
         </BootstrapDialog>
@@ -492,6 +482,7 @@ const Quiz = () => {
         onClose={handleSubjectTimeClose}
         aria-labelledby="alert-subject-title"
         aria-describedby="alert-subject-description"
+        md="80%"
       >
         <React.Suspense fallback={null}>
           <SubjectTimeModel {...methods} handleClose={handleSubjectTimeClose} />

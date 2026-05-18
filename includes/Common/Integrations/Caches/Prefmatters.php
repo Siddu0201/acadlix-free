@@ -31,5 +31,10 @@ if (!class_exists(__NAMESPACE__ . '\\Prefmatters')) {
       $excluded[] = 'wp';
       return $excluded;
     }
+
+    public function clear()
+    {
+      // No specific cache clearing method for Prefmatters as of now.
+    }
   }
 }

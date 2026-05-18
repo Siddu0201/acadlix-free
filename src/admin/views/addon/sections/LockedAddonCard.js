@@ -1,70 +1,68 @@
 import React from 'react'
 import {
-    Avatar,
-    Box,
-    Card,
-    CardContent,
-    CardHeader,
-    IconButton,
-    Tooltip,
-    Typography
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Typography
 } from '@mui/material'
 import { __ } from '@wordpress/i18n'
-import { CiLock, iconMap } from '@acadlix/helpers/icons'
+import { iconMap } from '@acadlix/helpers/icons'
 import CustomFeatureTooltip from '@acadlix/components/CustomFeatureTooltip'
 
 const LockedAddonCard = (props) => {
-    const Icon = iconMap[props?.icon] || iconMap['FaLock'];
-    return (
-        <Card sx={{ height: '100%' }}>
-            <CardHeader
-                title={
-                    <Box sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}>
-                        <Avatar sx={{
-                            width: 32,
-                            height: 32,
-                            backgroundColor: `${props?.icon_color || 'primary.main'}`,
-                        }}>
-                            {Icon}
-                        </Avatar>
-                        {/* <Tooltip title={__('Available in Pro', "acadlix")} arrow placement='top'>
+  const Icon = iconMap[props?.icon] || iconMap['FaLock'];
+  return (
+    <Card sx={{ height: '100%' }}>
+      <CardHeader
+        title={
+          <Box sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}>
+            <Avatar sx={{
+              width: 32,
+              height: 32,
+              backgroundColor: `${props?.icon_color || 'primary.main'}`,
+            }}>
+              {Icon}
+            </Avatar>
+            {/* <Tooltip title={__('Available in Pro', "acadlix")} arrow placement='top'>
                             <IconButton
 
                             >
                                 <CiLock />
                             </IconButton>
                         </Tooltip> */}
-                        <CustomFeatureTooltip
-                            plan="closed"
-                            msg={__('Available in Pro', "acadlix")}
-                            placement="left"
-                        />
-                    </Box>
-                }
+            <CustomFeatureTooltip
+              plan="closed"
+              msg={__('Available in Pro', "acadlix")}
+              placement="left"
             />
-            <CardContent>
-                <Typography
-                    variant="h6"
-                    sx={{
-                        marginBottom: 2,
-                    }}
-                >
-                    {props?.name}
-                </Typography>
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                >
-                    {props?.description}
-                </Typography>
-            </CardContent>
-        </Card>
-    )
+          </Box>
+        }
+      />
+      <CardContent>
+        <Typography
+          variant="h6"
+          sx={{
+            marginBottom: 2,
+          }}
+        >
+          {props?.name}
+        </Typography>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+        >
+          {props?.description}
+        </Typography>
+      </CardContent>
+    </Card>
+  )
 }
 
 export default LockedAddonCard

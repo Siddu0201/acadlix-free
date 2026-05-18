@@ -29,6 +29,11 @@ const OrderContent = (props) => {
         return getOrderMetaValue(order_metas, "payu_txn_id");
       case "stripe":
         return getOrderMetaValue(order_metas, "stripe_order_id");
+      case "knitpay":
+        const order_id = getOrderMetaValue(order_metas, "knitpay_order_id");
+        const url = acadlixOptions?.admin_url + 'post.php?post=' + order_id + '&action=edit';
+        const link = `<a href="${url}">#${order_id}</a>`;
+        return acadlixOptions?.isKnitPayActive ? link : `#${order_id}` || "N/A";
       default:
         return "N/A";
     }
@@ -71,7 +76,9 @@ const OrderContent = (props) => {
       : [],
     meta: {
       payment_method: props?.order?.order_metas ?
-        getOrderMetaValue(props?.order?.order_metas, "payment_method", "razorpay")
+        getOrderMetaValue(props?.order?.order_metas, "payment_method", "razorpay") == "knitpay"
+          ? acadlixOptions?.knitpay_title
+          : getOrderMetaValue(props?.order?.order_metas, "payment_method", "razorpay")
         : "admin",
       is_free: props?.order?.order_metas ?
         Boolean(Number(getOrderMetaValue(props?.order?.order_metas, "is_free", 0)))

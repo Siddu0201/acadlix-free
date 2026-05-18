@@ -15,6 +15,7 @@ use Yuvayana\Acadlix\Common\Submenu\Submenu_Settings;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Student;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Tags;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Tools;
+use Yuvayana\Acadlix\Common\Submenu\Submenu_Upgrade;
 
 defined('ABSPATH') || exit();
 
@@ -37,6 +38,7 @@ class Menu
   protected ?Submenu_Reviews $reviews = null;
   protected ?Submenu_Coupon $coupon = null;
   protected ?Submenu_Tools $tools = null;
+  protected ?Submenu_Upgrade $upgrade = null; 
 
   public function __construct()
   {
@@ -108,6 +110,9 @@ class Menu
     $this->submenu_reviews();
     $this->submenu_coupon();
     $this->submenu_tools();
+    if(!acadlix()->pro){
+      $this->submenu_upgrade();
+    }
   }
 
   public function init_admin_menu()
@@ -247,6 +252,15 @@ class Menu
     }
     $this->_submenus[] = $this->tools;
     return $this->tools;
+  }
+
+  public function submenu_upgrade()
+  {
+    if (is_null($this->upgrade)) {
+      $this->upgrade = new Submenu_Upgrade();
+    }
+    $this->_submenus[] = $this->upgrade;
+    return $this->upgrade;
   }
 
   public function acadlix_set_active_menu_class($parent_file)

@@ -1,9 +1,9 @@
-import { 
+import {
   // CssBaseline, 
   // StyledEngineProvider, 
-  ScopedCssBaseline, 
-  ThemeProvider, 
-  createTheme 
+  ScopedCssBaseline,
+  ThemeProvider,
+  createTheme
 } from "@mui/material";
 import React from "react";
 
@@ -262,7 +262,7 @@ export const defaultTypography = {
 }
 
 
-const CustomThemeProvider = ({ children }) => {
+const CustomThemeProvider = ({ children, ...props }) => {
   const mode = "light";
   const themeColor = "primary";
 
@@ -609,33 +609,52 @@ const CustomThemeProvider = ({ children }) => {
           root: {
             textTransform: "none",
             marginBottom: "0px !important",
+            boxShadow: "none",
+            backgroundImage: "none",
           },
           contained: ({ theme, ownerState }) => ({
-            "&:hover, &:focus": {
+            "&:hover": {
               color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
               backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].dark : theme.palette[themeColor]?.dark,
             },
+            // "&:focus": {
+            //   color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
+            //   backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].main : theme.palette[themeColor]?.main,
+            // },
           }),
           outlined: ({ theme, ownerState }) => ({
-            "&:hover, &:focus": {
+            "&:hover": {
               color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
               backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].main : theme.palette[themeColor]?.main,
             },
+            // "&:focus": {
+            //   color: ownerState?.color ? theme.palette[ownerState?.color]?.main : theme.palette[themeColor]?.main,
+            //   backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].contrastText : theme.palette[themeColor]?.contrastText,
+            // },
           }),
           text: ({ theme, ownerState }) => ({
-            "&:hover, &:focus": {
+            "&:hover": {
               color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
               backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].main : theme.palette[themeColor]?.main,
             },
+            // "&:focus": {
+            //   color: ownerState?.color ? theme.palette[ownerState?.color]?.contrastText : theme.palette[themeColor]?.contrastText,
+            //   backgroundColor: ownerState?.color ? theme.palette[ownerState?.color].main : theme.palette[themeColor]?.main,
+            // },
           }),
         },
       },
       MuiIconButton: {
         styleOverrides: {
           root: ({ theme, ownerState }) => ({
-            "&:hover, &:focus": {
+            boxShadow: "none",
+            backgroundImage: "none",
+            "&:hover": {
               color: ownerState?.color ? theme.palette?.[ownerState?.color]?.dark : theme.palette[themeColor].dark,
             },
+            // "&:focus": {
+            //   color: ownerState?.color ? theme.palette?.[ownerState?.color]?.dark : theme.palette[themeColor].dark,
+            // },
           })
         }
       },
@@ -663,6 +682,8 @@ const CustomThemeProvider = ({ children }) => {
         styleOverrides: {
           root: ({ theme }) => ({
             backgroundColor: theme.palette.grey.main,
+            backgroundImage: "none",
+            boxShadow: "none",
             "&:hover, &:focus": {
               backgroundColor: theme.palette.grey.dark,
               color: theme.palette.text.primary,
@@ -678,6 +699,26 @@ const CustomThemeProvider = ({ children }) => {
             boxShadow: "none !important",
           }
         }
+      },
+      MuiPopover: {
+        defaultProps: {
+          container: () => document.getElementById(`${props?.id}`),
+        }
+      },
+      MuiPopper: {
+        defaultProps: {
+          container: () => document.getElementById(`${props?.id}`),
+        }
+      },
+      MuiDialog: {
+        defaultProps: {
+          container: () => document.getElementById(`${props?.id}`),
+        },
+      },
+      MuiModal: {
+        defaultProps: {
+          container: () => document.getElementById(`${props?.id}`),
+        },
       },
     },
   });

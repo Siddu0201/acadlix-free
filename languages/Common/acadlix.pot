@@ -9,13 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-13T13:45:23+02:00\n"
+"POT-Creation-Date: 2026-05-16T13:28:44+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: acadlix\n"
 
 #. Plugin Name of the plugin
 #: acadlix.php
+#: includes/Common/Payments/Gateways/KnitPay.php:378
 #: includes/Common/Submenu/Submenu_Home.php:16
 #: includes/Common/Submenu/Submenu_Home.php:17
 msgid "Acadlix"
@@ -64,9 +65,9 @@ msgstr ""
 
 #: includes/Common/Admin/Ajax.php:39
 #: includes/Common/Admin/Ajax.php:62
-#: includes/Common/Admin/Ajax.php:186
-#: includes/Common/Admin/Ajax.php:412
-#: includes/Common/Admin/Ajax.php:508
+#: includes/Common/Admin/Ajax.php:305
+#: includes/Common/Admin/Ajax.php:519
+#: includes/Common/Admin/Ajax.php:615
 msgid "Invalid nonce"
 msgstr ""
 
@@ -78,47 +79,47 @@ msgstr ""
 msgid "Login successful"
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:235
+#: includes/Common/Admin/Ajax.php:342
 msgid "This phone number with this country code is already in use."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:297
+#: includes/Common/Admin/Ajax.php:404
 msgid "Registration successful"
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:331
+#: includes/Common/Admin/Ajax.php:438
 msgid "Username and email are required."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:335
+#: includes/Common/Admin/Ajax.php:442
 msgid "Invalid email address."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:339
+#: includes/Common/Admin/Ajax.php:446
 msgid "Username already exists."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:343
+#: includes/Common/Admin/Ajax.php:450
 msgid "Email already registered."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:352
+#: includes/Common/Admin/Ajax.php:459
 msgid "User registration is currently disabled."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:424
+#: includes/Common/Admin/Ajax.php:531
 msgid "Please enter a username or email address."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:460
+#: includes/Common/Admin/Ajax.php:567
 msgid "Password reset email sent successfully."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:467
+#: includes/Common/Admin/Ajax.php:574
 msgid "Unexpected error occurred."
 msgstr ""
 
-#: includes/Common/Admin/Ajax.php:481
+#: includes/Common/Admin/Ajax.php:588
 msgid "Captcha is required."
 msgstr ""
 
@@ -132,7 +133,7 @@ msgstr ""
 msgid "Get Acadlix Pro"
 msgstr ""
 
-#: includes/Common/Admin/Menu.php:61
+#: includes/Common/Admin/Menu.php:63
 #: includes/Common/View/SingleCourseView.php:132
 #: build/Common/front.js:14
 msgid "Home"
@@ -221,8 +222,8 @@ msgstr ""
 #: build/Common/admin_course.js:1
 #: build/Common/admin_course.js:3
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 #: build/Common/admin_setting.js:1
 #: build/Common/admin_setting_general_advance_quiz_option.bundle.js:1
 msgid "Add New"
@@ -327,7 +328,7 @@ msgstr ""
 
 #: includes/Common/CPT/Course.php:120
 #: includes/Common/CPT/Quiz.php:66
-#: includes/Common/View/SingleCourseView.php:911
+#: includes/Common/View/SingleCourseView.php:926
 #: build/Common/admin_quiz.js:1
 msgid "Category"
 msgstr ""
@@ -396,7 +397,7 @@ msgstr ""
 
 #: includes/Common/CPT/Course.php:216
 #: includes/Common/Submenu/Submenu_Categories.php:18
-#: includes/Common/View/SingleCourseView.php:911
+#: includes/Common/View/SingleCourseView.php:926
 msgid "Categories"
 msgstr ""
 
@@ -667,7 +668,7 @@ msgid "Currency settings are not configured properly."
 msgstr ""
 
 #: includes/Common/Helper/CourseHelper.php:82
-#: includes/Common/Helper/Helper.php:1651
+#: includes/Common/Helper/Helper.php:2042
 msgid "Currency symbol not found for the selected currency."
 msgstr ""
 
@@ -1369,79 +1370,103 @@ msgstr ""
 msgid "Zimbabwean dollar"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1054
+#: includes/Common/Helper/Helper.php:1381
+msgid "Knit Pay Integration"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1382
+msgid "Knit pay integration for seamless payment processing."
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1394
 msgid "Acadlix Bulk Question Upload"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1055
+#: includes/Common/Helper/Helper.php:1395
 msgid "Upload hundreds of questions in seconds via MS Word."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1066
+#: includes/Common/Helper/Helper.php:1407
 msgid "Acadlix Assignments"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1067
+#: includes/Common/Helper/Helper.php:1408
 msgid "Create, assign, and evaluate student assignments seamlessly."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1078
+#: includes/Common/Helper/Helper.php:1420
 msgid "Acadlix Zoom Integration"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1079
+#: includes/Common/Helper/Helper.php:1421
 msgid "Schedule and manage live classes via Zoom from your dashboard."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1090
+#: includes/Common/Helper/Helper.php:1433
 msgid "Acadlix Advanced Report"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1091
+#: includes/Common/Helper/Helper.php:1434
 msgid "Generate detailed reports for your students and courses."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1102
+#: includes/Common/Helper/Helper.php:1446
 msgid "Acadlix Subscriptions"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1103
+#: includes/Common/Helper/Helper.php:1447
 msgid "Manage subscriptions for your students, courses and course bundles."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1114
+#: includes/Common/Helper/Helper.php:1459
 msgid "Acadlix Data Exporter"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1115
+#: includes/Common/Helper/Helper.php:1460
 msgid "Export results, answer sheets in PDF or Excel."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1126
+#: includes/Common/Helper/Helper.php:1472
 msgid "Question Error Reporting"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1127
+#: includes/Common/Helper/Helper.php:1473
 msgid "This addon lets students flag and report incorrect or unclear questions, helping admins maintain accuracy and improve question quality."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1138
+#: includes/Common/Helper/Helper.php:1485
 msgid "Social Login"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1139
+#: includes/Common/Helper/Helper.php:1486
 msgid "Allow users to log in using their social media accounts."
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1150
+#: includes/Common/Helper/Helper.php:1498
 msgid "Course Bundle"
 msgstr ""
 
-#: includes/Common/Helper/Helper.php:1151
+#: includes/Common/Helper/Helper.php:1499
 msgid "Allow users to purchase multiple courses as a bundle."
 msgstr ""
 
-#: includes/Common/Models/Course.php:170
+#: includes/Common/Helper/Helper.php:1511
+msgid "Google Meet"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1512
+msgid "Schedule and manage live classes via Google Meet from your dashboard."
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1524
+msgid "Microsoft Teams"
+msgstr ""
+
+#: includes/Common/Helper/Helper.php:1525
+msgid "Schedule and manage live classes via Microsoft Teams from your dashboard."
+msgstr ""
+
+#: includes/Common/Models/Course.php:171
 msgid "Invalid post ID or not a course post type."
 msgstr ""
 
@@ -1539,6 +1564,55 @@ msgstr ""
 #: includes/Common/Notifications/Email.php:263
 #, php-format
 msgid "New Offline Purchase for order #%d"
+msgstr ""
+
+#: includes/Common/Payments/Gateways/KnitPay.php:151
+#: includes/Common/Payments/Gateways/KnitPay.php:251
+#: includes/Common/Payments/Gateways/KnitPay.php:341
+msgid "Knitpay payment gateway is not active."
+msgstr ""
+
+#: includes/Common/Payments/Gateways/KnitPay.php:164
+msgid "Invalid payment gateway configuration."
+msgstr ""
+
+#: includes/Common/Payments/Gateways/KnitPay.php:257
+msgid "Webhook payload is missing."
+msgstr ""
+
+#: includes/Common/Payments/Gateways/KnitPay.php:263
+msgid "Invalid webhook payload format."
+msgstr ""
+
+#: includes/Common/Payments/Gateways/KnitPay.php:269
+msgid "Missing payment ID in webhook payload."
+msgstr ""
+
+#: includes/Common/Payments/Gateways/KnitPay.php:283
+msgid "Knitpay webhook error: "
+msgstr ""
+
+#: includes/Common/Payments/Gateways/KnitPay.php:294
+msgid "Required function get_pronamic_payment does not exist."
+msgstr ""
+
+#: includes/Common/Payments/Gateways/KnitPay.php:307
+#: includes/Common/Payments/Gateways/KnitPay.php:311
+msgid "Order not found for the given payment ID."
+msgstr ""
+
+#: includes/Common/Payments/Gateways/KnitPay.php:344
+msgid "Order ID is missing."
+msgstr ""
+
+#. translators: %s: source id
+#: includes/Common/Payments/Gateways/KnitPay.php:384
+#, php-format
+msgid "Payment %s"
+msgstr ""
+
+#: includes/Common/Payments/Gateways/KnitPay.php:394
+msgid "Acadlix Order"
 msgstr ""
 
 #: includes/Common/Payments/Gateways/Paypal.php:388
@@ -1759,9 +1833,9 @@ msgstr ""
 
 #: includes/Common/REST/Admin/AdminLanguageController.php:159
 #: includes/Common/REST/Admin/AdminLanguageController.php:194
-#: includes/Common/REST/Admin/AdminQuizController.php:781
-#: includes/Common/REST/Admin/AdminQuizController.php:856
-#: includes/Common/REST/Admin/AdminQuizController.php:915
+#: includes/Common/REST/Admin/AdminQuizController.php:792
+#: includes/Common/REST/Admin/AdminQuizController.php:867
+#: includes/Common/REST/Admin/AdminQuizController.php:926
 msgid "Language id is required."
 msgstr ""
 
@@ -1781,9 +1855,9 @@ msgstr ""
 #: includes/Common/REST/Admin/AdminQuestionController.php:451
 #: includes/Common/REST/Admin/AdminQuizController.php:441
 #: includes/Common/REST/Admin/AdminQuizController.php:537
-#: includes/Common/REST/Admin/AdminQuizController.php:773
-#: includes/Common/REST/Admin/AdminQuizController.php:848
-#: includes/Common/REST/Admin/AdminQuizController.php:907
+#: includes/Common/REST/Admin/AdminQuizController.php:784
+#: includes/Common/REST/Admin/AdminQuizController.php:859
+#: includes/Common/REST/Admin/AdminQuizController.php:918
 #: includes/Common/REST/Admin/AdminStatisticController.php:90
 #: includes/Common/REST/Admin/AdminStatisticController.php:124
 #: includes/Common/REST/Front/FrontQuizController.php:167
@@ -1899,35 +1973,35 @@ msgid "Quiz language is required."
 msgstr ""
 
 #: includes/Common/REST/Admin/AdminQuizController.php:338
-#: includes/Common/REST/Admin/AdminQuizController.php:664
+#: includes/Common/REST/Admin/AdminQuizController.php:675
 msgid "Failed to create the quiz."
 msgstr ""
 
 #: includes/Common/REST/Admin/AdminQuizController.php:351
 #: includes/Common/REST/Admin/AdminQuizController.php:489
 #: includes/Common/REST/Admin/AdminQuizController.php:592
-#: includes/Common/REST/Admin/AdminQuizController.php:677
+#: includes/Common/REST/Admin/AdminQuizController.php:688
 msgid "Cannot assign category to quiz."
 msgstr ""
 
 #: includes/Common/REST/Admin/AdminQuizController.php:364
 #: includes/Common/REST/Admin/AdminQuizController.php:501
-#: includes/Common/REST/Admin/AdminQuizController.php:692
+#: includes/Common/REST/Admin/AdminQuizController.php:703
 msgid "Cannot assign language to quiz."
 msgstr ""
 
 #: includes/Common/REST/Admin/AdminQuizController.php:375
 #: includes/Common/REST/Admin/AdminQuizController.php:511
-#: includes/Common/REST/Admin/AdminQuizController.php:703
+#: includes/Common/REST/Admin/AdminQuizController.php:714
 msgid "Created quiz not found."
 msgstr ""
 
 #: includes/Common/REST/Admin/AdminQuizController.php:477
-#: includes/Common/REST/Admin/AdminQuizController.php:804
-#: includes/Common/REST/Admin/AdminQuizController.php:813
-#: includes/Common/REST/Admin/AdminQuizController.php:871
-#: includes/Common/REST/Admin/AdminQuizController.php:938
-#: includes/Common/REST/Admin/AdminQuizController.php:947
+#: includes/Common/REST/Admin/AdminQuizController.php:815
+#: includes/Common/REST/Admin/AdminQuizController.php:824
+#: includes/Common/REST/Admin/AdminQuizController.php:882
+#: includes/Common/REST/Admin/AdminQuizController.php:949
+#: includes/Common/REST/Admin/AdminQuizController.php:958
 msgid "Failed to update the quiz."
 msgstr ""
 
@@ -1935,24 +2009,24 @@ msgstr ""
 msgid "Quizzes data is required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:756
+#: includes/Common/REST/Admin/AdminQuizController.php:767
 msgid "Quizzes imported successfully"
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:789
-#: includes/Common/REST/Admin/AdminQuizController.php:923
+#: includes/Common/REST/Admin/AdminQuizController.php:800
+#: includes/Common/REST/Admin/AdminQuizController.php:934
 msgid "Languages are required."
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:826
+#: includes/Common/REST/Admin/AdminQuizController.php:837
 msgid "Language added successfully"
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:885
+#: includes/Common/REST/Admin/AdminQuizController.php:896
 msgid "Default language set successfully"
 msgstr ""
 
-#: includes/Common/REST/Admin/AdminQuizController.php:960
+#: includes/Common/REST/Admin/AdminQuizController.php:971
 msgid "Language removed successfully"
 msgstr ""
 
@@ -1976,13 +2050,14 @@ msgstr ""
 
 #. translators: %s is the required field
 #: includes/Common/REST/Admin/AdminSettingController.php:75
-#: includes/Common/REST/Front/FrontCheckoutController.php:273
-#: includes/Common/REST/Front/FrontCheckoutController.php:357
-#: includes/Common/REST/Front/FrontCheckoutController.php:449
-#: includes/Common/REST/Front/FrontCheckoutController.php:538
-#: includes/Common/REST/Front/FrontCheckoutController.php:623
-#: includes/Common/REST/Front/FrontCheckoutController.php:707
-#: includes/Common/REST/Front/FrontCheckoutController.php:884
+#: includes/Common/REST/Front/FrontCheckoutController.php:289
+#: includes/Common/REST/Front/FrontCheckoutController.php:373
+#: includes/Common/REST/Front/FrontCheckoutController.php:465
+#: includes/Common/REST/Front/FrontCheckoutController.php:554
+#: includes/Common/REST/Front/FrontCheckoutController.php:639
+#: includes/Common/REST/Front/FrontCheckoutController.php:723
+#: includes/Common/REST/Front/FrontCheckoutController.php:842
+#: includes/Common/REST/Front/FrontCheckoutController.php:995
 #: includes/Common/REST/Front/FrontCourseController.php:119
 #: includes/Common/REST/Front/FrontCourseController.php:149
 #: includes/Common/REST/Front/FrontCourseController.php:160
@@ -1992,12 +2067,12 @@ msgstr ""
 #: includes/Common/REST/Front/FrontCourseController.php:411
 #: includes/Common/REST/Front/FrontCourseController.php:450
 #: includes/Common/REST/Front/FrontCourseController.php:494
-#: includes/Common/REST/Front/FrontDashboardController.php:258
-#: includes/Common/REST/Front/FrontDashboardController.php:310
-#: includes/Common/REST/Front/FrontDashboardController.php:377
-#: includes/Common/REST/Front/FrontDashboardController.php:411
-#: includes/Common/REST/Front/FrontDashboardController.php:478
-#: includes/Common/REST/Front/FrontDashboardController.php:614
+#: includes/Common/REST/Front/FrontDashboardController.php:273
+#: includes/Common/REST/Front/FrontDashboardController.php:325
+#: includes/Common/REST/Front/FrontDashboardController.php:392
+#: includes/Common/REST/Front/FrontDashboardController.php:426
+#: includes/Common/REST/Front/FrontDashboardController.php:493
+#: includes/Common/REST/Front/FrontDashboardController.php:629
 #, php-format
 msgid "The %s parameter is required."
 msgstr ""
@@ -2031,6 +2106,14 @@ msgstr ""
 msgid "Subject not found."
 msgstr ""
 
+#: includes/Common/REST/Admin/AdminTemplateController.php:151
+msgid "Template deleted successfully"
+msgstr ""
+
+#: includes/Common/REST/Admin/AdminTemplateController.php:153
+msgid "Template not found"
+msgstr ""
+
 #: includes/Common/REST/Admin/AdminThemeController.php:39
 #: build/Common/admin_design_studio.js:1
 msgid "Theme updated successfully"
@@ -2057,73 +2140,77 @@ msgstr ""
 msgid "Quiz ID is required for generating questions."
 msgstr ""
 
+#: includes/Common/REST/Front/FrontCheckoutController.php:195
+msgid "Item not found."
+msgstr ""
+
 #. translators: %s is the item title
-#: includes/Common/REST/Front/FrontCheckoutController.php:185
+#: includes/Common/REST/Front/FrontCheckoutController.php:201
 #, php-format
 msgid "%s already purchased."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:229
+#: includes/Common/REST/Front/FrontCheckoutController.php:245
 msgid "Cart id is required."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:234
+#: includes/Common/REST/Front/FrontCheckoutController.php:250
 msgid "No cart item found."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:257
+#: includes/Common/REST/Front/FrontCheckoutController.php:273
 msgid "Required parameters are missing."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:261
+#: includes/Common/REST/Front/FrontCheckoutController.php:277
 msgid "Unacceptable payment gateway"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:265
-#: includes/Common/REST/Front/FrontCheckoutController.php:615
-#: includes/Common/REST/Front/FrontCheckoutController.php:700
+#: includes/Common/REST/Front/FrontCheckoutController.php:281
+#: includes/Common/REST/Front/FrontCheckoutController.php:631
+#: includes/Common/REST/Front/FrontCheckoutController.php:716
 msgid "No order found"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:611
+#: includes/Common/REST/Front/FrontCheckoutController.php:627
 msgid "Required parameters are missing"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:697
+#: includes/Common/REST/Front/FrontCheckoutController.php:713
 msgid "Required parameters not found"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:876
+#: includes/Common/REST/Front/FrontCheckoutController.php:987
 msgid "Required coupon code and user_id"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:893
+#: includes/Common/REST/Front/FrontCheckoutController.php:1004
 msgid "Coupons are disabled."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:901
+#: includes/Common/REST/Front/FrontCheckoutController.php:1012
 msgid "Invalid coupon code."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:907
+#: includes/Common/REST/Front/FrontCheckoutController.php:1018
 msgid "This coupon code is disabled."
 msgstr ""
 
 #. translators: 1: currency symbol 2: minimum purchase amount
-#: includes/Common/REST/Front/FrontCheckoutController.php:913
+#: includes/Common/REST/Front/FrontCheckoutController.php:1024
 #, php-format
 msgid "This coupon code requires a minimum purchase of %1$s%2$s."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:920
+#: includes/Common/REST/Front/FrontCheckoutController.php:1034
 msgid "This coupon code has expired."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:925
+#: includes/Common/REST/Front/FrontCheckoutController.php:1039
 msgid "This coupon code has reached its maximum usage limit."
 msgstr ""
 
-#: includes/Common/REST/Front/FrontCheckoutController.php:929
+#: includes/Common/REST/Front/FrontCheckoutController.php:1043
 msgid "You have reached the maximum usage limit for this coupon code."
 msgstr ""
 
@@ -2156,27 +2243,27 @@ msgstr ""
 
 #: includes/Common/REST/Front/FrontDashboardController.php:198
 #: includes/Common/REST/Front/FrontDashboardController.php:227
-#: includes/Common/REST/Front/FrontDashboardController.php:680
-#: includes/Common/REST/Front/FrontDashboardController.php:694
-#: includes/Common/REST/Front/FrontDashboardController.php:725
-#: includes/Common/REST/Front/FrontDashboardController.php:794
+#: includes/Common/REST/Front/FrontDashboardController.php:695
+#: includes/Common/REST/Front/FrontDashboardController.php:709
+#: includes/Common/REST/Front/FrontDashboardController.php:740
+#: includes/Common/REST/Front/FrontDashboardController.php:809
 msgid "Required user_id"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontDashboardController.php:748
+#: includes/Common/REST/Front/FrontDashboardController.php:763
 #: includes/Common/REST/Front/FrontQuizController.php:463
 msgid "No file uploaded"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontDashboardController.php:755
+#: includes/Common/REST/Front/FrontDashboardController.php:770
 msgid "Only JPG and PNG files are allowed"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontDashboardController.php:823
+#: includes/Common/REST/Front/FrontDashboardController.php:838
 msgid "Required certificate_id"
 msgstr ""
 
-#: includes/Common/REST/Front/FrontDashboardController.php:834
+#: includes/Common/REST/Front/FrontDashboardController.php:849
 msgid "Certificate not found"
 msgstr ""
 
@@ -2185,7 +2272,7 @@ msgid "You have reached your maximum limit of attempts."
 msgstr ""
 
 #: includes/Common/REST/Front/FrontQuizController.php:403
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Anonymous"
 msgstr ""
 
@@ -2218,10 +2305,10 @@ msgstr ""
 #: includes/Common/Submenu/Submenu_Design_Studio.php:72
 #: includes/Common/Submenu/Submenu_Home.php:70
 #: includes/Common/Submenu/Submenu_Lessons.php:73
-#: includes/Common/Submenu/Submenu_Orders.php:75
-#: includes/Common/Submenu/Submenu_Quiz.php:84
+#: includes/Common/Submenu/Submenu_Orders.php:78
+#: includes/Common/Submenu/Submenu_Quiz.php:85
 #: includes/Common/Submenu/Submenu_Reviews.php:75
-#: includes/Common/Submenu/Submenu_Settings.php:78
+#: includes/Common/Submenu/Submenu_Settings.php:81
 #: includes/Common/Submenu/Submenu_Student.php:69
 #: includes/Common/Submenu/Submenu_Tools.php:74
 #: templates/app.php:6
@@ -2269,7 +2356,7 @@ msgid "Acadlix Reviews"
 msgstr ""
 
 #: includes/Common/Submenu/Submenu_Reviews.php:18
-#: includes/Common/View/SingleCourseView.php:1011
+#: includes/Common/View/SingleCourseView.php:1026
 msgid "Reviews"
 msgstr ""
 
@@ -2294,7 +2381,17 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:293
+#: includes/Common/Submenu/Submenu_Upgrade.php:16
+#: includes/Common/Submenu/Submenu_Upgrade.php:17
+#: build/Common/admin_design_studio_design_sections.bundle.js:1
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: includes/Common/Submenu/Submenu_Upgrade.php:47
+msgid "Get pro plugin"
+msgstr ""
+
+#: includes/Common/View/AllCourseView.php:339
 #: build/Common/admin_course.js:1
 #: build/Common/admin_quiz.js:1
 #: build/Common/front.js:14
@@ -2302,50 +2399,44 @@ msgid "Filter by Category"
 msgstr ""
 
 #. translators: 1: average rating, 2: total ratings
-#: includes/Common/View/AllCourseView.php:468
+#: includes/Common/View/AllCourseView.php:503
 #: includes/Common/View/SingleCourseView.php:864
 #, php-format
 msgid "%1$.2f (%2$d ratings)"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:595
+#: includes/Common/View/AllCourseView.php:630
 #: includes/Common/View/SingleCourseView.php:489
 msgid "Go to Checkout"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:615
+#: includes/Common/View/AllCourseView.php:650
 #: includes/Common/View/SingleCourseView.php:509
 msgid "Go to Course"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:634
+#: includes/Common/View/AllCourseView.php:669
 #: includes/Common/View/SingleCourseView.php:530
 msgid "Start Now"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:659
+#: includes/Common/View/AllCourseView.php:694
 #: includes/Common/View/SingleCourseView.php:569
 msgid "Buy Now"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:763
+#: includes/Common/View/AllCourseView.php:798
 #: includes/Common/View/SingleCourseView.php:619
 msgid "Add to Wishlist"
 msgstr ""
 
-#: includes/Common/View/AllCourseView.php:777
+#: includes/Common/View/AllCourseView.php:812
 #: includes/Common/View/SingleCourseView.php:633
 msgid "Remove From Wishlist"
 msgstr ""
 
-#. translators: %s: course count
-#: includes/Common/View/AllCourseView.php:831
-#, php-format
-msgid "We found %s courses available for you"
-msgstr ""
-
 #. translators: %1$s: start, %2$s: end, %3$s: course count
-#: includes/Common/View/AllCourseView.php:988
+#: includes/Common/View/AllCourseView.php:1019
 #, php-format
 msgid "Showing %1$s-%2$s of %3$s results"
 msgstr ""
@@ -2387,51 +2478,51 @@ msgstr ""
 msgid "Created by"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1033
+#: includes/Common/View/SingleCourseView.php:1048
 msgid "Overview"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1046
-#: includes/Common/View/SingleCourseView.php:1376
+#: includes/Common/View/SingleCourseView.php:1061
+#: includes/Common/View/SingleCourseView.php:1391
 msgid "Curriculum"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1059
+#: includes/Common/View/SingleCourseView.php:1074
 #: build/Common/admin_course.js:3
 msgid "Instructor"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1077
+#: includes/Common/View/SingleCourseView.php:1092
 msgid "What you will learn in this course"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1156
+#: includes/Common/View/SingleCourseView.php:1171
 msgid "Description"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1497
+#: includes/Common/View/SingleCourseView.php:1512
 msgid "Course Instructor"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1545
+#: includes/Common/View/SingleCourseView.php:1560
 msgid "Course Reviews"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1591
+#: includes/Common/View/SingleCourseView.php:1606
 msgid "Rating"
 msgstr ""
 
 #. translators: %d: number of ratings
-#: includes/Common/View/SingleCourseView.php:1633
+#: includes/Common/View/SingleCourseView.php:1648
 #, php-format
 msgid "Based on %d ratings"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1677
+#: includes/Common/View/SingleCourseView.php:1692
 msgid "User Avatar"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1710
+#: includes/Common/View/SingleCourseView.php:1725
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz_front_dashboard_quiz_result_section_question_status_section.bundle.js:1
 #: build/Common/admin_review.js:1
@@ -2440,75 +2531,75 @@ msgstr ""
 msgid "Pending"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1837
+#: includes/Common/View/SingleCourseView.php:1852
 msgid "Write your review here..."
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1856
+#: includes/Common/View/SingleCourseView.php:1871
 msgid "Submit Review"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1954
+#: includes/Common/View/SingleCourseView.php:1969
 msgid "Load More Reviews"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1984
+#: includes/Common/View/SingleCourseView.php:1999
 msgid "Edit Review"
 msgstr ""
 
-#: includes/Common/View/SingleCourseView.php:1984
+#: includes/Common/View/SingleCourseView.php:1999
 msgid "Add Review"
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:163
-#: includes/Common/View/ThankyouView.php:172
+#: includes/Common/View/ThankyouView.php:180
+#: includes/Common/View/ThankyouView.php:189
 msgid "Payment Success"
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:179
+#: includes/Common/View/ThankyouView.php:196
 msgid "Thank you! Your payment was completed successfully."
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:186
+#: includes/Common/View/ThankyouView.php:203
 msgid "You can now access your purchased course or content."
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:194
+#: includes/Common/View/ThankyouView.php:211
 msgid "Go to Dashboard"
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:212
-#: includes/Common/View/ThankyouView.php:221
+#: includes/Common/View/ThankyouView.php:229
+#: includes/Common/View/ThankyouView.php:238
 msgid "Payment Failed"
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:228
+#: includes/Common/View/ThankyouView.php:245
 msgid "Sorry, your payment could not be completed."
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:235
+#: includes/Common/View/ThankyouView.php:252
 msgid "Payment Failed. If any amount has been deducted, please contact the administrator for assistance. You may also try the payment again."
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:243
-#: includes/Common/View/ThankyouView.php:289
+#: includes/Common/View/ThankyouView.php:260
+#: includes/Common/View/ThankyouView.php:306
 msgid "Go to Courses"
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:261
-#: includes/Common/View/ThankyouView.php:272
+#: includes/Common/View/ThankyouView.php:278
+#: includes/Common/View/ThankyouView.php:289
 msgid "Payment Pending"
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:271
+#: includes/Common/View/ThankyouView.php:288
 msgid "Thanks for your order!"
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:280
+#: includes/Common/View/ThankyouView.php:297
 msgid "Your payment information has been submitted successfully. We’ll review it and activate your access as soon as the payment is verified."
 msgstr ""
 
-#: includes/Common/View/ThankyouView.php:281
+#: includes/Common/View/ThankyouView.php:298
 msgid "Your payment is currently pending. In some cases, it may take a few minutes for the status to update. If any amount has been deducted, it will be confirmed once processing is complete."
 msgstr ""
 
@@ -2745,8 +2836,8 @@ msgstr ""
 #: build/Common/admin_course_settings_general_lock_completed_content.bundle.js:1
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 #: build/Common/admin_quiz_free_accuracy_button.bundle.js:1
 #: build/Common/admin_quiz_free_advance_options.bundle.js:1
 #: build/Common/admin_quiz_free_answer_sheet_options.bundle.js:1
@@ -2762,6 +2853,7 @@ msgstr ""
 #: build/Common/admin_quiz_free_result_comparission_button.bundle.js:1
 #: build/Common/admin_quiz_free_speed_button.bundle.js:1
 #: build/Common/admin_quiz_free_subject_wise_button.bundle.js:1
+#: build/Common/admin_quiz_free_subject_wise_marks_button.bundle.js:1
 #: build/Common/admin_setting.js:1
 msgid "Activate"
 msgstr ""
@@ -2801,6 +2893,8 @@ msgstr ""
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_setting.js:1
 #: build/Common/admin_student.js:1
 #: build/Common/front.js:14
 #: build/Common/front.js:15
@@ -2823,7 +2917,7 @@ msgid "Flat"
 msgstr ""
 
 #: build/Common/admin_coupon.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front.js:14
 msgid "Percentage"
 msgstr ""
@@ -2843,7 +2937,7 @@ msgstr ""
 
 #: build/Common/admin_coupon.js:1
 #: build/Common/admin_order.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front.js:14
 msgid "Status"
 msgstr ""
@@ -2877,7 +2971,7 @@ msgstr ""
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/admin_quiz_free_prerequisite_options.bundle.js:1
 #: build/Common/admin_setting.js:1
 #: build/Common/src_modules_ai_AiDescription_js.js:2
@@ -2887,7 +2981,7 @@ msgstr ""
 #: build/Common/admin_coupon.js:1
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Bulk Actions"
 msgstr ""
 
@@ -2895,6 +2989,7 @@ msgstr ""
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/admin_quiz_free_prerequisite_options.bundle.js:1
 #: build/Common/admin_setting.js:1
 msgid "Delete"
@@ -2907,21 +3002,21 @@ msgstr ""
 #: build/Common/admin_coupon.js:1
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Please select atleast 1 entry."
 msgstr ""
 
 #: build/Common/admin_coupon.js:1
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Action required"
 msgstr ""
 
 #: build/Common/admin_coupon.js:1
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front_checkout.js:1
 msgid "Apply"
 msgstr ""
@@ -2930,8 +3025,8 @@ msgstr ""
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
 #: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:4
 #: build/Common/admin_review.js:1
 #: build/Common/admin_student.js:1
 #: build/Common/front.js:14
@@ -3000,7 +3095,8 @@ msgstr ""
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:5
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:6
 #: build/Common/front.js:2
 #: build/Common/front.js:14
 #: build/Common/front.js:15
@@ -3018,7 +3114,8 @@ msgstr ""
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:8
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:9
 #: build/Common/admin_setting.js:1
 msgid "Save Changes"
 msgstr ""
@@ -3027,7 +3124,7 @@ msgstr ""
 #: build/Common/admin_design_studio.js:1
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_order.js:1
-#: build/Common/admin_quiz.js:8
+#: build/Common/admin_quiz.js:9
 #: build/Common/admin_review.js:1
 #: build/Common/admin_setting.js:1
 #: build/Common/admin_student.js:1
@@ -3062,11 +3159,19 @@ msgid "Title is required"
 msgstr ""
 
 #: build/Common/admin_course.js:1
+msgid "Enter section title"
+msgstr ""
+
+#: build/Common/admin_course.js:1
 msgid "Section Description"
 msgstr ""
 
 #: build/Common/admin_course.js:1
 msgid "Provide a brief description of the section. This will give students an overview of the content covered in this section of the course."
+msgstr ""
+
+#: build/Common/admin_course.js:1
+msgid "Enter section description"
 msgstr ""
 
 #: build/Common/admin_course.js:1
@@ -3084,6 +3189,8 @@ msgstr ""
 
 #: build/Common/admin_course.js:1
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_setting.js:1
 #: build/Common/front_checkout.js:1
 msgid "Cancel"
 msgstr ""
@@ -3201,6 +3308,7 @@ msgstr ""
 #: build/Common/admin_course.js:3
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Difficulty Level"
 msgstr ""
 
@@ -3426,10 +3534,6 @@ msgid "Subtitle2"
 msgstr ""
 
 #: build/Common/admin_design_studio_design_sections.bundle.js:1
-msgid "Upgrade to Pro"
-msgstr ""
-
-#: build/Common/admin_design_studio_design_sections.bundle.js:1
 msgid "Main"
 msgstr ""
 
@@ -3543,12 +3647,14 @@ msgstr ""
 
 #: build/Common/admin_lesson.js:1
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_setting.js:1
 #: build/Common/front.js:14
 msgid "Title"
 msgstr ""
 
 #: build/Common/admin_lesson.js:1
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 #: build/Common/front.js:15
 #: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
 msgid "Type"
@@ -3562,6 +3668,7 @@ msgstr ""
 #: build/Common/admin_order.js:1
 #: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front.js:14
 #: build/Common/front.js:15
 msgid "Action"
@@ -3598,6 +3705,7 @@ msgid "Order Date"
 msgstr ""
 
 #: build/Common/admin_order.js:1
+#: build/Common/admin_setting.js:1
 #: build/Common/admin_student.js:1
 msgid "Name"
 msgstr ""
@@ -3605,7 +3713,6 @@ msgstr ""
 #: build/Common/admin_order.js:1
 #: build/Common/admin_student.js:1
 #: build/Common/front_checkout.js:1
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
 msgid "Email"
 msgstr ""
 
@@ -3794,7 +3901,6 @@ msgstr ""
 
 #: build/Common/admin_order.js:1
 #: build/Common/front_checkout.js:1
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
 msgid "Phone Number"
 msgstr ""
 
@@ -3963,7 +4069,7 @@ msgid "Failed to copy text: "
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:6
+#: build/Common/admin_quiz.js:7
 #: build/Common/front.js:2
 msgid "Leaderboard"
 msgstr ""
@@ -4001,6 +4107,7 @@ msgid "Please select any template"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_setting.js:1
 msgid "Select Template"
 msgstr ""
 
@@ -4041,7 +4148,7 @@ msgid "Set the number of questions to display per page. Users can navigate betwe
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "General Options"
 msgstr ""
 
@@ -4400,6 +4507,23 @@ msgid "This will display detailed subject-wise analysis, useful for quizzes with
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz_free_subject_wise_text.bundle.js:1
+msgid "Subject Wise Text"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "This will display the subject-wise text, useful for quizzes with questions from multiple subjects."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "Hide Subject Wise Marks"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
+msgid "This will hide the subject-wise marks, useful for quizzes with assessment question type."
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
 msgid "Answer Sheet Options"
 msgstr ""
 
@@ -4504,13 +4628,13 @@ msgid "% text"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 msgid "Add More"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 #: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
 msgid "Remove"
 msgstr ""
@@ -4548,7 +4672,7 @@ msgid "From"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/front.js:16
+#: build/Common/admin_quiz.js:2
 msgid "Subject"
 msgstr ""
 
@@ -4565,7 +4689,6 @@ msgid "User-ID"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
 msgid "Username"
 msgstr ""
 
@@ -4578,6 +4701,7 @@ msgid "Result in percent"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Points"
 msgstr ""
 
@@ -4651,6 +4775,12 @@ msgid "Save"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz_free_subject_wise_text.bundle.js:1
+#: build/Common/front.js:14
+msgid "Subject Wise Result"
+msgstr ""
+
+#: build/Common/admin_quiz.js:1
 msgid "Acadlix <br/><br/>You have completed the quiz \"$quizname\".<br/><br/>Points: $points<br/>Result: $result"
 msgstr ""
 
@@ -4667,14 +4797,14 @@ msgid "Create Quiz"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 msgid "Subject name is already exist"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 msgid "Subject cannot be empty"
 msgstr ""
 
@@ -4683,54 +4813,55 @@ msgid "Subject and points updated successfully."
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Set Subject, Level and Points"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/admin_setting.js:1
 msgid "Select Subject"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
 #: build/Common/admin_quiz.js:8
+#: build/Common/admin_quiz.js:9
 #: build/Common/front.js:1
 msgid "Easy"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
 #: build/Common/admin_quiz.js:8
+#: build/Common/admin_quiz.js:9
 #: build/Common/front.js:1
 msgid "Medium"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
 #: build/Common/admin_quiz.js:8
+#: build/Common/admin_quiz.js:9
 #: build/Common/front.js:1
 msgid "Hard"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
 #: build/Common/admin_quiz.js:8
+#: build/Common/admin_quiz.js:9
 #: build/Common/front.js:1
 msgid "Expert"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "+ Point"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "- Point"
 msgstr ""
 
@@ -4751,12 +4882,12 @@ msgid "Creating chunks..."
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "chunk"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 #: build/Common/front.js:16
 msgid "of"
 msgstr ""
@@ -4766,22 +4897,22 @@ msgid "Go to Question"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Remove Question from List"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Hint:"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Correct Exp:"
 msgstr ""
 
 #: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Incorrect Exp:"
 msgstr ""
 
@@ -4809,147 +4940,150 @@ msgstr ""
 msgid "AI Incorrect Exp:"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-msgid "Select All"
+#. translators: 1: number of selected questions, 2: total number of questions
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:9
+#, js-format
+msgid "Select All (%1$d / %2$d)"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:8
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:9
 msgid "Deselect All"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Retry Validation"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Please select at least one question to save changes."
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Questions updated successfully."
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "An error occurred while updating questions."
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Question successfully deleted."
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Do you really want to delete this question?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Negative Points"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Edit Question"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Delete Question"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 msgid "Single Choice"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 msgid "Multiple Choice"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "True False"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 msgid "Free Choice"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 msgid "Sorting Choice"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
 #: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 msgid "Matrix Sorting Choice"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Fill in the blank"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:8
 #: build/Common/admin_quiz_free_numerical.bundle.js:1
 #: build/Common/admin_quiz_free_numerical_option.bundle.js:1
 msgid "Numerical"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:8
 #: build/Common/admin_quiz_free_range_type.bundle.js:1
 #: build/Common/admin_quiz_free_range_type_option.bundle.js:1
 msgid "Range Type"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:8
 #: build/Common/admin_quiz_free_assessment.bundle.js:1
 #: build/Common/admin_quiz_free_assessment_option.bundle.js:1
 msgid "Assessment"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Paragraph"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Questions deleted successfully"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Do you really want to delete these questions?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Validate With AI"
 msgstr ""
 
-#: build/Common/admin_quiz.js:1
+#: build/Common/admin_quiz.js:2
 msgid "Set Paragraph"
 msgstr ""
 
 #. translators: %s is the quiz title
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #, js-format
 msgid "Question Overview (%s)"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Search by question title"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 msgid "Fill in the Blank"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid ""
 "To create a blank space for users to fill in, enclose the correct word(s) in curly brackets { }. For example:\n"
 "              \"The sky is {blue}.\"\n"
@@ -4962,339 +5096,331 @@ msgid ""
 "              "
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/admin_quiz_free_range_type.bundle.js:1
 #: build/Common/admin_setting.js:1
 msgid "Required"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Case Sensitive"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:8
 msgid "True/False"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Please set atleast one correct option"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front.js:2
 msgid "True"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front.js:2
 msgid "False"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Please set at least one correct option"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/admin_quiz_front_dashboard_quiz_result_section_question_status_section.bundle.js:1
 #: build/Common/front.js:14
 #: build/Common/front.js:15
 msgid "Correct"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Option is required"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Option"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Criteria"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Sort Element"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Question Title"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front.js:16
 msgid "Question"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Question is required"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front.js:2
 msgid "Explanation"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Different Explanation for correct and incorrect answer?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Explanation for correct answer"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Explanation for incorrect answer"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front.js:2
 msgid "Hint"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Enable Hint"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Answer Type"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Free choice"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "correct answers (one per line)"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Create Question"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Statistic successfully reset."
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Result successfully deleted."
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Do you really want to delete this result?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Name / Username"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Date/Time"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front.js:14
 msgid "Score"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
 #: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:4
 #: build/Common/front.js:14
-#: build/Common/front.js:15
 msgid "Pass"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
 #: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:4
 #: build/Common/front.js:14
-#: build/Common/front.js:15
 msgid "Fail"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 #: build/Common/front.js:14
 msgid "NA"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Do you really want to reset this statistic?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Result successfully reset."
 msgstr ""
 
-#: build/Common/admin_quiz.js:2
+#: build/Common/admin_quiz.js:3
 msgid "Reset Statistics"
 msgstr ""
 
 #. translators: %s is the quiz title
-#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:4
 #, js-format
 msgid "Statistics (%s)"
 msgstr ""
 
-#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:4
 msgid "Qs:"
 msgstr ""
 
-#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:4
 msgid "Questions:"
 msgstr ""
 
-#: build/Common/admin_quiz.js:3
+#: build/Common/admin_quiz.js:4
 msgid "Total Attempt:"
 msgstr ""
 
-#: build/Common/admin_quiz.js:5
+#: build/Common/admin_quiz.js:6
 msgid "Do you really want to reset this leaderboard?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:5
+#: build/Common/admin_quiz.js:6
 msgid "Reset Leaderboard"
 msgstr ""
 
 #. translators: %s is the quiz title
-#: build/Common/admin_quiz.js:6
+#: build/Common/admin_quiz.js:7
 #, js-format
 msgid "Leaderboard (%s)"
 msgstr ""
 
-#: build/Common/admin_quiz.js:6
+#: build/Common/admin_quiz.js:7
 #: build/Common/front.js:2
 msgid "Load More"
 msgstr ""
 
-#: build/Common/admin_quiz.js:6
+#: build/Common/admin_quiz.js:7
 msgid "Failed to generate questions"
 msgstr ""
 
-#: build/Common/admin_quiz.js:6
+#: build/Common/admin_quiz.js:7
 msgid "Back to Questions"
 msgstr ""
 
 #. translators: %s is the quiz title
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 #, js-format
 msgid "Generate Question(s) with AI (%s)"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Question generation prompt"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "E.g. Generate 5 multiple choice questions for the topic 'Photosynthesis' with difficulty level 'Medium'."
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Generate correct message"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Generate incorrect message"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Generate hint message"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Enable source content"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Enter your source content here"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Enable Advanced Settings"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Generate Questions"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Preview Generated Questions"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Duplicate"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Subject is required"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Select Subject *"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Difficulty Level *"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Difficulty level is required"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Question Type *"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Question type is required"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Answer Options is required"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Answer Options must be at least 2"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Answer Options cannot be more than 26"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Answer Options *"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Number of questions is required"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Number of questions must be at least 1"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "Number of questions cannot be more than 25"
 msgstr ""
 
-#: build/Common/admin_quiz.js:7
+#: build/Common/admin_quiz.js:8
 msgid "No. of Questions *"
 msgstr ""
 
-#. translators: 1: number of selected questions, 2: total number of questions
-#: build/Common/admin_quiz.js:8
-#, js-format
-msgid "Select All (%1$d / %2$d)"
-msgstr ""
-
-#: build/Common/admin_quiz.js:8
+#: build/Common/admin_quiz.js:9
 msgid "Are you sure you want to remove all generated questions?"
 msgstr ""
 
-#: build/Common/admin_quiz.js:8
+#: build/Common/admin_quiz.js:9
 msgid "Remove All"
 msgstr ""
 
-#: build/Common/admin_quiz.js:8
+#: build/Common/admin_quiz.js:9
 msgid "Retry Generation(failed)"
 msgstr ""
 
@@ -5551,11 +5677,6 @@ msgstr ""
 msgid "Enter Start Date"
 msgstr ""
 
-#: build/Common/admin_quiz_free_view_answer_sheet_button.bundle.js:1
-#: build/Common/front.js:14
-msgid "View Answersheet"
-msgstr ""
-
 #: build/Common/admin_quiz_front_dashboard_quiz_result_section_marks_obtained.bundle.js:1
 msgid "Marks Obtained"
 msgstr ""
@@ -5619,6 +5740,10 @@ msgid "No. of courses per page"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
+msgid "Columns per row"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
 msgid "Disable Wishlist"
 msgstr ""
 
@@ -5639,7 +5764,15 @@ msgid "Enable course filters"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "Disable student enrolled"
+msgid "Hide Student Enroll Count"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Checkout Options"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable Coupon Code"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
@@ -5752,11 +5885,32 @@ msgid "Enable course content scroll button"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "Checkout Options"
+msgid "Light logo"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "Enable Coupon Code"
+msgid "Recommended size: 280x90 pixels. Max file size: 1MB."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "File Support: .jpg, .jpeg, .png"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "File size exceeds the maximum limit of 1MB. Please upload a smaller file."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Unsupported file type. Please upload a .jpg, .jpeg, or .png file."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Media upload failed. Please try again."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
+msgid "Upload"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
@@ -5900,6 +6054,23 @@ msgid "Allowed Mime type"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
+msgid "KnitPay"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable KnitPay"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+#, js-format
+msgid "Configurations can be created in Knit Pay gateway configurations page at <a href='%s'>\"Knit Pay >> Configurations\"</a>."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Configuration"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
 msgid "Payment Gateway"
 msgstr ""
 
@@ -6008,6 +6179,42 @@ msgid "Category deleted successfully."
 msgstr ""
 
 #: build/Common/admin_setting.js:1
+msgid "Quiz Templates"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Edit/Delete Template"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enter template name"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Template name is already exist."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Template updated successfully."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Please select template."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Please enter template name."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Do you really want to delete this template?"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Template deleted successfully."
+msgstr ""
+
+#: build/Common/admin_setting.js:1
 msgid "Subject name is already exist."
 msgstr ""
 
@@ -6064,6 +6271,78 @@ msgid "OpenAI API Key"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
+msgid "Width"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable Phone Code"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Enable"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Default Phone Code"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Default phone code is required if phone code is disabled"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Add Item"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Edit Item"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Name is required"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "ID is required"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Label"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Label is required"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Placeholder"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Placeholder is required"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Meta key"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Meta key is required"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Custom"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Delete Item"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
+msgid "Do you really want to delete this item?"
+msgstr ""
+
+#: build/Common/admin_setting.js:1
 msgid "Refer docs to configure login options."
 msgstr ""
 
@@ -6097,14 +6376,6 @@ msgstr ""
 
 #: build/Common/admin_setting.js:1
 msgid "Refer docs to configure registration options."
-msgstr ""
-
-#: build/Common/admin_setting.js:1
-msgid "Enable Phone Number"
-msgstr ""
-
-#: build/Common/admin_setting.js:1
-msgid "Enable"
 msgstr ""
 
 #: build/Common/admin_setting.js:1
@@ -6176,23 +6447,6 @@ msgid "Recommended size: 700x430px."
 msgstr ""
 
 #: build/Common/admin_setting.js:1
-msgid "File Support: .jpg, .jpeg, .png"
-msgstr ""
-
-#: build/Common/admin_setting.js:1
-msgid "Unsupported file type. Please upload a .jpg, .jpeg, or .png file."
-msgstr ""
-
-#: build/Common/admin_setting.js:1
-msgid "Media upload failed. Please try again."
-msgstr ""
-
-#: build/Common/admin_setting.js:1
-#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
-msgid "Upload"
-msgstr ""
-
-#: build/Common/admin_setting.js:1
 msgid "Select Certificate Template"
 msgstr ""
 
@@ -6241,11 +6495,11 @@ msgid "Search by name, email"
 msgstr ""
 
 #: build/Common/admin_tool.js:1
-msgid "Student Import(CSV/Excel)"
+msgid "Student Import(Excel)"
 msgstr ""
 
 #: build/Common/admin_tool.js:1
-msgid "Import students from a CSV/Excel file."
+msgid "Import students from an Excel file."
 msgstr ""
 
 #: build/Common/admin_tool.js:1
@@ -6257,7 +6511,7 @@ msgid "Student Import Format"
 msgstr ""
 
 #: build/Common/admin_tool.js:1
-msgid "Please select a file to be uploaded (Accepted file formats: .csv, .xlsx)"
+msgid "Please select a file to be uploaded (Accepted file formats: .xlsx)"
 msgstr ""
 
 #: build/Common/admin_tool.js:1
@@ -6493,6 +6747,10 @@ msgid "Date & Time"
 msgstr ""
 
 #: build/Common/front.js:14
+msgid "View Answersheet"
+msgstr ""
+
+#: build/Common/front.js:14
 msgid "No Data Found"
 msgstr ""
 
@@ -6510,6 +6768,10 @@ msgstr ""
 
 #: build/Common/front.js:14
 msgid "Amount"
+msgstr ""
+
+#: build/Common/front.js:14
+msgid "No Orders Found"
 msgstr ""
 
 #: build/Common/front.js:14
@@ -6722,12 +6984,12 @@ msgstr ""
 
 #: build/Common/front.js:16
 #: build/Common/front_single_course.js:1
-msgid "Exit Fullscreeen"
+msgid "Exit Fullscreen"
 msgstr ""
 
 #: build/Common/front.js:16
 #: build/Common/front_single_course.js:1
-msgid "Fullscreeen"
+msgid "Fullscreen"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
@@ -6736,6 +6998,10 @@ msgstr ""
 
 #: build/Common/front_checkout.js:1
 msgid "Offline"
+msgstr ""
+
+#: build/Common/front_checkout.js:1
+msgid "Knit Pay"
 msgstr ""
 
 #: build/Common/front_checkout.js:1
@@ -6881,10 +7147,6 @@ msgstr ""
 
 #: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
 msgid "Vimeo"
-msgstr ""
-
-#: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
-msgid "Embedded"
 msgstr ""
 
 #: build/Common/src_admin_views_lesson_sections_OptionSection_js-src_admin_views_lesson_sections_TitleSection-5c8e78.js:1
@@ -7142,43 +7404,20 @@ msgid "Register"
 msgstr ""
 
 #: build/Common/src_modules_user-auth_UserAuth_js.js:2
+#, js-format
+msgid "%s must be at least 8 characters long"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
+msgid "Your Passwords do not match"
+msgstr ""
+
+#: build/Common/src_modules_user-auth_UserAuth_js.js:2
 msgid "Opps!Something went wrong."
 msgstr ""
 
 #: build/Common/src_modules_user-auth_UserAuth_js.js:2
 msgid "Please enter your details to sign up."
-msgstr ""
-
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
-msgid "Username is required"
-msgstr ""
-
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
-msgid "Email is required"
-msgstr ""
-
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
-msgid "Password is required"
-msgstr ""
-
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
-msgid "Password must have at least 8 characters"
-msgstr ""
-
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
-msgid "Confirm Password"
-msgstr ""
-
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
-msgid "Confirm Password is required"
-msgstr ""
-
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
-msgid "Confirm Password must have at least 8 characters"
-msgstr ""
-
-#: build/Common/src_modules_user-auth_UserAuth_js.js:2
-msgid "Your passwords do no match"
 msgstr ""
 
 #: build/Common/src_modules_user-auth_UserAuth_js.js:2

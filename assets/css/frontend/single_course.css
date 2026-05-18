@@ -425,6 +425,7 @@
   width: 100%;
   justify-content: center;
   border: none;
+  background-image: none;
   padding: 0.5rem;
   cursor: pointer;
   margin-right: 0.5rem;

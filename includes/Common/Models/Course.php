@@ -3,6 +3,7 @@
 namespace Yuvayana\Acadlix\Common\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Capsule\Manager as DB;
 
 defined('ABSPATH') || exit();
 
@@ -334,22 +335,106 @@ if (!class_exists('Course')) {
         ->exists();
     }
 
-    public function getPurchasedCourses($userId = '', $search = null, $skip = 0, $take = 10, $with = [])
+    public function getPurchasedCourses($userId = '', $search = null, $skip = 0, $take = 10, $with = [], $categoryId = null)
     {
       if (empty($userId)) {
-        return [];
+        return [
+          'total' => 0,
+          'courses' => collect(),
+          'category_ids' => collect(),
+        ];
       }
-      // Base query for one-time purchases
-      $query = self::ofPublish()->whereHas('order_items', function ($oi) use ($userId) {
-        $oi
-          ->whereHas('order', function ($q) use ($userId) {
-            $q
-              ->where('user_id', $userId)
-              ->where('status', 'success');
-          })
-          ->whereNull('subscription_id');  // exclude subscription items
-      });
+      $courseTable = (new static)->getTable();
+      $orderItemTable = acadlix()->model()->orderItem()->getTable();
+      $ordersTable = acadlix()->model()->order()->getTable();
 
+      $purchaseMap = DB::table($orderItemTable)
+        ->join($ordersTable, "$ordersTable.id", '=', "$orderItemTable.order_id")
+        ->whereNull("$orderItemTable.subscription_id")
+        ->where("$ordersTable.user_id", $userId)
+        ->where("$ordersTable.status", 'success')
+        ->where("$orderItemTable.type", 'course')
+        ->selectRaw("$orderItemTable.item_id as course_id, MAX($ordersTable.created_at) as purchased_at")
+        ->groupBy("$orderItemTable.item_id")
+        ->pluck('purchased_at', 'course_id');
+
+      // Base query for one-time purchases
+      // $oneTimeCourseIds = self::ofPublish()->whereHas('order_items', function ($oi) use ($userId) {
+      //   $oi
+      //     ->whereHas('order', function ($q) use ($userId) {
+      //       $q
+      //         ->where('user_id', $userId)
+      //         ->where('status', 'success');
+      //     })
+      //     ->whereNull('subscription_id');  // exclude subscription items
+      // })->pluck('ID')
+      //   ->unique()
+      //   ->values();
+
+      // $purchaseMap = self::ofPublish()
+      //   ->whereHas('order_items', function ($oi) use ($userId) {
+      //     $oi->whereNull('subscription_id')
+      //       ->whereHas('order', function ($q) use ($userId) {
+      //         $q->where('user_id', $userId)
+      //           ->where('status', 'success');
+      //       });
+      //   })
+      //   ->with([
+      //     'order_items.order' => function ($q) use ($userId) {
+      //       $q->where('user_id', $userId)
+      //         ->where('status', 'success');
+      //     }
+      //   ])
+      //   ->get()
+      //   ->mapWithKeys(function ($course) {
+
+      //     $latestOrder = $course->order_items
+      //       ->filter(fn($oi) => $oi->order)
+      //       ->sortByDesc(fn($oi) => $oi->order->created_at)
+      //       ->first();
+
+      //     return [
+      //       $course->ID => optional($latestOrder->order)->created_at
+      //     ];
+      //   })
+      //   ->filter()
+      //   ->sortByDesc(fn($date) => $date);
+
+      $purchaseMap = $purchaseMap
+        ->filter()
+        ->sortByDesc(fn($date) => $date);
+        
+      $courseIds = $purchaseMap->keys()->values();
+
+      if ($courseIds->isEmpty()) {
+        return [
+          'total' => 0,
+          'courses' => collect(),
+          'category_ids' => collect(),
+        ];
+      }
+
+      // $categoryIds = self::ofPublish()
+      //   ->whereIn('ID', $courseIds)
+      //   ->with('course_categories')
+      //   ->get()
+      //   ->pluck('course_categories')
+      //   ->flatten()
+      //   ->pluck('term_id')
+      //   ->unique()
+      //   ->values();
+      $termRelationshipsTable = acadlix()->model()->wpTermRelationship()->getTable();
+      $categoryIds = DB::table($termRelationshipsTable)
+        ->whereIn('object_id', $courseIds)
+        ->pluck('term_taxonomy_id')
+        ->unique()
+        ->values();
+
+      $idsString = $courseIds->implode(',');
+
+      $query = self::ofPublish()
+        ->whereIn('ID', $courseIds)
+        ->orderByRaw("FIELD(ID, $idsString)");
       // Apply eager loading if any
       if (!empty($with)) {
         $query->with($with);
@@ -360,16 +445,21 @@ if (!class_exists('Course')) {
         $query->where("post_title", 'like', "%$search%");
       }
 
-      // Fetch results
-      $courses = $query->get()->unique('ID')->sortByDesc(function ($course) {
-        return $course->order_items->max('created_at');
-      })->values();
+      if (!is_null($categoryId)) {
+        $query->whereHas('course_categories', function ($q) use ($categoryId) {
+          $q->where('term_id', $categoryId);
+        });
+      }
 
       // Get total count before pagination
-      $total = $courses->count();
+      $total = $query->count();
+
+      if ($total <= $skip) {
+        $skip = 0;
+      }
 
       // Apply skip/take for pagination
-      $paginatedCourses = $courses->slice($skip, $take);
+      $paginatedCourses = $query->skip($skip)->take($take)->get();
 
       // Add completion percentage
       $paginatedCourses->each(function ($course) use ($userId) {
@@ -379,6 +469,7 @@ if (!class_exists('Course')) {
       return [
         'total' => $total,
         'courses' => $paginatedCourses,
+        'category_ids' => $categoryIds,
       ];
     }
 
@@ -389,18 +480,44 @@ if (!class_exists('Course')) {
 
     public function getCourseCompletionPercentage($userId)
     {
-      $statistics = $this->course_statistics()->where('user_id', $userId)->get();
+      global $wpdb;
+      // $statistics = $this->course_statistics()->where('user_id', $userId)->get();
 
-      if ($statistics->isEmpty()) {
+      // if ($statistics->isEmpty()) {
+      //   return 0;
+      // }
+      if (!$userId) {
         return 0;
       }
 
-      $total_count = $this->sections->flatMap->contents->count();
+      $sectionIds = DB::table($wpdb->posts)
+        ->where('post_parent', $this->ID)
+        ->where('post_type', ACADLIX_COURSE_SECTION_CPT)
+        ->pluck('ID');
+
+      $total_count = 0;
+
+      if ($sectionIds->isNotEmpty()) {
+        $total_count = DB::table($wpdb->posts)
+          ->whereIn('post_parent', $sectionIds)
+          ->where('post_type', ACADLIX_COURSE_SECTION_CONTENT_CPT)
+          ->where('post_status', 'publish')
+          ->count();
+      }
+
+      // $total_count = $this->sections->flatMap->contents->count();
       if ($total_count === 0) {
         return 0;
       }
 
-      $completed_count = $statistics->where('is_completed', 1)->count();
+      $courseStatisticTable = acadlix()->model()->courseStatistic()->getTable();
+      $completed_count = DB::table($courseStatisticTable)
+        ->where('course_id', $this->ID)
+        ->where('user_id', $userId)
+        ->where('is_completed', 1)
+        ->count();
+
+      // $completed_count = $statistics->where('is_completed', 1)->count();
 
       return round(($completed_count / $total_count) * 100, 0);
     }
@@ -417,6 +534,7 @@ if (!class_exists('Course')) {
         ->orderItem()
         ->ofCourse()
         ->where('item_id', $this->ID)
+        ->whereNull('subscription_id')
         ->whereHas('order', function ($q) {
           $q->where('status', 'success');
         })

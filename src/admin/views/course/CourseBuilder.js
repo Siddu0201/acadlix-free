@@ -32,6 +32,7 @@ const CourseBuilder = (props) => {
                       type: c?.contentable?.type,
                       title: c?.contentable?.title,
                       contentable_id: c?.contentable?.id,
+                      lesson_type: c?.contentable_data?.rendered_metas?.type ?? "video",
                       course_section_id: c?.post_parent,
                     };
                   })
@@ -41,6 +42,7 @@ const CourseBuilder = (props) => {
           : [],
     },
   });
+
 
   const theme = useTheme();
 

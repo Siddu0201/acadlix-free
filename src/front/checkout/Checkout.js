@@ -1,6 +1,7 @@
 import React from "react";
 import {
   GetCheckoutCart,
+  PostCheckoutKnitpay,
   PostCheckoutOfflinePayment,
   PostCheckoutPaypal,
   PostCheckoutPayu,
@@ -72,7 +73,7 @@ const Checkout = () => {
   };
 
   const filteredDefaults = window?.acadlixHooks?.applyFilters(
-    "acadlix.admin.checkout.defaultValues",
+    "acadlix.front.checkout.defaultValues",
     baseSetting,
     acadlixCheckoutOptions
   ) ?? baseSetting;
@@ -455,11 +456,55 @@ const Checkout = () => {
     methods?.setValue("offline_modal", true, { shouldDirty: true });
   };
 
+  const knitpayMutation = PostCheckoutKnitpay();
+  const handleKnitpay = (data = {}) => {
+    knitpayMutation?.mutate(
+      window?.acadlixHooks?.applyFilters?.("acadlix.front.checkout.set_knitpay_data", {
+        currency: data?.currency,
+        billing_info: data?.billing_info,
+        user_id: data?.user_id,
+        payment_method: data?.payment_method,
+        order_items: data?.order_items,
+        total_amount: data?.total_amount,
+        coupon_id: data?.coupon_id,
+        coupon_code: data?.coupon_code,
+        coupon_amount: data?.coupon_amount,
+        discount_type: data?.discount_type,
+      },
+        {
+          methods: methods,
+        }
+      ),
+      {
+        onSuccess: async (data) => {
+          methods?.setValue("is_checkout_loading", false, {
+            shouldDirty: true,
+          });
+          if (data?.data?.redirect_url) {
+            window.location.href = data?.data?.redirect_url;
+          } else {
+            toast?.error(__("Opps! Something went wrong", "acadlix"));
+          }
+        },
+        onError: (data) => {
+          toast?.error(
+            data?.response?.data?.message ??
+            __("Opps! Something went wrong", "acadlix")
+          );
+          methods?.setValue("is_checkout_loading", false, {
+            shouldDirty: true,
+          });
+        },
+      }
+    );
+  }
+
   const paymentHandlers = {
     razorpay: handleRazorpay,
     paypal: handlePaypal,
     payu: handlePayu,
     stripe: handleStripe,
+    knitpay: handleKnitpay, // Assuming you have a handleKnitpay function defined
   };
 
   const handlePaymentGateway = (data = {}) => {
@@ -512,6 +557,33 @@ const Checkout = () => {
       // handle free checkout
       handleFreeCheckout(data);
     }
+  };
+
+  const is_payment_gateway_active = () => {
+    if (
+      acadlixCheckoutOptions?.is_razorpay_active ||
+      acadlixCheckoutOptions?.is_paypal_active ||
+      acadlixCheckoutOptions?.is_payu_active ||
+      acadlixCheckoutOptions?.is_stripe_active ||
+      acadlixCheckoutOptions?.is_offline_active ||
+      acadlixCheckoutOptions?.is_knitpay_active
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const is_checkout_disabled = () => {
+    if (
+      methods?.watch("cart")?.length === 0 ||
+      !is_payment_gateway_active() ||
+      !methods?.watch("is_user_logged_in") ||
+      methods?.watch("is_checkout_locked")
+    ) {
+      return true;
+    }
+    return false;
   };
 
   if (getCart?.isFetching) {
@@ -718,6 +790,8 @@ const Checkout = () => {
                             {...methods}
                             isFetching={getCart?.isFetching}
                             handleCheckout={handleCheckout}
+                            is_payment_gateway_active={is_payment_gateway_active()}
+                            is_checkout_disabled={is_checkout_disabled()}
                           />,
                           component_name: "checkout_order_summary",
                         }

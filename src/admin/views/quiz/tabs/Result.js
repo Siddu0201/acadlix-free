@@ -65,6 +65,28 @@ const SubjectWiseButton = React.lazy(() =>
       "@acadlix/free/admin/quiz/tabs/result/SubjectWiseButton"
     )
 );
+const SubjectWiseMarksButton = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+      /* webpackChunkName: "admin_quiz_pro_subject_wise_marks_button" */
+      "@acadlix/pro/admin/quiz/tabs/result/SubjectWiseMarksButton"
+    )
+    : import(
+      /* webpackChunkName: "admin_quiz_free_subject_wise_marks_button" */
+      "@acadlix/free/admin/quiz/tabs/result/SubjectWiseMarksButton"
+    )
+);
+const SubjectWiseText = React.lazy(() =>
+  process.env.REACT_APP_IS_PREMIUM === 'true'
+    ? import(
+      /* webpackChunkName: "admin_quiz_pro_subject_wise_text" */
+      "@acadlix/pro/admin/quiz/tabs/result/SubjectWiseText"
+    )
+    : import(
+      /* webpackChunkName: "admin_quiz_free_subject_wise_text" */
+      "@acadlix/free/admin/quiz/tabs/result/SubjectWiseText"
+    )
+);
 const RankButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
     ? import(
@@ -492,6 +514,34 @@ const Result = (props) => {
             {...props}
           />
         </React.Suspense>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Subject Wise Text", "acadlix")}
+            <CustomFeatureTooltip
+              plan={acadlixOptions?.isActive ? "open" : "closed"}
+              msg={__("This will display the subject-wise text, useful for quizzes with questions from multiple subjects.", "acadlix")}
+              placement="right-start"
+            />
+          </CustomTypography>
+        </GridItem1>
+        <React.Suspense fallback={null}>
+          <SubjectWiseText
+            {...props}
+          />
+        </React.Suspense>
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Hide Subject Wise Marks", "acadlix")}
+            <CustomFeatureTooltip
+              plan={acadlixOptions?.isActive ? "open" : "closed"}
+              msg={__("This will hide the subject-wise marks, useful for quizzes with assessment question type.", "acadlix")}
+              placement="right-start"
+            />
+          </CustomTypography>
+        </GridItem1>
+        <React.Suspense fallback={null}>
+          <SubjectWiseMarksButton
+            {...props}
+          />
+        </React.Suspense>
 
         <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}
           sx={{
@@ -502,7 +552,6 @@ const Result = (props) => {
             }
           }}
         ></GridItem1>
-
 
         {/* 
           Used to show Status - Pass /Fail on the basis of Percent 

@@ -260,20 +260,55 @@ export const renderMUIComponent = async (item, index, formProps = {}) => {
     );
   }
 
-  const singleChildComponents = [
-    // "Tooltip",
-    "Popover",
-    "Dialog",
-    "Menu",
-    "MenuList"
-  ];
+  // const singleChildComponents = [
+  //   // "Tooltip",
+  //   "Popover",
+  //   "Dialog",
+  //   "Menu",
+  //   "MenuList"
+  // ];
+
+  // return (
+  //   <Component key={index} {...resolvedProps}>
+  //     {singleChildComponents.includes(component)
+  //       ? <>{childrenElements}</>
+  //       : (childrenElements || value)}
+  //   </Component>
+  // );
+
+  const normalizedChildren = Array.isArray(childrenElements)
+    ? childrenElements.filter(Boolean)
+    : childrenElements;
+
+  if (component === "Tooltip") {
+    let tooltipChild = null;
+
+    if (Array.isArray(normalizedChildren)) {
+      if (normalizedChildren.length === 1 && React.isValidElement(normalizedChildren[0])) {
+        tooltipChild = normalizedChildren[0];
+      } else {
+        tooltipChild = <span>{normalizedChildren.length ? normalizedChildren : value}</span>;
+      }
+    } else if (React.isValidElement(normalizedChildren)) {
+      tooltipChild = normalizedChildren;
+    } else {
+      tooltipChild = <span>{normalizedChildren || value}</span>;
+    }
+
+    return (
+      <Component key={index} {...resolvedProps}>
+        {tooltipChild}
+      </Component>
+    );
+  }
+
   return (
     <Component key={index} {...resolvedProps}>
-      {singleChildComponents.includes(component)
-        ? <>{childrenElements}</>
-        : (childrenElements || value)}
+      {normalizedChildren || value}
     </Component>
   );
+
+
   // return (
   //   <Component
   //     key={index}

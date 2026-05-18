@@ -1,6 +1,14 @@
 import { FaSearch, FaTrash } from '@acadlix/helpers/icons';
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
-import { Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, NativeSelect, Select, Tooltip } from '@mui/material';
+import {
+  Box,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  Select,
+  Tooltip
+} from '@mui/material';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { __ } from '@wordpress/i18n';
@@ -85,7 +93,7 @@ const Review = () => {
         const updateMutation = UpdateReviewById(params.id);
 
         const handleChange = (e) => {
-          if(status === e.target.value) return;
+          if (status === e.target.value) return;
           setStatus(e.target.value);
           updateMutation.mutate({
             comment_approved: e.target.value,

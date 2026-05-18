@@ -20,8 +20,9 @@ import ParagraphText from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-
 import QuestionText from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/QuestionText";
 import CorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/CorrectMsgSection";
 import IncorrectMsgSection from "@acadlix/front/dashboard/quiz/normalMode/normal-quiz-components/IncorrectMsgSection";
-import { AnswerSheetFunction } from "./AnswerSheetFunction";
+// import { AnswerSheetFunction } from "./AnswerSheetFunction";
 import TypeAssessment from "@acadlix/front/dashboard/quiz/questionTypes/TypeAssessment";
+import { QuizFunction } from "@acadlix/front/dashboard/quiz/QuizFunction";
 // import MarksObtained from "@acadlix/front/dashboard/quiz/normalMode/result-components/MarksObtained";
 // import NegativeMarks from "@acadlix/front/dashboard/quiz/normalMode/result-components/NegativeMarks";
 // import TimeTaken from "@acadlix/front/dashboard/quiz/normalMode/result-components/TimeTaken";
@@ -141,6 +142,7 @@ const AnswerSheet = ({
     enable_selectable_questions_rule: Boolean(
       Number(quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)
     ),
+    subject_wise_minimum_percent: Boolean(Number(quiz?.rendered_metas?.quiz_settings?.subject_wise_minimum_percent)),
     subject_times:
       quiz?.subject_times ?
         quiz?.subject_times?.map((s) => {
@@ -317,7 +319,7 @@ const AnswerSheet = ({
     isSolved,
     isCorrect,
     isIncorrect
-  } = AnswerSheetFunction(methods);
+  } = QuizFunction(methods);
 
   const getQuestionColor = (d) => {
     const solved = d?.result?.solved_count;
@@ -373,7 +375,7 @@ const AnswerSheet = ({
           {...props}
           {...methods}
           colorCode={colorCode}
-          hasEvaluatedQuestions={hasEvaluatedQuestions}
+          hasEvaluatedQuestions={hasEvaluatedQuestions()}
           getPoints={getPoints}
           getNegativePoints={getNegativePoints}
           getTotalPoints={getTotalPoints}
@@ -498,7 +500,7 @@ const AnswerSheet = ({
           ></Box>
           <Typography component="div" className="acadlix-normal-quiz-question-overview-label-text">{__("Skipped", "acadlix")}</Typography>
           {
-            hasEvaluatedQuestions && (
+            hasEvaluatedQuestions() && (
               <>
                 <Box
                   sx={{
@@ -803,15 +805,14 @@ const ResultSection = (props) => {
             />
           </React.Suspense>
         )}
-        {props?.watch("show_status_based_on_min_percent") && (
-          <React.Suspense fallback={null}>
-            <ResultStatus
-              getResult={props?.getResult}
-              getStatus={props?.getStatus}
-              minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
-            />
-          </React.Suspense>
-        )}
+        <React.Suspense fallback={null}>
+          <ResultStatus
+            getResult={props?.getResult}
+            getStatus={props?.getStatus}
+            minimum_percent_to_pass={props?.watch("minimum_percent_to_pass")}
+            {...props}
+          />
+        </React.Suspense>
         {props?.watch("show_accuracy") && (
           <React.Suspense fallback={null}>
             <Accuracy

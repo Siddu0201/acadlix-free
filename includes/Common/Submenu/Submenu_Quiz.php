@@ -63,6 +63,7 @@ class Submenu_Quiz
       'isActive' => acadlix()->license()->isActive ?? false,
       'isBulkUploadActive' => acadlix()->helper()->is_bulk_question_addon_active() ?? false,
       'image_url' => ACADLIX_ASSETS_IMAGE_URL,
+      'pdf_url' => ACADLIX_ASSETS_PDF_URL,
     ];
   }
 

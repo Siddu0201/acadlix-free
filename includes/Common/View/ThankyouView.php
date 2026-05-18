@@ -14,6 +14,7 @@ class ThankyouView
   protected $is_cancelled = false;
   protected $order_id = 0;
   protected $nonce = '';
+  protected $kp_payment_id = '';
 
   public function __construct()
   {
@@ -31,6 +32,7 @@ class ThankyouView
     $this->is_payment_offline = isset($_GET['offline']) ? true : false;
     $this->is_cancelled = isset($_GET['cancelled']) && !empty($_GET['cancelled']) ? true : false;
     $this->order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+    $this->kp_payment_id = isset($_GET['kp_payment_id']) ? sanitize_text_field(wp_unslash($_GET['kp_payment_id'])) : '';
     $this->setup_query();
   }
 
@@ -74,6 +76,21 @@ class ThankyouView
         $order = acadlix()->model()->order()->find($this->order_id);
         if ($order) {
           $this->status = $order->status;
+        }
+      }
+      if ($this->kp_payment_id) {
+        if (function_exists('get_pronamic_payment')) {
+          $payment = get_pronamic_payment($this->kp_payment_id);
+          if ($payment && $payment->get_order_id()) {
+            // acadlix()
+            //   ->payments()
+            //   ->knitpay()
+            //   ->verifyOrder($this->kp_payment_id);
+            $order = acadlix()->model()->order()->find($payment->get_order_id());
+            if ($order) {
+              $this->status = $order->status;
+            }
+          }
         }
       }
     }

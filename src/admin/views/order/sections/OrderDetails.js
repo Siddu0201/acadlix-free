@@ -144,8 +144,15 @@ const OrderDetails = (props) => {
 												component_name: "order_details_transaction_id_value_custom_typography",
 												props: {
 													variant: "body1",
+													component: "div",
 												},
-												value: props?.watch("meta.transaction_id") ?? "N/A",
+												children: [
+													{
+														component: "RawHTML",
+														component_name: "order_details_transaction_id_value_raw_html",
+														value: props?.watch("meta.transaction_id") ?? "N/A",
+													}
+												]
 											}
 										]
 									},

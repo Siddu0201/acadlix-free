@@ -328,8 +328,8 @@ if (!class_exists(__NAMESPACE__ . '\\Paypal')) {
         throw new Exception('Order not found');
       }
       $order->updateStatus('failed');
-      $message = 'Order status updated to failed';
-      $order->createActivityLog($message);
+      $msg = 'Order status updated to failed';
+      $order->createActivityLog($msg);
       $order->updateOrCreateMeta('failure_reason', $message);
       acadlix()->notifications()->email()->handleFailedTransationEmail($order->id);
       return ['success' => true, 'message' => $message];

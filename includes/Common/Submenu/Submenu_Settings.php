@@ -62,6 +62,9 @@ class Submenu_Settings
       'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
       'certificate_url_path' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'certificate/'),
       'isCourseBundleActive' => acadlix()->helper()->is_course_bundle_addon_active() ?? false,
+      'isKnitPayActive' => acadlix()->helper()->is_knit_pay_integration_addon_active() ?? false,
+      'knitPayGateways' => acadlix()->integrations()->knit_pay()->get_gateways() ?? [],
+      'knitPayUrl' => admin_url('edit.php?post_type=pronamic_gateway')
     ];
   }
 

@@ -48,6 +48,11 @@ const OrderItem = (props) => {
         onSuccess: (data) => {
           if (data?.data?.cart) {
             props?.setCartData(data?.data?.cart);
+            props?.setValue("coupon", null, { shouldDirty: true });
+            props?.setValue("coupon_id", null, { shouldDirty: true });
+            props?.setValue("coupon_code", null, { shouldDirty: true });
+            props?.setValue("coupon_amount", 0, { shouldDirty: true });
+            props?.setValue("discount_type", null, { shouldDirty: true });
           }
         },
       }
@@ -156,7 +161,7 @@ const OrderItem = (props) => {
                       Boolean(Number(props?.c?.item?.rendered_metas?.enable_sale_price))
                         ? props?.c?.item?.rendered_metas?.sale_price
                         : props?.c?.item?.rendered_metas?.price,
-                        props?.watch("currency_symbol")
+                      props?.watch("currency_symbol")
                     )} `,
                   },
                   Boolean(Number(props?.c?.item?.rendered_metas?.enable_sale_price)) && (
@@ -240,7 +245,7 @@ const OrderItem = (props) => {
       removeItemMutation: removeItemMutation,
     }
   ) ?? [];
-  
+
   return (
     <>
       {order_detail.map((field, i) => (

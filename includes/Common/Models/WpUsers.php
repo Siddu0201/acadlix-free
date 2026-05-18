@@ -56,10 +56,11 @@ if (!class_exists('WpUsers')) {
       return acadlix()->model()->course()
         ->ofCourse()
         ->whereHas('order_items', function ($query) {
-          $query->whereHas('order', function ($q) {
-            $q->ofSuccess()
-              ->where('user_id', $this->ID);
-          });
+          $query->whereNull('subscription_id')
+            ->whereHas('order', function ($q) {
+              $q->ofSuccess()
+                ->where('user_id', $this->ID);
+            });
         })
         ->get()
         ->pluck('ID');

@@ -37,10 +37,10 @@ export const filteredThemeRoutes = window.acadlixHooks?.applyFilters(
   routes
 )?.filter(Boolean) || [];
 
-const AdminDesignStudio = () => {
+const AdminDesignStudio = (props) => {
 
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <HashRouter>
         <Toaster position="bottom-right" />
         <Routes>

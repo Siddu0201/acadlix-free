@@ -4,61 +4,61 @@ import { useInstance } from "@acadlix/helpers/util";
 const base = "/admin-setting";
 
 export const PostCreatePage = () => {
-    const instance = useInstance();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.post(`${base}/create-page`, data, {
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            });
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
-        },
-    });
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/create-page`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    },
+  });
 }
 
 export const GetUpdateSetting = () => {
-    const instance = useInstance();
-    return useQuery({
-        queryKey: ['getUpdateSetting'],
-        queryFn: () => instance.get(`${base}`, {
-            headers: {
-                "X-WP-Nonce": acadlixOptions?.nonce,
-            }
-        }),
-    });
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ['getUpdateSetting'],
+    queryFn: () => instance.get(`${base}`, {
+      headers: {
+        "X-WP-Nonce": acadlixOptions?.nonce,
+      }
+    }),
+  });
 }
 
 export const PostUpdateSetting = () => {
-    const instance = useInstance();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.post(`${base}`, data, {
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            });
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
-        },
-    });
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+      console.error(error);
+    },
+  });
 }
 
 export const PostTestEmail = () => {
-    const instance = useInstance();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.post(`${base}/test-email`, data, {
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            });
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/test-email`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
         }
-    });
+      });
+    }
+  });
 }
 

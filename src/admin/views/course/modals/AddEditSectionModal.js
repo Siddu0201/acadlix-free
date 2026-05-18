@@ -1,5 +1,7 @@
 import {
   Button,
+  Card,
+  CardContent,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -37,59 +39,81 @@ const AddEditSectionModal = (props) => {
           backgroundColor: props?.colorCode?.modal_background,
         }}
       >
-        <Grid container gap={2}>
-          <Grid size={{ xs: 12, lg: 12 }}>
-            <Typography variant="h6">
-              {__("Section Title", "acadlix")} <span style={{ color: "red" }}>*</span>
-              <CustomFeatureTooltip
-                plan={"open"}
-                msg={__("Enter the title for the section. This will help organize and categorize the lessons within the course.", "acadlix")}
-                placement="right-start"
-              />
-            </Typography>
-          </Grid>
-          <Grid size={{ xs: 12, lg: 12 }}>
-            <CustomTextField
-              {...props?.register("post_title", { required: __("Title is required", "acadlix") })}
-              fullWidth
-              required
-              name="title"
-              size="small"
-              value={props?.watch("post_title") ?? ""}
-              onChange={(e) => {
-                props?.setValue("post_title", e?.target?.value, {
-                  shouldDirty: true,
-                });
-              }}
-              error={Boolean(props?.formState?.errors?.post_title)}
-              helperText={props?.formState?.errors?.post_title?.message}
-            />
-          </Grid>
-          <Grid size={{ xs: 12, lg: 12 }}>
-            <Typography variant="h6">{__("Section Description", "acadlix")}
-              <CustomFeatureTooltip
-                plan={"open"}
-                msg={__("Provide a brief description of the section. This will give students an overview of the content covered in this section of the course.", "acadlix")}
-                placement="right-start"
-              />
-            </Typography>
-          </Grid>
-          <Grid size={{ xs: 12, lg: 12 }}>
-            <textarea
-              rows={3}
-              style={{
-                width: "100%",
-                padding: "8.5px 14px",
-              }}
-              value={props?.watch("post_content")}
-              onChange={(e) => {
-                props?.setValue("post_content", e?.target?.value, {
-                  shouldDirty: true,
-                });
-              }}
-            />
-          </Grid>
-        </Grid>
+        <Card>
+          <CardContent>
+            <Grid container gap={2}>
+              <Grid size={{ xs: 12, lg: 12 }}>
+                <Typography variant="h6">
+                  {__("Section Title", "acadlix")} <span style={{ color: "red" }}>*</span>
+                  <CustomFeatureTooltip
+                    plan={"open"}
+                    msg={__("Enter the title for the section. This will help organize and categorize the lessons within the course.", "acadlix")}
+                    placement="right-start"
+                  />
+                </Typography>
+              </Grid>
+              <Grid size={{ xs: 12, lg: 12 }}>
+                <CustomTextField
+                  {...props?.register("post_title", { required: __("Title is required", "acadlix") })}
+                  fullWidth
+                  required
+                  name="title"
+                  size="small"
+                  value={props?.watch("post_title") ?? ""}
+                  onChange={(e) => {
+                    props?.setValue("post_title", e?.target?.value, {
+                      shouldDirty: true,
+                    });
+                  }}
+                  label={__("Enter section title", "acadlix")}
+                  error={Boolean(props?.formState?.errors?.post_title)}
+                  helperText={props?.formState?.errors?.post_title?.message}
+                />
+              </Grid>
+              <Grid size={{ xs: 12, lg: 12 }}>
+                <Typography variant="h6">{__("Section Description", "acadlix")}
+                  <CustomFeatureTooltip
+                    plan={"open"}
+                    msg={__("Provide a brief description of the section. This will give students an overview of the content covered in this section of the course.", "acadlix")}
+                    placement="right-start"
+                  />
+                </Typography>
+              </Grid>
+              <Grid size={{ xs: 12, lg: 12 }}>
+                <CustomTextField
+                  {...props?.register("post_content")}
+                  fullWidth
+                  multiline
+                  rows={3}
+                  name="post_content"
+                  size="small"
+                  value={props?.watch("post_content") ?? ""}
+                  onChange={(e) => {
+                    props?.setValue("post_content", e?.target?.value, {
+                      shouldDirty: true,
+                    });
+                  }}
+                  label={__("Enter section description", "acadlix")}
+                  error={Boolean(props?.formState?.errors?.post_content)}
+                  helperText={props?.formState?.errors?.post_content?.message}
+                />
+                {/* <textarea
+                  rows={3}
+                  style={{
+                    width: "100%",
+                    padding: "8.5px 14px",
+                  }}
+                  value={props?.watch("post_content")}
+                  onChange={(e) => {
+                    props?.setValue("post_content", e?.target?.value, {
+                      shouldDirty: true,
+                    });
+                  }}
+                /> */}
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
       </DialogContent>
       <DialogActions
         sx={{

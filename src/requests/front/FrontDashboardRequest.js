@@ -28,10 +28,10 @@ export const GetUserOrders = (user_id = 0, page = 1, pageSize = 10, search = '')
   return result;
 }
 
-export const GetUserCourses = (user_id = 0, page = 1, pageSize = 10, search = '') => {
+export const GetUserCourses = (user_id = 0, page = 1, pageSize = 10, search = '', category_id = null) => {
   const instance = useInstance();
   const result = useQuery({
-    queryKey: ["getUserCourses", user_id, page, pageSize, search],
+    queryKey: ["getUserCourses", user_id, page, pageSize, search, category_id],
     queryFn: () => {
       return instance.get(`${base}/get-user-courses`, {
         params: {
@@ -39,6 +39,7 @@ export const GetUserCourses = (user_id = 0, page = 1, pageSize = 10, search = ''
           page: page,
           pageSize: pageSize,
           search: search,
+          category_id: category_id,
           _t: Date.now(),
         },
         headers: {

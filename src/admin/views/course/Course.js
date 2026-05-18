@@ -217,6 +217,11 @@ export default function Course() {
                           inputProps={{
                             ...params.inputProps,
                           }}
+                          sx={{
+                            "& .MuiInputBase-input": {
+                              height: "auto",
+                            },
+                          }}
                         />
                       )}
                     />

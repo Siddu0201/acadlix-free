@@ -894,12 +894,27 @@ class SingleCourseView
 	{
 		$categories = [];
 		foreach ($this->course->course_categories as $category) {
+			$term_link = get_term_link(
+				$category->term_id,
+				ACADLIX_COURSE_CATEGORY_TAXONOMY
+			);
+
+			if (is_wp_error($term_link)) {
+				continue; // skip invalid term
+			}
+
 			$categories[] = sprintf(
-				// translators: 1: category link 2: category name
 				'<a href="%1$s" class="acadlix-course-category-link">%2$s</a>',
-				esc_url(get_term_link($category->term_id, ACADLIX_COURSE_CATEGORY_TAXONOMY)),
+				esc_url($term_link),
 				esc_html($category->term->name)
 			);
+
+			// $categories[] = sprintf(
+			// 	// translators: 1: category link 2: category name
+			// 	'<a href="%1$s" class="acadlix-course-category-link">%2$s</a>',
+			// 	esc_url(get_term_link($category->term_id, ACADLIX_COURSE_CATEGORY_TAXONOMY)),
+			// 	esc_html($category->term->name)
+			// );
 		}
 		return apply_filters('acadlix_single_course_header_categories', [
 			'component' => 'div',
@@ -1225,7 +1240,7 @@ class SingleCourseView
 												? '<i class="fas fa-video"></i>'
 												: '<i class="fas fa-file"></i>';
 										} elseif ($type === 'quiz') {
-											$icon = '<i class="fas fa-question"></i>';
+											$icon = '<i class="fas fa-clipboard-question"></i>';
 										} elseif ($type === 'assignment') {
 											$icon = '<i class="fas fa-file-signature"></i>';
 										}

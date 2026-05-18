@@ -135,82 +135,109 @@ const CategoryTemplateSection = (props) => {
         <CardContent>
           <Grid container spacing={{ xs: 2, sm: 4 }}>
             {/* Used to select category */}
-            <Grid size={{ xs: 12, sm: 3, lg: 3 }}>
-              <Autocomplete
-                size="small"
-                value={
-                  props?.watch("category_id") !== null
-                    ? categories?.filter(
-                      (option) => props?.watch("category_id") === option?.term_id
-                    )?.[0]
-                    : null
+            <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
+              <Box sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+              }}>
+                <Autocomplete
+                  size="small"
+                  fullWidth
+                  value={
+                    props?.watch("category_id") !== null
+                      ? categories?.find(
+                        (option) => props?.watch("category_id") === option?.term_id
+                      )
+                      : null
+                  }
+                  options={categories ? categories : []}
+                  getOptionLabel={(option) => option?.name || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option?.term_id === value?.term_id
+                  }
+                  freeSolo
+                  inputValue={input}
+                  onInputChange={(_, newInput) => {
+                    setInput(newInput);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={__("Select Quiz Category", "acadlix")}
+                      // onChange={(e) => setInput(e.target.value)}
+                      error={!!props?.formState?.errors?.category_id}
+                      helperText={props?.formState?.errors?.category_id?.message}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault(); // 🚫 stop form submit
+                          createCategory();   // ✅ use your existing logic
+                        }
+                      }}
+                      slotProps={{
+                        input: {
+                          ...params.InputProps,
+                          autoComplete: "category",
+                          endAdornment: (
+                            <React.Fragment>
+                              {createCategoryMutation?.isPending ? (
+                                <CircularProgress color="inherit" size={20} />
+                              ) : null}
+                              {params.InputProps.endAdornment}
+                            </React.Fragment>
+                          ),
+                        }
+                      }}
+                    />
+                  )}
+                  onChange={(_, newValue) => {
+                    props?.clearErrors("category_id");
+                    props?.setValue("category_id", newValue?.term_id ?? null, {
+                      shouldDirty: true,
+                    });
+                  }}
+                  // slots={{
+                  //   paper: (data) => {
+                  //     return (
+                  //       <Paper>
+                  //         {data?.children}
+                  //         <Button
+                  //           color="primary"
+                  //           fullWidth
+                  //           disabled={!hasCapability("acadlix_add_quiz_category")}
+                  //           sx={{ justifyContent: "flex-start", pl: 2 }}
+                  //           onMouseDown={createCategory}
+                  //         >
+                  //           + {__("Add New", "acadlix")}
+                  //         </Button>
+                  //       </Paper>
+                  //     );
+                  //   }
+                  // }}
+                />
+                {
+                  input && categories?.filter(
+                    (option) => option?.name?.toLowerCase().includes(input?.toLowerCase())
+                  )?.length === 0 && (
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      disabled={!hasCapability("acadlix_add_quiz_category")}
+                      sx={{
+                        justifyContent: "center",
+                        minWidth: "110px",
+                      }}
+                      onClick={createCategory}
+                    >
+                      {__("Add New", "acadlix")}
+                    </Button>
+                  )
                 }
-                options={categories ? categories : []}
-                getOptionLabel={(option) => option?.name || ""}
-                isOptionEqualToValue={(option, value) =>
-                  option?.term_id === value?.term_id
-                }
-                freeSolo
-                inputValue={input}
-                onInputChange={(_, newInput) => {
-                  setInput(newInput);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label={__("Select Quiz Category", "acadlix")}
-                    // onChange={(e) => setInput(e.target.value)}
-                    error={!!props?.formState?.errors?.category_id}
-                    helperText={props?.formState?.errors?.category_id?.message}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault(); // 🚫 stop form submit
-                        createCategory();   // ✅ use your existing logic
-                      }
-                    }}
-                    slotProps={{
-                      input: {
-                        ...params.InputProps,
-                        autoComplete: "category",
-                        endAdornment: (
-                          <React.Fragment>
-                            {createCategoryMutation?.isPending ? (
-                              <CircularProgress color="inherit" size={20} />
-                            ) : null}
-                            {params.InputProps.endAdornment}
-                          </React.Fragment>
-                        ),
-                      }
-                    }}
-                  />
-                )}
-                onChange={(_, newValue) => {
-                  props?.clearErrors("category_id");
-                  props?.setValue("category_id", newValue?.term_id ?? null, {
-                    shouldDirty: true,
-                  });
-                }}
-                PaperComponent={(data) => {
-                  return (
-                    <Paper>
-                      {data?.children}
-                      <Button
-                        color="primary"
-                        fullWidth
-                        disabled={!hasCapability("acadlix_add_quiz_category")}
-                        sx={{ justifyContent: "flex-start", pl: 2 }}
-                        onMouseDown={createCategory}
-                      >
-                        + {__("Add New", "acadlix")}
-                      </Button>
-                    </Paper>
-                  );
-                }}
-              />
+              </Box>
             </Grid>
 
             {/* Used to load quiz data from template  */}
-            <Grid size={{ xs: 12, sm: 9, lg: 9 }}>
+            <Grid size={{ xs: 12, sm: 6, lg: 8 }}>
               <Box
                 sx={{
                   display: "flex",

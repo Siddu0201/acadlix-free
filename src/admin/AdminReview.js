@@ -10,7 +10,7 @@ import { __ } from '@wordpress/i18n';
 import Review from './views/review/Review';
 import './AdminReview.css';
 
-const AdminReview = () => {
+const AdminReview = (props) => {
   const routes = [
     hasCapability("acadlix_show_review") && {
       path: "/",
@@ -24,7 +24,7 @@ const AdminReview = () => {
   )?.filter(Boolean) || [];
 
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <HashRouter>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Toaster position='bottom-right' />

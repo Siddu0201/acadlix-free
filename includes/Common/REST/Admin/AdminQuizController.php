@@ -646,6 +646,17 @@ class AdminQuizController
     }
 
     foreach ($params['quizzes'] as $quizData) {
+      $default_language = acadlix()->model()->language()->get_default();
+      if ($default_language) {
+        $quizData['rendered_metas']['default_language_id'] = $default_language['term_id'];
+        if(isset($quizData['rendered_metas']['language_data']) && is_array($quizData['rendered_metas']['language_data'])){
+           foreach ($quizData['rendered_metas']['language_data'] as &$languageData) {
+              if($languageData['default'] === true){
+                 $languageData['language_id'] = $default_language['term_id'];
+              }
+           }
+        }
+      }
       $meta = !empty($quizData['rendered_metas']) && is_array($quizData['rendered_metas'])
         ? acadlix()->helper()->cpt()->acadlix_add_prefix_meta_keys($quizData['rendered_metas'], 'quiz')
         : [];

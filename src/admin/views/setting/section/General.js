@@ -14,6 +14,7 @@ import {
   CardActions,
   Card,
   CardContent,
+  Avatar,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import CustomTextField from "@acadlix/components/CustomTextField";
@@ -28,6 +29,9 @@ import { useForm } from "react-hook-form";
 import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 import CustomFeatureElement from "@acadlix/components/CustomFeatureElement";
 import CourseOptions from "./general/CourseOptions";
+import { FaImage } from "@acadlix/helpers/icons";
+import { MediaUpload } from '@wordpress/media-utils'
+import CheckoutOptions from "./general/CheckoutOptions";
 
 const AdvanceQuizOption = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true' ?
@@ -937,49 +941,106 @@ function General(props) {
                 }}
               />
             </Grid>
-          </Grid>
-          <Box
-            sx={{
-              marginY: 2,
-            }}
-          >
-            <Typography variant="h4">{__("Checkout Options", "acadlix")}
-            </Typography>
-            <Divider />
-          </Box>
-          <Grid
-            container
-            spacing={{
-              xs: 2,
-              sm: 4,
-            }}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Enable Coupon Code", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                label={__("Activate", "acadlix")}
-                control={<CustomSwitch />}
-                value="yes"
-                checked={props?.watch("acadlix_enable_coupon_code") === "yes"}
-                onClick={(e) => {
-                  if (e?.target?.checked !== undefined) {
-                    props?.setValue(
-                      "acadlix_enable_coupon_code",
-                      e?.target?.checked ? e?.target?.value : "no",
-                      { shouldDirty: true }
-                    );
-                  }
+            <Grid size={{ xs: 12, sm: 12, lg: 12 }} >
+              <Grid
+                container
+                spacing={{
+                  xs: 2,
+                  sm: 4,
                 }}
-              />
+                sx={{
+                  alignItems: "center",
+                }}
+              >
+                <Grid size={{ xs: 12, sm: 3, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Light logo", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 9, lg: 9 }}>
+                  <Box sx={{
+                    display: "flex",
+                    flexDirection: {
+                      xs: "column",
+                      md: "row",
+                    },
+                    gap: 1,
+                    alignItems: "center",
+                    border: "1px solid lightgray",
+                    padding: 1,
+                    borderRadius: 1,
+                  }}>
+                    <Avatar
+                      variant="rounded"
+                      src={props?.watch("acadlix_custom_logo")?.url ?? acadlixOptions?.default_img_url}
+                      sx={{
+                        width: "280px",
+                        height: "90px",
+                        bgcolor: (theme) => theme?.palette?.grey[200],
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+                        pl: 1,
+                      }}
+                    >
+                      <CustomTypography variant="body2">
+                        {__("Recommended size: 280x90 pixels. Max file size: 1MB.", "acadlix")}
+                      </CustomTypography>
+                      <CustomTypography variant="body2">
+                        {__("File Support: .jpg, .jpeg, .png", "acadlix")}
+                      </CustomTypography>
+                      <MediaUpload
+                        onSelect={(media) => {
+                          console.log(media);
+                          if (!media?.url) {
+                            toast.error(__("Media upload failed. Please try again.", "acadlix"));
+                            return;
+                          }
+                          if (["jpg", "jpeg", "png"].indexOf(media?.subtype) === -1) {
+                            toast.error(__("Unsupported file type. Please upload a .jpg, .jpeg, or .png file.", "acadlix"));
+                            return;
+                          }
+                          if(media?.filesizeInBytes > 1048576) {
+                            toast.error(__("File size exceeds the maximum limit of 1MB. Please upload a smaller file.", "acadlix"));
+                            return;
+                          }
+                          props?.setValue(
+                            "acadlix_custom_logo",
+                            {
+                              id: media?.id,
+                              url: media?.url,
+                              filename: media?.filename,
+                              author: media?.author,
+                              height: media?.height,
+                              width: media?.width,
+                              filesizeInBytes: media?.filesizeInBytes,
+                            },
+                            { shouldDirty: true }
+                          );
+                        }}
+                        render={({ open }) => (
+                          <Button
+                            size="small"
+                            variant="contained"
+                            onClick={open}
+                            startIcon={<FaImage />}
+                          >
+                            {__("Upload", "acadlix")}
+                          </Button>
+                        )}
+                      />
+                    </Box>
+                  </Box>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
+          {/* Checkout options  */}
+          <CheckoutOptions {...props} />
           <Box
             sx={{
               marginY: 2,

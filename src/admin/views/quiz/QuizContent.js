@@ -83,14 +83,15 @@ const QuizContent = (props) => {
         ),
         specific_number_of_questions:
           props?.quiz?.rendered_metas?.quiz_settings?.specific_number_of_questions ?? 0, // 0 => all
-        result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
-        result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
-        scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
         enable_selectable_questions_rule: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_selectable_questions_rule)),
+        subject_wise_minimum_percent: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_minimum_percent)),
         enable_inline_answer_options_layout: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_inline_answer_options_layout)
         ),
         options_per_row: props?.quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 0/1/2/3/4/5
+        scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
+        result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
+        result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
         // Question settings
         show_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks)),
         display_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.display_subject)),
@@ -125,6 +126,10 @@ const QuizContent = (props) => {
         show_subject_wise_analysis: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.show_subject_wise_analysis)
         ),
+        subject_wise_text: props?.quiz?.rendered_metas?.quiz_settings?.subject_wise_text ?? __("Subject Wise Result", "acadlix"),
+        hide_subject_wise_marks: Boolean(
+          Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_subject_wise_marks)
+        ),
         show_marks_distribution: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks_distribution)
         ),
@@ -151,7 +156,7 @@ const QuizContent = (props) => {
           ? Number(props?.quiz?.rendered_metas?.quiz_settings?.leaderboard_apply_multiple_number_of_times)
           : 0,
         display_leaderboard_in_quiz_result:
-          props?.quiz?.rendered_metas?.quiz_settings?.display_leaderboard_in_quiz_result ?? "do_not_display", // do_not_display/below_the_result/in_the_button
+          props?.quiz?.rendered_metas?.quiz_settings?.display_leaderboard_in_quiz_result ?? "in_the_button", // do_not_display/below_the_result/in_the_button
         percent_based_result_text: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.percent_based_result_text)
         ),

@@ -1,19 +1,20 @@
-import { Box, Button, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Tooltip, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { secondsToHms } from "@acadlix/helpers/util";
-import { MdOutlineReviews, MdReviews, FaRegBookmark } from "@acadlix/helpers/icons";
+import { MdOutlineReviews, MdReviews, FaRegBookmark, FaRegClock, FaRegStar, FaBookOpen } from "@acadlix/helpers/icons";
 import { __ } from "@wordpress/i18n";
 import QuestionDifficultyLevel from "@acadlix/components/QuestionDifficultyLevel";
 
 const AdvanceQuestionReport = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
-  ? import(
-    /* webpackChunkName: "front_dashboard_quiz_result_section_advance_question_report" */
-    "@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionReport"
-  ): Promise.resolve({ default: () => null })
+    ? import(
+      /* webpackChunkName: "front_dashboard_quiz_result_section_advance_question_report" */
+      "@acadlix/pro/front/dashboard/quiz/advanceMode/advance-result-section/AdvanceQuestionReport"
+    ) : Promise.resolve({ default: () => null })
 );
 
 const QuestionSubjectAndPointSection = (props) => {
+  const theme = useTheme();
   const handleReview = () => {
     props?.setValue(
       `questions.${props?.index}.review`,
@@ -36,9 +37,7 @@ const QuestionSubjectAndPointSection = (props) => {
         {!props?.watch("hide_question_numbering") && (
           <Box>
             <Typography
-              sx={{
-                fontWeight: "bold"
-              }}
+              variant="body2"
               component="span"
               className="acadlix-normal-quiz-question-number"
             >
@@ -50,35 +49,45 @@ const QuestionSubjectAndPointSection = (props) => {
           <Typography
             className="acadlix-normal-quiz-question-point-time-section"
             component="span"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+            color="text.secondary"
+            variant="body2"
           >
             {props?.watch("show_marks") && (
-              <Typography
-                className="acadlix-normal-quiz-question-point"
-                component="span"
-                sx={{
-                  fontWeight: "bold"
-                }}
-              >
-                {props?.watch("view_answer")
-                  ? props?.question?.result?.solved_count
-                    ? props?.question?.result?.correct_count
-                      ? `${props?.question?.points > 0 ? "+" : ""}${props?.question?.points} ${__('Point', 'acadlix')}${props?.question?.points > 1 ? 's' : ''}`
-                      : `${props?.question?.negative_points > 0 ? "-" : ""}${props?.question?.negative_points} ${__('Point', 'acadlix')}${props?.question?.negative_points > 1 ? __('s', 'acadlix') : ''}`
-                    : `0 ${__('Point', 'acadlix')}`
-                  : `+${props?.question?.points}${props?.question?.negative_points > 0 ? `/-${props?.question?.negative_points}` : ""} ${__('Point', 'acadlix')}${props?.question?.points > 1 ? 's' : ''}`}
-                {" "}
-              </Typography>
+              <>
+                <FaRegStar />
+                <Typography
+                  className="acadlix-normal-quiz-question-point"
+                  component="span"
+                  color="text.secondary"
+                  variant="body2"
+                >
+                  {props?.watch("view_answer")
+                    ? props?.question?.result?.solved_count
+                      ? props?.question?.result?.correct_count
+                        ? `${props?.question?.points > 0 ? "+" : ""}${props?.question?.points} ${__('Point', 'acadlix')}${props?.question?.points > 1 ? 's' : ''}`
+                        : `${props?.question?.negative_points > 0 ? "-" : ""}${props?.question?.negative_points} ${__('Point', 'acadlix')}${props?.question?.negative_points > 1 ? __('s', 'acadlix') : ''}`
+                      : `0 ${__('Point', 'acadlix')}`
+                    : `+${props?.question?.points}${props?.question?.negative_points > 0 ? `/-${props?.question?.negative_points}` : ""} ${__('Point', 'acadlix')}${props?.question?.points > 1 ? 's' : ''}`}
+                  {" "}
+                </Typography>
+
+              </>
             )}
             {props?.watch("view_answer") &&
               props?.watch("show_per_question_time") && (
                 <>
                   {"| "}
+                  <FaRegClock />
                   <Typography
                     className="acadlix-normal-quiz-question-time"
                     component="span"
-                    sx={{
-                      fontWeight: "bold"
-                    }}
+                    color="text.secondary"
+                    variant="body2"
                   >
                     {secondsToHms(props?.question?.result?.time)}
                   </Typography>
@@ -147,27 +156,49 @@ const QuestionSubjectAndPointSection = (props) => {
           <Box
             sx={{
               marginY: "2px",
+              display: "flex",
+              alignItems: "center",
+              gap: {
+                xs: 1,
+                sm: 2,
+
+              },
             }}
           >
+            <FaBookOpen
+              style={{
+                color: theme.palette.primary.main || "#1976d2"
+              }}
+            />
             <Typography
               className="acadlix-normal-quiz-question-subject-content"
               component="span"
+              variant="body2"
             >
-              <b>{__('Subject', 'acadlix')}: {" "}</b>
               {props?.watch(`questions.${props?.index}.subject_name`)}
             </Typography>
+            {
+              props?.watch("display_subject")&& 
+              props?.watch("show_difficulty_level") &&
+              props?.watch(`questions.${props?.index}.difficulty_level`) && 
+              (
+                <>
+                  {"| "}
+                </>
+              )
+            }
+            {
+              props?.watch("show_difficulty_level") && props?.watch(`questions.${props?.index}.difficulty_level`) && (
+                <Box>
+                  <QuestionDifficultyLevel
+                    value={props?.watch(`questions.${props?.index}.difficulty_level`)}
+                    size="small"
+                  />
+                </Box>
+              )
+            }
           </Box>
         )}
-        {
-          props?.watch("show_difficulty_level") && props?.watch(`questions.${props?.index}.difficulty_level`) && (
-            <Box>
-              <QuestionDifficultyLevel
-                value={props?.watch(`questions.${props?.index}.difficulty_level`)}
-                size="small"
-              />
-            </Box>
-          )
-        }
         {props?.watch("enable_question_reporting") && props?.watch('view_answer') && (
           <React.Suspense fallback={null}>
             <AdvanceQuestionReport {...props} />

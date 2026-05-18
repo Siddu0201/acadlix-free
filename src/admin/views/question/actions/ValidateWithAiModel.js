@@ -1,7 +1,7 @@
 import { FaEdit, FaTrash, IoClose, RxCross2, TiTick } from '@acadlix/helpers/icons'
 import { Alert, Avatar, Box, Button, Card, Checkbox, Chip, CircularProgress, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Tooltip, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
-import { __ } from '@wordpress/i18n'
+import { __, sprintf } from '@wordpress/i18n'
 import { useForm } from 'react-hook-form'
 import CustomLatex from '@acadlix/modules/latex/CustomLatex'
 import ValidateSingleChoice from './validate_answer_types/ValidateSingleChoice'
@@ -323,6 +323,8 @@ const ValidateWithAiModel = (props) => {
         return "default";
     }
   };
+
+  console.log(methods?.watch());
 
   const handleSelectAll = () => {
     methods?.setValue(
@@ -820,7 +822,12 @@ const ValidateWithAiModel = (props) => {
           alignItems: 'center',
         }}>
           <Button variant="outlined" color="primary" onClick={handleSelectAll} >
-            {__("Select All", "acadlix")}
+            {sprintf(
+              /* translators: 1: number of selected questions, 2: total number of questions */
+              __("Select All (%1$d / %2$d)", "acadlix"),
+              methods?.watch("question_ids")?.length || 0,
+              methods?.watch('chunks')?.flatMap(chunk => chunk?.question?.map(question => question?.id))?.length || 0
+            )}
           </Button>
           <Button variant="outlined" color="primary" onClick={handleDeselectAll}>
             {__("Deselect All", "acadlix")}

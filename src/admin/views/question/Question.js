@@ -669,6 +669,17 @@ const Question = () => {
                                           value: methods?.watch("action"),
                                           label: __("Bulk Actions", "acadlix"),
                                           onChange: handleActionChange,
+                                          autowidth: true,
+                                          MenuProps: {
+                                            anchorOrigin: {
+                                              vertical: "bottom",
+                                              horizontal: "left",   // ⭐ start of input
+                                            },
+                                            transformOrigin: {
+                                              vertical: "top",
+                                              horizontal: "left",   // ⭐ align menu start
+                                            },
+                                          },
                                         },
                                         children: [
                                           {

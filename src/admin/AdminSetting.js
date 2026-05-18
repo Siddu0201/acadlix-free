@@ -9,7 +9,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 import { __ } from '@wordpress/i18n';
 
 
-const AdminSetting = () => {
+const AdminSetting = (props) => {
   const routes = [
     hasCapability("acadlix_show_general_setting") && {
       path: "/",
@@ -66,7 +66,7 @@ const AdminSetting = () => {
     routes
   )?.filter(Boolean) || [];
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <HashRouter>
         <Toaster position="bottom-right" />
         <Routes>

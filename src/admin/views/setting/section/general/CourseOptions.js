@@ -120,6 +120,65 @@ const CourseOptions = (props) => {
           },
           {
             component: "Grid",
+            component_name: "course_options_grid_item_column_per_row",
+            props: {
+              size: {
+                xs: 12,
+                sm: 6,
+                lg: 3,
+              }
+            },
+            children: [
+              {
+                component: "CustomTypography",
+                component_name: "course_options_custom_typography_column_per_row",
+                value: __("Columns per row", "acadlix"),
+              },
+            ]
+          },
+          {
+            component: "Grid",
+            component_name: "course_options_grid_item_column_per_row_input",
+            props: {
+              size: {
+                xs: 12,
+                sm: 6,
+                lg: 3,
+              }
+            },
+            children: [
+              {
+                component: "CustomTextField",
+                component_name: "course_options_custom_textfield_column_per_row",
+                props: {
+                  fullWidth: true,
+                  size: "small",
+                  type: "number",
+                  value: props.watch("acadlix_column_per_row"),
+                  onChange: (e) => {
+                    props.setValue("acadlix_column_per_row", e.target.value)
+                  },
+                  slotProps: {
+                    htmlInput: {
+                      min: 1,
+                      max: 4,
+                    }
+                  },
+                  sx: {
+                    "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                    {
+                      display: "none",
+                    },
+                    "& input[type=number]": {
+                      MozAppearance: "textfield",
+                    },
+                  }
+                }
+              }
+            ]
+          },
+          {
+            component: "Grid",
             component_name: "course_options_grid_item_disable_wishlist",
             props: {
               size: {
@@ -396,7 +455,7 @@ const CourseOptions = (props) => {
               {
                 component: "CustomTypography",
                 component_name: "course_options_custom_typography_disable_student_enrolled",
-                value: __("Disable student enrolled", "acadlix"),
+                value: __("Hide Student Enroll Count", "acadlix"),
               },
             ]
           },

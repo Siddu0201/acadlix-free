@@ -3,28 +3,26 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { __ } from "@wordpress/i18n";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
-import { Country } from "country-state-city";
-import { Box, TextField } from "@mui/material";
-import { formatPhoneCode } from "@acadlix/helpers/util";
+import RegisterText from "./register-options/RegisterText";
+import RegisterEmail from "./register-options/RegisterEmail";
+import RegisterPassword from "./register-options/RegisterPassword";
+import RegisterTel from "./register-options/RegisterTel";
+import RegisterUrl from "./register-options/RegisterUrl";
+import RegisterCountry from "./register-options/RegisterCountry";
+import RegisterTextarea from "./register-options/RegisterTextarea";
 
 const Register = (props) => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const methods = useForm({
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-      confirm_password: "",
-      phonecode: acadlixOptions?.settings?.acadlix_registration_options?.phone?.default_phonecode || "",
-      isocode: acadlixOptions?.settings?.acadlix_registration_options?.phone?.default_isocode || "",
-      phone_number: "",
+      data: acadlixOptions?.settings?.acadlix_registration_fields || [],
       error: "",
     }
   });
 
   if (process.env.REACT_APP_MODE === 'development') {
-    console.log('methods', methods?.watch());
+    console.log(methods?.watch());
   }
 
   const handleSubmit = async (data) => {
@@ -40,7 +38,7 @@ const Register = (props) => {
         new URLSearchParams({
           action: "acadlix_register",
           nonce: props?.nonce,
-          ...data,
+          data: JSON.stringify(methods?.watch("data")),
         })
       )
       .then((res) => {
@@ -69,6 +67,27 @@ const Register = (props) => {
         methods?.setValue("error", __("Opps!Something went wrong.", 'acadlix'), { shouldDirty: true });
         console.error(err);
       });
+  };
+
+  const getComponentByType = (type, data, index, methods) => {
+    switch (type) {
+      case "text":
+        return <RegisterText key={index} data={data} index={index} {...methods} />;
+      case "email":
+        return <RegisterEmail key={index} data={data} index={index} {...methods} />;
+      case "password":
+        return <RegisterPassword key={index} data={data} index={index} {...methods} />;
+      case "tel":
+        return <RegisterTel key={index} data={data} index={index} {...methods} />;
+      case "url":
+        return <RegisterUrl key={index} data={data} index={index} {...methods} />;
+      case "country":
+        return <RegisterCountry key={index} data={data} index={index} {...methods} />;
+      case "textarea":
+        return <RegisterTextarea key={index} data={data} index={index} {...methods} />;
+      default:
+        return <RegisterText key={index} data={data} index={index} {...methods} />;
+    }
   };
 
   const defaultSetting = {
@@ -164,426 +183,16 @@ const Register = (props) => {
             component_name: "register_modal_form_grid",
             props: {
               container: true,
-              gap: { xs: 3, sm: 2 },
+              spacing: { xs: 3, sm: 2 },
             },
             children: [
               {
-                component: "Grid",
-                component_name: "register_modal_form_grid_item_username",
-                props: {
-                  size: { xs: 12, lg: 12 },
-                },
-                children: [
-                  {
-                    component: "Typography",
-                    component_name: "register_modal_form_username_typography",
-                    props: {
-                      component: "div",
-                      variant: "body2",
-                      sx: {
-                        paddingY: 1,
-                      }
-                    },
-                    children: [
-                      {
-                        component: "span",
-                        component_name: "register_modal_form_username_label_span",
-                        value: __("Username", "acadlix")
-                      },
-                      {
-                        component: "span",
-                        component_name: "register_modal_form_username_required_span",
-                        props: {
-                          style: { color: "red" }
-                        },
-                        value: "*"
-                      }
-                    ]
-                  },
-                  {
-                    component: "CustomTextField",
-                    component_name: "register_modal_form_username_textfield",
-                    props: {
-                      ...methods?.register("username", { required: __('Username is required', 'acadlix') }),
-                      fullWidth: true,
-                      required: true,
-                      autoComplete: "username",
-                      autoCapitalize: "off",
-                      size: "small",
-                      type: "text",
-                      name: "username",
-                      placeholder: __("Username", 'acadlix'),
-                      // value: methods?.watch("username"),
-                      onChange: (e) => {
-                        methods?.setValue("username", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      },
-                      error: Boolean(methods?.formState?.errors?.username),
-                      helperText: methods?.formState?.errors?.username?.message,
-                    }
-                  }
-                ]
-              },
-              {
-                component: "Grid",
-                component_name: "register_modal_form_grid_item_email",
-                props: {
-                  size: { xs: 12, lg: 12 },
-                },
-                children: [
-                  {
-                    component: "Typography",
-                    component_name: "register_modal_form_email_typography",
-                    props: {
-                      component: "div",
-                      variant: "body2",
-                      sx: {
-                        paddingY: 1,
-                      }
-                    },
-                    children: [
-                      {
-                        component: "span",
-                        component_name: "register_modal_form_email_label_span",
-                        value: __("Email", "acadlix")
-                      },
-                      {
-                        component: "span",
-                        component_name: "register_modal_form_email_required_span",
-                        props: {
-                          style: { color: "red" }
-                        },
-                        value: "*"
-                      }
-                    ]
-                  },
-                  {
-                    component: "CustomTextField",
-                    component_name: "register_modal_form_email_textfield",
-                    props: {
-                      ...methods?.register("email", { required: __('Email is required', 'acadlix') }),
-                      fullWidth: true,
-                      required: true,
-                      autoComplete: "email",
-                      autoCapitalize: "off",
-                      size: "small",
-                      type: "email",
-                      name: "email",
-                      placeholder: __("Email", 'acadlix'),
-                      // value: methods?.watch("email"),
-                      onChange: (e) => {
-                        methods?.setValue("email", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      },
-                      error: Boolean(methods?.formState?.errors?.email),
-                      helperText: methods?.formState?.errors?.email?.message,
-                    }
-                  }
-                ]
-              },
-              {
-                component: "Grid",
-                component_name: "register_modal_form_grid_item_password",
-                props: {
-                  size: { xs: 12, lg: 12 },
-                },
-                children: [
-                  {
-                    component: "Typography",
-                    component_name: "register_modal_form_password_typography",
-                    props: {
-                      variant: "body2",
-                      component: "div",
-                      sx: {
-                        paddingY: 1,
-                      }
-                    },
-                    children: [
-                      {
-                        component: "span",
-                        component_name: "register_modal_form_password_label_span",
-                        value: __("Password", "acadlix")
-                      },
-                      {
-                        component: "span",
-                        component_name: "register_modal_form_password_required_span",
-                        props: {
-                          style: { color: "red" }
-                        },
-                        value: "*"
-                      }
-                    ]
-                  },
-                  {
-                    component: "PasswordTextField",
-                    component_name: "register_modal_form_password_textfield",
-                    props: {
-                      ...methods?.register("password", {
-                        required: __('Password is required', 'acadlix'),
-                        minLength: {
-                          value: 8,
-                          message: __('Password must have at least 8 characters', 'acadlix')
-                        },
-                      }),
-                      fullWidth: true,
-                      required: true,
-                      autoComplete: "password",
-                      autoCapitalize: "off",
-                      size: "small",
-                      name: "password",
-                      placeholder: __("Password", 'acadlix'),
-                      // value: methods?.watch("password"),
-                      onChange: (e) => {
-                        methods?.setValue("password", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      },
-                      error: Boolean(methods?.formState?.errors?.password),
-                      helperText: methods?.formState?.errors?.password?.message,
-                    }
-                  },
-                ]
-              },
-              {
-                component: "Grid",
-                component_name: "register_modal_form_grid_item_confirm_password",
-                props: {
-                  size: { xs: 12, lg: 12 },
-                },
-                children: [
-                  {
-                    component: "Typography",
-                    component_name: "register_modal_form_confirm_password_typography",
-                    props: {
-                      component: "div",
-                      variant: "body2",
-                      sx: {
-                        paddingY: 1,
-                      }
-                    },
-                    children: [
-                      {
-                        component: "span",
-                        component_name: "register_modal_form_confirm_password_label_span",
-                        value: __("Confirm Password", "acadlix")
-                      },
-                      {
-                        component: "span",
-                        component_name: "register_modal_form_confirm_password_required_span",
-                        props: {
-                          style: { color: "red" }
-                        },
-                        value: "*"
-                      }
-                    ]
-                  },
-                  {
-                    component: "PasswordTextField",
-                    component_name: "register_modal_form_confirm_password_textfield",
-                    props: {
-                      ...methods?.register("confirm_password", {
-                        required: __('Confirm Password is required', 'acadlix'),
-                        minLength: {
-                          value: 8,
-                          message: __('Confirm Password must have at least 8 characters', 'acadlix')
-                        },
-                        validate: (val) => {
-                          if (methods?.watch("password") != val) {
-                            return __('Your passwords do no match', 'acadlix');
-                          }
-                        }
-                      }),
-                      fullWidth: true,
-                      required: true,
-                      autoComplete: "confirm-password",
-                      autoCapitalize: "off",
-                      size: "small",
-                      name: "confirm_password",
-                      placeholder: __("Confirm Password", 'acadlix'),
-                      // value: methods?.watch("confirm_password"),
-                      onChange: (e) => {
-                        methods?.setValue("confirm_password", e?.target?.value, {
-                          shouldDirty: true,
-                        });
-                      },
-                      error: Boolean(methods?.formState?.errors?.confirm_password),
-                      helperText: methods?.formState?.errors?.confirm_password?.message,
-                    }
-                  }
-                ]
-              },
-              acadlixOptions?.settings?.acadlix_registration_options?.phone?.enabled && {
-                component: "Grid",
-                props: {
-                  size: { xs: 12, lg: 12 },
-                },
-                children: [
-                  {
-                    component: "Typography",
-                    props: {
-                      component: "div",
-                      variant: "body2",
-                      sx: {
-                        paddingY: 1,
-                      }
-                    },
-                    children: [
-                      {
-                        component: "span",
-                        value: __("Phone Number", "acadlix")
-                      },
-                      acadlixOptions?.settings?.acadlix_registration_options?.phone?.required &&
-                      {
-                        component: "span",
-                        props: {
-                          style: {
-                            color: "red",
-                          },
-                        },
-                        value: "*"
-                      }
-                    ]
-                  },
-                  {
-                    component: "Grid",
-                    props: {
-                      container: true,
-                      spacing: 2,
-                    },
-                    children: [
-                      {
-                        component: "Grid",
-                        props: {
-                          size: { xs: 5, sm: 4, md: 4, lg: 4 },
-                        },
-                        children: [
-                          {
-                            component: "Autocomplete",
-                            props: {
-                              ...methods.register("phonecode", {
-                                required: acadlixOptions?.settings?.acadlix_registration_options?.phone?.required,
-                              }),
-                              fullWidth: true,
-                              id: "phonecode",
-                              autoComplete: true,
-                              size: "small",
-                              options: Country.getAllCountries(),
-                              disableClearable: true,
-                              getOptionLabel: (option) =>
-                                `${formatPhoneCode(option.phonecode)} (${option.name})`,
-                              value:
-                                methods.watch("phonecode") !== null
-                                  ? Country?.getAllCountries()?.find(
-                                    (country) => {
-                                      const isocode = methods.watch("isocode");
-                                      if (isocode) {
-                                        return (
-                                          country.isoCode === isocode &&
-                                          country.phonecode === methods?.watch("phonecode")
-                                        );
-                                      }
-                                      return (
-                                        country?.phonecode ===
-                                        methods?.watch("phonecode")
-                                      );
-                                    }
-                                  ) ?? null
-                                  : null,
-                              onChange: (_, newValue) => {
-                                methods.setValue(
-                                  "phonecode",
-                                  newValue?.phonecode,
-                                  {
-                                    shouldDirty: true,
-                                  }
-                                );
-                                methods.setValue(
-                                  "isocode",
-                                  newValue?.isoCode,
-                                  {
-                                    shouldDirty: true,
-                                  }
-                                );
-                              },
-                              renderOption: (props, option) => (
-                                <Box
-                                  component="li"
-                                  {...props}
-                                  sx={{
-                                    fontSize: "11px",
-                                  }}
-                                >
-                                  {`${formatPhoneCode(option.phonecode)} (${option.name})`}
-                                </Box>
-                              ),
-                              slotProps: {
-                                popupIndicator: {
-                                  className: "acadlix-icon-btn",
-                                },
-                                clearIndicator: {
-                                  className: "acadlix-icon-btn",
-                                }
-                              },
-                              renderInput: (params) => (
-                                <TextField
-                                  {...params}
-                                  label="Code"
-                                  inputProps={{
-                                    ...params.inputProps,
-                                    autoComplete: "code",
-                                  }}
-                                  sx={{
-                                    "& .MuiInputBase-input": {
-                                      height: "auto",
-                                    },
-                                  }}
-                                  error={Boolean(methods.formState.errors.phonecode)}
-                                />
-                              ),
-                            },
-                          },
-                        ]
-                      },
-                      {
-                        component: "Grid",
-                        props: {
-                          size: { xs: 7, sm: 8, md: 8, lg: 8 },
-                        },
-                        children: [
-                          {
-                            component: "CustomTextField",
-                            props: {
-                              ...methods.register("phone_number", {
-                                required: acadlixOptions?.settings?.acadlix_registration_options?.phone?.required,
-                              }),
-                              fullWidth: true,
-                              size: "small",
-                              label: __("Phone Number", "acadlix"),
-                              type: "tel", // Input type for telephone numbers
-                              // value: methods.watch("phone_number"),
-                              onChange: (e) => {
-                                const inputValue = e?.target?.value;
-                                if (/^[0-9\-\(\) ]+$/.test(inputValue) || inputValue === '') {
-                                  methods.setValue(
-                                    "phone_number",
-                                    inputValue,
-                                    {
-                                      shouldDirty: true,
-                                    }
-                                  );
-                                }
-                              },
-                              error: Boolean(methods.formState.errors.phone_number),
-                              helperText: methods.formState.errors.phone_number?.message,
-                            },
-                          },
-                        ]
-                      }
-                    ]
-                  },
-                ],
+                component: "Fragment",
+                children: methods?.watch("data")?.length > 0 && methods?.watch("data")?.map((field, index) => {
+                  return {
+                    component: getComponentByType(field?.type, field, index, methods)
+                  };
+                }),
               },
               {
                 component: "Grid",

@@ -147,7 +147,21 @@ if (!class_exists('Language')) {
     {
       $instance = static::instance();
       $default = (int) acadlix()->helper()->acadlix_get_option('default_term_' . $instance->taxonomy);
-      return static::find($default);
+      $defaultTerm = $default ? static::find($default) : null;
+
+      if ($defaultTerm) {
+        return $defaultTerm;
+      }
+
+      $all = array_values(array_filter(static::all(), function ($item) {
+        return is_array($item) && !empty($item['term_id']) && $item['default'] === true;
+      }));
+
+      if (empty($all)) {
+        return null;
+      }
+
+      return static::find((int) $all[0]['term_id']);
     }
 
     public static function update_default($id)

@@ -19,7 +19,7 @@ import { __ } from "@wordpress/i18n";
 import { hasCapability } from "@acadlix/helpers/util";
 import AddQuestionWithAi from "./views/question/AddQuestionWithAi";
 
-const AdminQuiz = () => {
+const AdminQuiz = (props) => {
   const routes = [
     hasCapability("acadlix_show_quiz") && {
       path: "/",
@@ -65,7 +65,7 @@ const AdminQuiz = () => {
   )?.filter(Boolean) || [];
 
   return (
-    <Provider>
+    <Provider id={props?.id}>
       <HashRouter>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Toaster position="bottom-right" />

@@ -1,9 +1,7 @@
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 import React from 'react'
 import { __ } from "@wordpress/i18n";
-import { Country } from 'country-state-city';
-import { Box, TextField } from '@mui/material';
-import { formatPhoneCode } from '@acadlix/helpers/util';
+import RegistrationOptions from './authentication/RegistrationOptions';
 
 const Authentication = (props) => {
   const defaultSetting = {
@@ -104,6 +102,13 @@ const Authentication = (props) => {
                     component_name: "setting_authentication_login_option_grid_item_spacer",
                     props: {
                       size: { xs: 0, sm: 0, lg: 5 },
+                      sx: {
+                        display: {
+                          xs: "none",
+                          sm: "none",
+                          lg: "block",
+                        }
+                      }
                     }
                   },
                   {
@@ -228,171 +233,7 @@ const Authentication = (props) => {
                 ],
               },
               {
-                component: "Grid",
-                props: {
-                  container: true,
-                  spacing: {
-                    xs: 2,
-                    sm: 4,
-                  },
-                  sx: {
-                    alignItems: "center",
-                  },
-                },
-                children: [
-                  {
-                    component: "Grid",
-                    props: {
-                      size: { xs: 12, sm: 4, lg: 3 },
-                    },
-                    children: [
-                      {
-                        component: "CustomTypography",
-                        value: __("Enable Phone Number", "acadlix"),
-                      }
-                    ],
-                  },
-                  {
-                    component: "Grid",
-                    props: {
-                      size: { xs: 12, sm: 4, lg: 3 },
-                    },
-                    children: [
-                      {
-                        component: "FormControlLabel",
-                        props: {
-                          control: {
-                            component: "CustomSwitch",
-                          },
-                          label: __("Enable", "acadlix"),
-                          value: "yes",
-                          checked: props?.watch("acadlix_registration_options.phone.enabled"),
-                          onClick: (e) => {
-                            if (e?.target?.checked !== undefined) {
-                              props?.setValue(
-                                "acadlix_registration_options.phone.enabled",
-                                e?.target?.checked,
-                                { shouldDirty: true }
-                              )
-                            }
-                          },
-                        },
-                      }
-                    ],
-                  },
-                  {
-                    component: "Grid",
-                    props: {
-                      size: { xs: 12, sm: 4, lg: 3 },
-                    },
-                    children: [
-                      {
-                        component: "FormControlLabel",
-                        props: {
-                          control: {
-                            component: "CustomSwitch",
-                          },
-                          label: __("Required", "acadlix"),
-                          value: "yes",
-                          checked: props?.watch("acadlix_registration_options.phone.required"),
-                          disabled: !props?.watch("acadlix_registration_options.phone.enabled"),
-                          onClick: (e) => {
-                            if (e?.target?.checked !== undefined) {
-                              props?.setValue(
-                                "acadlix_registration_options.phone.required",
-                                e?.target?.checked,
-                                { shouldDirty: true }
-                              )
-                            }
-                          },
-                        },
-                      }
-                    ],
-                  },
-                  {
-                    component: "Grid",
-                    props: {
-                      size: { xs: 12, sm: 4, lg: 3 },
-                    },
-                    children: [
-                      {
-                        component: "Autocomplete",
-                        props: {
-                          fullWidth: true,
-                          id: "phonecode",
-                          autoComplete: true,
-                          size: "small",
-                          options: Country.getAllCountries(),
-                          getOptionLabel: (option) =>
-                            `${formatPhoneCode(option.phonecode)} (${option.name})`,
-                          value:
-                            props.watch("acadlix_registration_options.phone.default_phonecode") !== null
-                              ? Country.getAllCountries().find((country) => {
-                                const phonecode = props.watch("acadlix_registration_options.phone.default_phonecode");
-                                const isoCode = props.watch("acadlix_registration_options.phone.default_isocode");
-
-                                // ✅ Priority: match both isoCode + phonecode (unique)
-                                if (isoCode) {
-                                  return (
-                                    country.isoCode === isoCode &&
-                                    country.phonecode === phonecode
-                                  );
-                                }
-                                // ⚠️ Fallback: only phonecode (old data)
-                                return country.phonecode === phonecode;
-                              }) ?? null
-                              : null,
-                          onChange: (_, newValue) => {
-                            props.setValue(
-                              "acadlix_registration_options.phone.default_phonecode",
-                              newValue?.phonecode,
-                              {
-                                shouldDirty: true,
-                              }
-                            );
-                            props.setValue(
-                              "acadlix_registration_options.phone.default_isocode",
-                              newValue?.isoCode,
-                              {
-                                shouldDirty: true,
-                              }
-                            );
-                          },
-                          renderOption: (props, option) => (
-                            <Box
-                              component="li"
-                              {...props}
-                              sx={{
-                                // fontSize: "11px",
-                              }}
-                            >
-                              {`${formatPhoneCode(option.phonecode)} (${option.name})`}
-                            </Box>
-                          ),
-                          slotProps: {
-                            popupIndicator: {
-                              className: "acadlix-icon-btn",
-                            },
-                            clearIndicator: {
-                              className: "acadlix-icon-btn",
-                            }
-                          },
-                          renderInput: (params) => (
-                            <TextField
-                              {...params}
-                              label="Default Phone Code"
-                              inputProps={{
-                                ...params.inputProps,
-                                autoComplete: "code",
-                              }}
-                              error={Boolean(props.formState.errors.acadlix_registration_options?.phone?.default_phonecode)}
-                            />
-                          ),
-                        },
-                      },
-                    ]
-                  }
-                ],
+                component: <RegistrationOptions {...props} />,
               }
             ],
           },

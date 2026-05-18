@@ -5,9 +5,9 @@ import { Toaster } from 'react-hot-toast';
 import AdminLayout from '@acadlix/layout/AdminLayout';
 import Addon from './views/addon/Addon';
 
-const AdminAddon = () => {
+const AdminAddon = (props) => {
   return (
-    <Provider>
+    <Provider id={props?.id}>
         <Toaster position="bottom-right" />
         <AdminLayout>
             <Addon />

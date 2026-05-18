@@ -245,6 +245,23 @@ if (!class_exists('AiHelper')) {
                 - rangeType
                 - assessment
 
+                COSMETIC NORMALIZATION RULE (STRICT):
+
+                Do NOT flag or generate feedback for:
+                - Whitespace normalization
+                - Minor punctuation adjustments
+                - HTML entity normalization
+                - Equivalent casing fixes
+
+                If the rendered text remains visually and semantically unchanged,
+                treat the question as VALID.
+
+                Only flag when:
+                - Meaning changes
+                - Grammar affects clarity
+                - Answer correctness is wrong
+                - Data or logic is incorrect
+
                 VALIDATION RULES:
                   A. General
                     - Correct grammar and spelling.
@@ -267,7 +284,8 @@ if (!class_exists('AiHelper')) {
                     - Detect contradictions or incomplete data.
                     - Fix incorrect answers.
                   D. Formatting
-                    - Normalize spacing and punctuation.
+                    - Normalize spacing and punctuation ONLY if it improves readability or correctness.
+                    - Ignore invisible or non-impactful changes.
                     - Standardize symbols.
                     - Ensure consistent casing.
                   E. Answer Verification (CRITICAL)
@@ -429,7 +447,8 @@ if (!class_exists('AiHelper')) {
                     'allowed_mime_types': [],
                     'allowUploads': false,
                     'number_of_uploads': 1,
-                    'max_file_size': 2
+                    'max_file_size': 2,
+                    'adminUploads': []
                   }
 
                   STATUS RULES:
@@ -438,7 +457,7 @@ if (!class_exists('AiHelper')) {
                     - 'Invalid' → Critical data missing and cannot be inferred
                   
                   FEEDBACK RULE:
-                    - Provide a SHORT feedback summary ONLY if issues are found.
+                    - Provide a SHORT feedback ONLY if the issue impacts meaning, clarity, or correctness. Do NOT provide feedback for cosmetic normalization. 
                     - Keep feedback under 20 words.
 
                   OUTPUT FORMAT (JSON ONLY):
@@ -549,6 +568,11 @@ if (!class_exists('AiHelper')) {
                     - Generate the specified number of options.
                     - Exactly ONE option must have isCorrect=true.
                     - For each question, randomly assign the correct answer position.
+                    - DO NOT always place the correct answer at position 0.
+                    - Across multiple questions, the correct answer position must vary.
+                    - Avoid predictable patterns such as always first or always last.
+                    - Ensure distribution appears random.
+
                     - position starts from 0 and is sequential (0, 1, 2, ...).
                     - points = 0 (for future use, does not affect correctness).
                     - negative_points = 0 (for future use, does not affect correctness).
@@ -569,7 +593,9 @@ if (!class_exists('AiHelper')) {
                     2) multipleChoice
                     - Generate the specified number of options.
                     - Two or more options must have isCorrect=true.
-                    - For each question, randomly assign the correct answer positions.
+                    - Correct options MUST be randomly selected for EACH question.
+                    - Correct answers must NOT follow a fixed pattern.
+                    - Ensure different combinations across questions.
                     - position starts from 0 and is sequential (0, 1, 2, ...).
                     - points = 0 (for future use, does not affect correctness).
                     - negative_points = 0 (for future use, does not affect correctness).
@@ -756,7 +782,8 @@ if (!class_exists('AiHelper')) {
                       "allowed_mime_types": [],
                       "allowUploads": false,
                       "number_of_uploads": 1,
-                      "max_file_size": 2
+                      "max_file_size": 2,
+                      "adminUploads": []
                     }
 
                     Output Schema:
@@ -939,7 +966,8 @@ if (!class_exists('AiHelper')) {
                         "allowed_mime_types": [],
                         "allowUploads": false,
                         "number_of_uploads": 1,
-                        "max_file_size": 2
+                        "max_file_size": 2,
+                        "adminUploads": []
                       }
 
       ';

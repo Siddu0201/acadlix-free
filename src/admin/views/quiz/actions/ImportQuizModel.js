@@ -1,5 +1,16 @@
 import { IoClose } from '@acadlix/helpers/icons';
-import { Avatar, Box, Button, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+  TextField,
+  Typography
+} from '@mui/material';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { __ } from '@wordpress/i18n';

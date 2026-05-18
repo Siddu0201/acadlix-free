@@ -5,30 +5,30 @@ import CustomSwitch from '@acadlix/components/CustomSwitch';
 import { __ } from "@wordpress/i18n";
 
 const ResultComparissionButton = (props) => {
-    return (
-        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
-            <FormControlLabel
-                control={
-                    <CustomSwitch />
-                }
-                // checked={
-                //     props?.watch("meta.quiz_settings.result_comparision_with_topper") ?? false
-                // }
-                // onChange={(e) => {
-                //     props?.setValue(
-                //         "meta.quiz_settings.result_comparision_with_topper",
-                //         e?.target?.checked,
-                //         { shouldDirty: true }
-                //     );
-                // }}
-                label={__("Activate", "acadlix")}
-                disabled
-                // disabled={
-                //     !props?.watch("meta.quiz_settings.leaderboard")
-                // }
-            />
-        </GridItem1>
-    )
+  return (
+    <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+      <FormControlLabel
+        control={
+          <CustomSwitch />
+        }
+        // checked={
+        //     props?.watch("meta.quiz_settings.result_comparision_with_topper") ?? false
+        // }
+        // onChange={(e) => {
+        //     props?.setValue(
+        //         "meta.quiz_settings.result_comparision_with_topper",
+        //         e?.target?.checked,
+        //         { shouldDirty: true }
+        //     );
+        // }}
+        label={__("Activate", "acadlix")}
+        disabled
+      // disabled={
+      //     !props?.watch("meta.quiz_settings.leaderboard")
+      // }
+      />
+    </GridItem1>
+  )
 }
 
 export default ResultComparissionButton

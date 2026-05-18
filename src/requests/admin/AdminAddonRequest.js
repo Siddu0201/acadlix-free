@@ -5,41 +5,41 @@ import toast from "react-hot-toast";
 const base = "/admin-addon";
 
 export const GetAddons = () => {
-    const instance = useInstance();
-    return useQuery({
-        queryKey: ["getAddons"],
-        queryFn: () => {
-            return instance.get(base, {
-                params: {
-                    _t: Date.now(),
-                },
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            })
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getAddons"],
+    queryFn: () => {
+      return instance.get(base, {
+        params: {
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
         }
-    })
+      })
+    }
+  })
 }
 
 export const PostUpdateInternalAddon = () => {
-    const instance = useInstance();
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (data) => {
-            return instance.post(base, data, {
-                headers: {
-                    "X-WP-Nonce": acadlixOptions?.nonce,
-                }
-            })
-        },
-        onSuccess: (data) => {
-            toast.success(data?.data?.message);
-            queryClient.invalidateQueries({
-                queryKey: ["getAddons"]
-            });
-        },
-        onError: (error) => {
-            toast.error(error?.response?.data?.message);
+  const instance = useInstance();
+  // const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(base, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
         }
-    })
+      })
+    },
+    onSuccess: (data) => {
+      toast.success(data?.data?.message);
+      // queryClient.invalidateQueries({
+      //   queryKey: ["getAddons"]
+      // });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+    }
+  })
 }

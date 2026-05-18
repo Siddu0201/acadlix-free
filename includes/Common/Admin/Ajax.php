@@ -173,6 +173,125 @@ class Ajax
     }
   }
 
+  /**
+   * Process dynamic registration form data
+   */
+  protected function process_registration_data($data = [])
+  {
+    $result = [
+      'username' => '',
+      'email' => '',
+      'password' => '',
+      'confirm_password' => '',
+      'meta' => [],
+    ];
+
+    if (empty($data) || !is_array($data)) {
+      return $result;
+    }
+
+    foreach ($data as $field) {
+
+      if (empty($field['id'])) {
+        continue;
+      }
+
+      $id = $field['id'];
+      $value = $field['value'] ?? '';
+      $meta_key = $field['meta_key'] ?? '';
+      $is_meta = $field['is_meta'] ?? false;
+      $type = $field['type'] ?? 'text';
+
+      /*
+      |--------------------------------------------------------------------------
+      | 1. PASSWORD (DO NOT SANITIZE)
+      |--------------------------------------------------------------------------
+      */
+      if ($id === 'password') {
+        $result['password'] = wp_unslash($value); // phpcs:ignore
+        continue;
+      }
+
+      if ($id === 'confirm_password') {
+        $result['confirm_password'] = wp_unslash($value); // phpcs:ignore
+        continue;
+      }
+
+      /*
+      |--------------------------------------------------------------------------
+      | 2. CORE WORDPRESS FIELDS
+      |--------------------------------------------------------------------------
+      */
+      if (!$is_meta) {
+
+        switch ($meta_key) {
+
+          case 'user_login':
+            $result['username'] = sanitize_user(wp_unslash($value));
+            break;
+
+          case 'user_email':
+            $result['email'] = sanitize_email(wp_unslash($value));
+            break;
+
+          case 'user_url':
+            $result['user_url'] = esc_url_raw(wp_unslash($value));
+            break;
+
+          default:
+            if (!empty($meta_key)) {
+              $result['meta'][$meta_key] =
+                sanitize_text_field(wp_unslash($value));
+            }
+        }
+
+        continue;
+      }
+
+      /*
+      |--------------------------------------------------------------------------
+      | 3. USER META FIELDS
+      |--------------------------------------------------------------------------
+      */
+      if ($is_meta && !empty($meta_key)) {
+
+        $result['meta'][$meta_key] =
+          sanitize_text_field(wp_unslash($value));
+      }
+
+      /*
+      |--------------------------------------------------------------------------
+      | 4. SPECIAL FIELD: PHONE SETTINGS
+      |--------------------------------------------------------------------------
+      */
+      if ($id === 'phone_number' && !empty($field['settings'])) {
+        $result[$id] = sanitize_text_field(wp_unslash($value));
+        if (!empty($field['settings']['phonecode']['meta_key'])) {
+          $result['meta'][
+            $field['settings']['phonecode']['meta_key']
+          ] = sanitize_text_field(
+            $field['settings']['phonecode']['value'] ?? ''
+          );
+          $result['phonecode'] = sanitize_text_field(
+            $field['settings']['phonecode']['value'] ?? ''
+          );
+        }
+
+        if (!empty($field['settings']['isocode']['meta_key'])) {
+          $result['meta'][
+            $field['settings']['isocode']['meta_key']
+          ] = sanitize_text_field(
+            $field['settings']['isocode']['value'] ?? ''
+          );
+          $result['isocode'] = sanitize_text_field(
+            $field['settings']['isocode']['value'] ?? ''
+          );
+        }
+      }
+    }
+
+    return $result;
+  }
 
   public function acadlix_register()
   {
@@ -187,31 +306,19 @@ class Ajax
           'error_code' => 'invalid_nonce'
         ], 403);
       }
+      $form = isset($_POST['data'])
+        ? json_decode(wp_unslash($_POST['data']), true)
+        : [];
 
-      $username = isset($_POST['username'])
-        ? sanitize_text_field(wp_unslash($_POST['username']))
-        : '';
+      $processed = $this->process_registration_data($form);
 
-      $email = isset($_POST['email'])
-        ? sanitize_email(wp_unslash($_POST['email']))
-        : '';
-
-      // ❗ Password must NOT be sanitized
-      $password = isset($_POST['password'])
-        ? wp_unslash($_POST['password']) // phpcs:ignore
-        : '';
-
-      $phonecode = isset($_POST['phonecode'])
-        ? sanitize_text_field(wp_unslash($_POST['phonecode']))
-        : '';
-      
-      $isocode = isset($_POST['isocode'])
-        ? sanitize_text_field(wp_unslash($_POST['isocode']))
-        : '';
-
-      $phone_number = isset($_POST['phone_number'])
-        ? sanitize_text_field(wp_unslash($_POST['phone_number']))
-        : '';
+      $email = $processed['email'];
+      $username = !empty($processed['username']) ? $processed['username'] : $email;
+      $password = $processed['password'];
+      $user_url = $processed['user_url'] ?? '';
+      $phone_number = $processed['phone_number'] ?? '';
+      $phonecode = $processed['phonecode'] ?? '';
+      $user_meta = $processed['meta'];
 
       // check if phone number are already used by another user
       if (!empty($phone_number)) {
@@ -266,17 +373,17 @@ class Ajax
        * 3. CORE REGISTRATION LOGIC (filterable)
        *    PRO plugin can override user creation logic completely.
        */
-      $user_meta = [
-        acadlix()->helper()->acadlix_get_option("acadlix_phonecode_user_meta_key", '_acadlix_profile_phonecode') => $phonecode,
-        acadlix()->helper()->acadlix_get_option("acadlix_isocode_user_meta_key", '_acadlix_profile_isocode') => $isocode,
-        acadlix()->helper()->acadlix_get_option("acadlix_phone_user_meta_key", '_acadlix_profile_phone_number') => $phone_number,
-      ];
+      // $user_meta = [
+      //   acadlix()->helper()->acadlix_get_option("acadlix_phonecode_user_meta_key", '_acadlix_profile_phonecode') => $phonecode,
+      //   acadlix()->helper()->acadlix_get_option("acadlix_isocode_user_meta_key", '_acadlix_profile_isocode') => $isocode,
+      //   acadlix()->helper()->acadlix_get_option("acadlix_phone_user_meta_key", '_acadlix_profile_phone_number') => $phone_number,
+      // ];
 
       $user_id = $this->acadlix_register_user(
         $username,
         $email,
         $password,
-        [],
+        ['user_url' => $user_url],
         $user_meta,
         true
       );

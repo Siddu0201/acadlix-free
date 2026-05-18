@@ -6,7 +6,7 @@ defined('ABSPATH') || exit();
 
 class Activator
 {
-  public $dbVersion = 14;
+  public $dbVersion = 15;
   public function __construct()
   {
     if (!is_admin())
@@ -121,6 +121,7 @@ class Activator
     acadlix()->admin()->userRole()->addCapabilities();
     acadlix()->cpt()->register_all_cpts();
     acadlix()->schedule()->createSchedules();
+    acadlix()->integrations()->caches()->clearAll(); // to clear cache of all integrations
   }
 
   public function deactivate($network_wide)
@@ -223,6 +224,7 @@ class Activator
       12 => 'updateV12', // update 1.6.3 (pro) 1.0.5 (free),
       13 => 'updateV13', // update 1.6.4 (pro) 1.0.6 (free),
       14 => 'updateV14', // update 1.6.5 (pro) 1.0.7 (free),
+      15 => 'updateV15', // update 1.6.8 (pro) 1.0.8 (free),
     ];
 
     foreach ($updates as $version => $method) {
@@ -231,10 +233,18 @@ class Activator
         acadlix()->seeder()->seed(); // function to upadte schema/data
         acadlix()->admin()->option()->createOption(); // to update options
         acadlix()->admin()->userRole()->addCapabilities(); // to update capabilities
+        acadlix()->integrations()->caches()->clearAll(); // to clear cache of all integrations
         acadlix()->helper()->acadlix_update_option('acadlix_db_version', $this->dbVersion);
         $this->$method();
       }
     }
+  }
+
+  public function updateV15()
+  {
+    /**
+     * In this update add Microsoft Teams module.
+     */
   }
 
   public function updateV14()
