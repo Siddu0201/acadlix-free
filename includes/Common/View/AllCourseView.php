@@ -328,7 +328,7 @@ class AllCourseView
           'component' => 'div',
           'props' => [
             'class' => 'acadlix-category-filter-header',
-            'data-open' => true,
+            'data-open' => "true",
           ],
           'children' => [
             [
