@@ -366,7 +366,7 @@ You can share feedback and suggest new features through the Acadlix website. Use
 
 == Changelog ==
 
-= 1.0.8 - 16-05-2026 =
+= 1.0.8 - 18-05-2026 =
 * Added: Knit Pay payment gateway integration.
 * Added: Quiz template delete functionality.
 * Added: Course content icons in course backend for improved visual identification.
