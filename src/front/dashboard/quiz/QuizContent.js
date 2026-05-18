@@ -637,6 +637,18 @@ const QuizContent = (props) => {
     methods?.setValue('view_question', false, { shouldDirty: true });
   }
 
+  React.useEffect(() => {
+    const handleAdvanceLoginAtAnswerSheet = (event) => {
+      if(event?.data?.type === "ADVANCE_LOGIN_AT_ANSWER_SHEET") {
+        window.location.reload();
+      }
+    }
+    window.addEventListener("message", handleAdvanceLoginAtAnswerSheet);
+    return () => {
+      window.removeEventListener("message", handleAdvanceLoginAtAnswerSheet);
+    }
+  }, []);
+
   const checkMode = () => {
     switch (methods?.watch("mode")) {
       case "normal":

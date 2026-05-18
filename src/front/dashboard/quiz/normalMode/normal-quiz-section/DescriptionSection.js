@@ -35,7 +35,6 @@ const DescriptionSection = (props) => {
       let advance_quiz_url = acadlixOptions?.advance_quiz_url;
       let queryParams = {
         redirect_url: window.location.href,
-        opener: true,
       };
       if (
         props?.course_section_content_id &&
@@ -48,8 +47,8 @@ const DescriptionSection = (props) => {
         if (props?.course_statistic_id) {
           queryParams.course_statistic_id = props?.course_statistic_id ?? 0;
         }
-        advance_quiz_url = createQueryUrl(advance_quiz_url, queryParams);
       }
+      advance_quiz_url = createQueryUrl(advance_quiz_url, queryParams);
       const link = `${advance_quiz_url}#/advance-quiz/${props?.watch(
         "id"
       )}/${token}`;
