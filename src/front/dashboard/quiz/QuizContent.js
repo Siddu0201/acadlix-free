@@ -94,13 +94,14 @@ const QuizContent = (props) => {
       Number(props?.quiz?.rendered_metas?.quiz_settings?.show_only_specific_number_of_questions)
     ),
     specific_number_of_questions: props?.quiz?.rendered_metas?.quiz_settings?.specific_number_of_questions, // 0 => all
-    result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
-    result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
-    scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
     enable_inline_answer_options_layout: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_inline_answer_options_layout)
     ),
     options_per_row: props?.quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 0/1/2/3/4/5
+    scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
+    disable_scroll: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.disable_scroll)),
+    result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
+    result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
     // Question settings
     show_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks)),
     display_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.display_subject)),

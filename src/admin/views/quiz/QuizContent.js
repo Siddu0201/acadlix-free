@@ -91,6 +91,7 @@ const QuizContent = (props) => {
         ),
         options_per_row: props?.quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 0/1/2/3/4/5
         scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
+        disable_scroll: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.disable_scroll)),
         result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
         result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
         // Question settings

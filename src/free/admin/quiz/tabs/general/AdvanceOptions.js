@@ -219,6 +219,31 @@ const AdvanceOptions = (props) => {
       </GridItem1>
 
       <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <CustomTypography>{__("Disable Scroll", "acadlix")}
+          <CustomFeatureTooltip
+            plan={acadlixOptions?.isActive ? "open" : "closed"}
+            msg={__(`Enabling this feature will disable the mouse scroll on the advanced quiz page.`, "acadlix")}
+          />
+        </CustomTypography>
+      </GridItem1>
+
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <FormControlLabel
+          control={
+            <CustomSwitch />
+          }
+          // checked={props?.watch("meta.quiz_settings.disable_scroll") ?? false}
+          // onChange={(e) => {
+          //   props?.setValue("meta.quiz_settings.disable_scroll", e?.target?.checked, {
+          //     shouldDirty: true,
+          //   });
+          // }}
+          disabled
+          label={__("Activate", "acadlix")}
+        />
+      </GridItem1>
+
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
         <CustomTypography>{__("Result Feedback By AI", "acadlix")}
           <CustomFeatureTooltip
             plan={acadlixOptions?.isActive ? "open" : "closed"}
@@ -243,14 +268,6 @@ const AdvanceOptions = (props) => {
           label={__("Activate", "acadlix")}
         />
       </GridItem1>
-
-      <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }} sx={{
-        display: {
-          xs: "none",
-          sm: "none",
-          lg: "block"
-        }
-      }}></GridItem1>
 
       {/* <GridItem1 size={{ xs: 12, sm: 12, lg: 6 }}></GridItem1> */}
 
