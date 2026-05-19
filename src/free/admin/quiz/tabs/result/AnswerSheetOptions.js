@@ -69,6 +69,12 @@ const AnswerSheetOptions = (props) => {
               shouldDirty: true,
             });
           }}
+          slotProps={{
+            htmlInput: {
+              min: 0,
+              max: 100,
+            },
+          }}
           disabled={
             props?.watch("meta.quiz_settings.hide_answer_sheet")
           }
