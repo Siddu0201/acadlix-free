@@ -338,7 +338,7 @@ class FrontCourseController
     }
 
     // FREE COURSE
-    if ($item->isCourseFree()) {
+    if ($item->isFree()) {
       if (!$item->isPurchasedBy($userId)) {
         $this->createFreeOrder($userId, $item, $itemId, $type);
       }

@@ -661,7 +661,7 @@ class SingleCourseView
 		$buy_now_button = $this->acadlix_course_buy_now_button($type);
 		$error_button = $this->acadlix_course_error_button($check_registration_date);
 		if ($check_registration_date['status']) {
-			if ($course->isCourseFree()) {
+			if ($course->isFree()) {
 				if ($this->is_course_purchased) {
 					$button = $go_to_course_button;
 				} elseif ($this->cart) {

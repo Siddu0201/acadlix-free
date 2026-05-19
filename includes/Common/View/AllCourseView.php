@@ -740,7 +740,7 @@ class AllCourseView
     }
 
     if ($check_registration_date['status']) {
-      if ($course->isCourseFree()) {
+      if ($course->isFree()) {
         // Free course flow
         if ($is_course_purchased) {
           $button = $go_to_course_button;

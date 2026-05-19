@@ -308,7 +308,7 @@ if (!class_exists('Course')) {
       return $breakdown;
     }
 
-    public function isCourseFree()
+    public function isFree()
     {
       $price = $this->rendered_metas['price'] ?? 0;
       $enable_sale_price = $this->rendered_metas['enable_sale_price'] ?? false;

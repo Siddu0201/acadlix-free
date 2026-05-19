@@ -652,9 +652,9 @@ class FrontCheckoutController
             $course->post_title
           );
         }
-        if(!$course->isCourseFree()) {
-          $errors[] = __('It looks like price have been changed, please refresh the page.', 'acadlix');
-        }
+        // if(!$course->isFree()) {
+        //   $errors[] = __('It looks like price have been changed, please refresh the page.', 'acadlix');
+        // }
       }
     }
 
