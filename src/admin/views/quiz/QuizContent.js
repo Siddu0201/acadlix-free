@@ -348,9 +348,20 @@ const QuizContent = (props) => {
             removeEditor={removeEditor}
           />
 
-          <Grid size={{ xs: 12, sm: 12 }}>
+          <Grid
+            size={{ xs: 12, sm: 12 }}
+            sx={{
+              position: "sticky",
+              bottom: 0,
+              zIndex: 10,
+            }}>
             <Card>
-              <CardContent>
+              <CardContent sx={{
+                padding: 4,
+                ":last-child": {
+                  paddingBottom: 4,
+                },
+              }}>
                 <Grid container spacing={{ xs: 1, sm: 3 }}>
                   <Grid size={{ xs: 5, sm: 3 }}>
                     <Button variant="contained" size="medium" type="submit">

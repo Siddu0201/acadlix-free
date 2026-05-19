@@ -303,6 +303,11 @@ const OrderContent = (props) => {
                     xs: 12,
                     sm: 12,
                   },
+                  sx: {
+                    position: "sticky",
+                    bottom: 0,
+                    zIndex: 10,
+                  },
                 },
                 children: [
                   {
@@ -312,6 +317,14 @@ const OrderContent = (props) => {
                       {
                         component: "CardContent",
                         component_name: "order_content_action_card_content",
+                        props: {
+                          sx: {
+                            padding: 4,
+                            ":last-child": {
+                              paddingBottom: 4,
+                            },
+                          },
+                        },
                         children: [
                           {
                             component: "Button",

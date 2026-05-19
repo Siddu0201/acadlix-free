@@ -70,160 +70,162 @@ function General(props) {
   ) ?? [];
 
   return (
-    <Card>
-      <CardContent>
-        <Box>
-          {/* Page Setup  */}
-          <Box
-            sx={{
-              marginY: 2,
-            }}
-          >
-            <Typography variant="h4">{__("Page Setup", "acadlix")}
-              <CustomFeatureTooltip
-                plan={"open"}
-                msg={__("Set and manage core Acadlix pages used for student access and navigation.", "acadlix")}
-                placement="right-start"
-                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#page-setup`}
-              />
-            </Typography>
-            <Divider />
-          </Box>
-          <Grid
-            container
-            spacing={{
-              xs: 2,
-              sm: 4,
-            }}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Student dashboard page", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <Autocomplete
-                size="small"
-                value={
-                  props?.watch("acadlix_dashboard_page_id") !== null
-                    ? methods?.watch("all_pages")?.find(
-                      (p) =>
-                        p?.ID ===
-                        Number(props?.watch("acadlix_dashboard_page_id"))
-                    ) || null
-                    : null
-                }
-                options={methods?.watch("all_pages") || []}
-                getOptionLabel={(option) =>
-                  `${option?.post_title} (#${option?.ID})` || ""
-                }
-                isOptionEqualToValue={(option, value) => {
-                  return option?.ID === value?.ID;
+    <Grid container spacing={4}>
+      <Grid size={{ xs: 12, sm: 12 }}>
+        <Card>
+          <CardContent>
+            <Box>
+              {/* Page Setup  */}
+              <Box
+                sx={{
+                  marginY: 2,
                 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    slotProps={{
-                      input: {
-                        ...params.InputProps,
-                        endAdornment: (
-                          <React.Fragment>
-                            {methods?.watch("dashboardInput") !== "" &&
-                              createPageMutation?.isPending ? (
-                              <CircularProgress color="inherit" size={20} />
-                            ) : null}
-                            {params.InputProps.endAdornment}
-                          </React.Fragment>
-                        ),
+              >
+                <Typography variant="h4">{__("Page Setup", "acadlix")}
+                  <CustomFeatureTooltip
+                    plan={"open"}
+                    msg={__("Set and manage core Acadlix pages used for student access and navigation.", "acadlix")}
+                    placement="right-start"
+                    redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#page-setup`}
+                  />
+                </Typography>
+                <Divider />
+              </Box>
+              <Grid
+                container
+                spacing={{
+                  xs: 2,
+                  sm: 4,
+                }}
+                sx={{
+                  alignItems: "center",
+                }}
+              >
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Student dashboard page", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <Autocomplete
+                    size="small"
+                    value={
+                      props?.watch("acadlix_dashboard_page_id") !== null
+                        ? methods?.watch("all_pages")?.find(
+                          (p) =>
+                            p?.ID ===
+                            Number(props?.watch("acadlix_dashboard_page_id"))
+                        ) || null
+                        : null
+                    }
+                    options={methods?.watch("all_pages") || []}
+                    getOptionLabel={(option) =>
+                      `${option?.post_title} (#${option?.ID})` || ""
+                    }
+                    isOptionEqualToValue={(option, value) => {
+                      return option?.ID === value?.ID;
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        slotProps={{
+                          input: {
+                            ...params.InputProps,
+                            endAdornment: (
+                              <React.Fragment>
+                                {methods?.watch("dashboardInput") !== "" &&
+                                  createPageMutation?.isPending ? (
+                                  <CircularProgress color="inherit" size={20} />
+                                ) : null}
+                                {params.InputProps.endAdornment}
+                              </React.Fragment>
+                            ),
+                          }
+                        }}
+                        onChange={(e) => methods?.setValue("dashboardInput", e.target.value)}
+                      />
+                    )}
+                    onChange={(_, newValue) => {
+                      props?.setValue(
+                        "acadlix_dashboard_page_id",
+                        newValue?.ID ?? null,
+                        {
+                          shouldDirty: true,
+                        }
+                      );
+                    }}
+                    slots={{
+                      paper: (data) => {
+                        return (
+                          <Paper>
+                            {data?.children}
+                            <Button
+                              color="primary"
+                              fullWidth
+                              disabled={!hasCapability("acadlix_create_page_setting")}
+                              sx={{ justifyContent: "flex-start", pl: 2 }}
+                              onMouseDown={(e) => {
+                                if (methods?.watch("dashboardInput") === "") {
+                                  toast.error(__("Title cannot be empty.", "acadlix"));
+                                  return;
+                                }
+                                createPageMutation?.mutate(
+                                  {
+                                    title: methods?.watch("dashboardInput"),
+                                    user_id: acadlixOptions?.user_id,
+                                  },
+                                  {
+                                    onSuccess: (data) => {
+                                      console.log(data?.data);
+                                      methods?.setValue(
+                                        "dashboardInput",
+                                        "",
+                                        { shouldDirty: true }
+                                      );
+                                      methods?.setValue(
+                                        "all_pages",
+                                        data?.data?.all_pages,
+                                        { shouldDirty: true }
+                                      );
+                                      props?.setValue(
+                                        "acadlix_dashboard_page_id",
+                                        data?.data?.page_id,
+                                        { shouldDirty: true }
+                                      );
+                                    },
+                                  }
+                                );
+                              }}
+                            >
+                              + {__("Add New", "acadlix")}
+                            </Button>
+                          </Paper>
+                        );
                       }
                     }}
-                    onChange={(e) => methods?.setValue("dashboardInput", e.target.value)}
                   />
-                )}
-                onChange={(_, newValue) => {
-                  props?.setValue(
-                    "acadlix_dashboard_page_id",
-                    newValue?.ID ?? null,
-                    {
-                      shouldDirty: true,
-                    }
-                  );
-                }}
-                slots={{
-                  paper: (data) => {
-                    return (
-                      <Paper>
-                        {data?.children}
-                        <Button
-                          color="primary"
-                          fullWidth
-                          disabled={!hasCapability("acadlix_create_page_setting")}
-                          sx={{ justifyContent: "flex-start", pl: 2 }}
-                          onMouseDown={(e) => {
-                            if (methods?.watch("dashboardInput") === "") {
-                              toast.error(__("Title cannot be empty.", "acadlix"));
-                              return;
-                            }
-                            createPageMutation?.mutate(
-                              {
-                                title: methods?.watch("dashboardInput"),
-                                user_id: acadlixOptions?.user_id,
-                              },
-                              {
-                                onSuccess: (data) => {
-                                  console.log(data?.data);
-                                  methods?.setValue(
-                                    "dashboardInput",
-                                    "",
-                                    { shouldDirty: true }
-                                  );
-                                  methods?.setValue(
-                                    "all_pages",
-                                    data?.data?.all_pages,
-                                    { shouldDirty: true }
-                                  );
-                                  props?.setValue(
-                                    "acadlix_dashboard_page_id",
-                                    data?.data?.page_id,
-                                    { shouldDirty: true }
-                                  );
-                                },
-                              }
-                            );
-                          }}
-                        >
-                          + {__("Add New", "acadlix")}
-                        </Button>
-                      </Paper>
-                    );
-                  }
-                }}
-              />
-            </Grid>
+                </Grid>
 
-            {/* Advance Quiz Page Setting  */}
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {
-                  acadlixOptions?.isActive ? (
-                    __("Advance quiz page", "acadlix")
-                  ) : (
-                    <CustomFeatureElement
-                      element="text"
-                      label={__("Advance quiz page", "acadlix")}
-                      iconsx={{ color: '#fff' }}
-                    />
-                  )
-                }
-              </CustomTypography>
-            </Grid>
-            <React.Suspense fallback={null}>
-              <AdvanceQuizOption {...props} methods={methods} />
-            </React.Suspense>
-            {/* <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                {/* Advance Quiz Page Setting  */}
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {
+                      acadlixOptions?.isActive ? (
+                        __("Advance quiz page", "acadlix")
+                      ) : (
+                        <CustomFeatureElement
+                          element="text"
+                          label={__("Advance quiz page", "acadlix")}
+                          iconsx={{ color: '#fff' }}
+                        />
+                      )
+                    }
+                  </CustomTypography>
+                </Grid>
+                <React.Suspense fallback={null}>
+                  <AdvanceQuizOption {...props} methods={methods} />
+                </React.Suspense>
+                {/* <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <CustomTypography>
                 {__("Cart page", "acadlix")}
               </CustomTypography>
@@ -316,205 +318,205 @@ function General(props) {
                 }}
               />
             </Grid> */}
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Checkout page", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <Autocomplete
-                size="small"
-                value={
-                  props?.watch("acadlix_checkout_page_id") !== null
-                    ? methods?.watch("all_pages")?.find(
-                      (p) =>
-                        p?.ID ===
-                        Number(props?.watch("acadlix_checkout_page_id"))
-                    ) || null
-                    : null
-                }
-                options={methods?.watch("all_pages") || []}
-                getOptionLabel={(option) =>
-                  `${option?.post_title} (#${option?.ID})` || ""
-                }
-                isOptionEqualToValue={(option, value) => {
-                  return option?.ID === value?.ID;
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    slotProps={{
-                      input: {
-                        ...params.InputProps,
-                        endAdornment: (
-                          <React.Fragment>
-                            {methods?.watch("checkoutInput") !== "" && createPageMutation?.isPending ? (
-                              <CircularProgress color="inherit" size={20} />
-                            ) : null}
-                            {params.InputProps.endAdornment}
-                          </React.Fragment>
-                        ),
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Checkout page", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <Autocomplete
+                    size="small"
+                    value={
+                      props?.watch("acadlix_checkout_page_id") !== null
+                        ? methods?.watch("all_pages")?.find(
+                          (p) =>
+                            p?.ID ===
+                            Number(props?.watch("acadlix_checkout_page_id"))
+                        ) || null
+                        : null
+                    }
+                    options={methods?.watch("all_pages") || []}
+                    getOptionLabel={(option) =>
+                      `${option?.post_title} (#${option?.ID})` || ""
+                    }
+                    isOptionEqualToValue={(option, value) => {
+                      return option?.ID === value?.ID;
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        slotProps={{
+                          input: {
+                            ...params.InputProps,
+                            endAdornment: (
+                              <React.Fragment>
+                                {methods?.watch("checkoutInput") !== "" && createPageMutation?.isPending ? (
+                                  <CircularProgress color="inherit" size={20} />
+                                ) : null}
+                                {params.InputProps.endAdornment}
+                              </React.Fragment>
+                            ),
+                          }
+                        }}
+                        onChange={(e) => methods?.setValue("checkoutInput", e.target.value)}
+                      />
+                    )}
+                    onChange={(_, newValue) => {
+                      props?.setValue(
+                        "acadlix_checkout_page_id",
+                        newValue?.ID ?? null,
+                        {
+                          shouldDirty: true,
+                        }
+                      );
+                    }}
+
+                    slots={{
+                      paper: (data) => {
+                        return (
+                          <Paper>
+                            {data?.children}
+                            <Button
+                              color="primary"
+                              fullWidth
+                              sx={{ justifyContent: "flex-start", pl: 2 }}
+                              disabled={!hasCapability("acadlix_create_page_setting")}
+                              onMouseDown={(e) => {
+                                if (methods?.watch("checkoutInput") === "") {
+                                  toast.error(__("Title cannot be empty.", "acadlix"));
+                                  return;
+                                }
+                                createPageMutation?.mutate(
+                                  {
+                                    title: methods?.watch("checkoutInput"),
+                                    user_id: acadlixOptions?.user_id,
+                                  },
+                                  {
+                                    onSuccess: (data) => {
+                                      methods?.setValue("checkoutInput", "", { shouldDirty: true });
+                                      methods?.setValue(
+                                        "all_pages",
+                                        data?.data?.all_pages,
+                                        { shouldDirty: true }
+                                      );
+                                      props?.setValue(
+                                        "acadlix_checkout_page_id",
+                                        data?.data?.page_id,
+                                        { shouldDirty: true }
+                                      );
+                                    },
+                                  }
+                                );
+                              }}
+                            >
+                              + {__("Add New", "acadlix")}
+                            </Button>
+                          </Paper>
+                        );
                       }
                     }}
-                    onChange={(e) => methods?.setValue("checkoutInput", e.target.value)}
                   />
-                )}
-                onChange={(_, newValue) => {
-                  props?.setValue(
-                    "acadlix_checkout_page_id",
-                    newValue?.ID ?? null,
-                    {
-                      shouldDirty: true,
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Thankyou page", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <Autocomplete
+                    size="small"
+                    value={
+                      props?.watch("acadlix_thankyou_page_id") !== null
+                        ? methods?.watch("all_pages")?.find(
+                          (p) =>
+                            p?.ID ===
+                            Number(props?.watch("acadlix_thankyou_page_id"))
+                        ) || null
+                        : null
                     }
-                  );
-                }}
-
-                slots={{
-                  paper: (data) => {
-                    return (
-                      <Paper>
-                        {data?.children}
-                        <Button
-                          color="primary"
-                          fullWidth
-                          sx={{ justifyContent: "flex-start", pl: 2 }}
-                          disabled={!hasCapability("acadlix_create_page_setting")}
-                          onMouseDown={(e) => {
-                            if (methods?.watch("checkoutInput") === "") {
-                              toast.error(__("Title cannot be empty.", "acadlix"));
-                              return;
-                            }
-                            createPageMutation?.mutate(
-                              {
-                                title: methods?.watch("checkoutInput"),
-                                user_id: acadlixOptions?.user_id,
-                              },
-                              {
-                                onSuccess: (data) => {
-                                  methods?.setValue("checkoutInput", "", { shouldDirty: true });
-                                  methods?.setValue(
-                                    "all_pages",
-                                    data?.data?.all_pages,
-                                    { shouldDirty: true }
-                                  );
-                                  props?.setValue(
-                                    "acadlix_checkout_page_id",
-                                    data?.data?.page_id,
-                                    { shouldDirty: true }
-                                  );
-                                },
-                              }
-                            );
-                          }}
-                        >
-                          + {__("Add New", "acadlix")}
-                        </Button>
-                      </Paper>
-                    );
-                  }
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Thankyou page", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <Autocomplete
-                size="small"
-                value={
-                  props?.watch("acadlix_thankyou_page_id") !== null
-                    ? methods?.watch("all_pages")?.find(
-                      (p) =>
-                        p?.ID ===
-                        Number(props?.watch("acadlix_thankyou_page_id"))
-                    ) || null
-                    : null
-                }
-                options={methods?.watch("all_pages") || []}
-                getOptionLabel={(option) =>
-                  `${option?.post_title} (#${option?.ID})` || ""
-                }
-                isOptionEqualToValue={(option, value) => {
-                  return option?.ID === value?.ID;
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    slotProps={{
-                      input: {
-                        ...params.InputProps,
-                        endAdornment: (
-                          <React.Fragment>
-                            {methods?.watch("thankyouInput") !== "" && createPageMutation?.isPending ? (
-                              <CircularProgress color="inherit" size={20} />
-                            ) : null}
-                            {params.InputProps.endAdornment}
-                          </React.Fragment>
-                        )
-                      },
+                    options={methods?.watch("all_pages") || []}
+                    getOptionLabel={(option) =>
+                      `${option?.post_title} (#${option?.ID})` || ""
+                    }
+                    isOptionEqualToValue={(option, value) => {
+                      return option?.ID === value?.ID;
                     }}
-                    onChange={(e) => methods?.setValue("thankyouInput", e.target.value)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        slotProps={{
+                          input: {
+                            ...params.InputProps,
+                            endAdornment: (
+                              <React.Fragment>
+                                {methods?.watch("thankyouInput") !== "" && createPageMutation?.isPending ? (
+                                  <CircularProgress color="inherit" size={20} />
+                                ) : null}
+                                {params.InputProps.endAdornment}
+                              </React.Fragment>
+                            )
+                          },
+                        }}
+                        onChange={(e) => methods?.setValue("thankyouInput", e.target.value)}
+                      />
+                    )}
+                    onChange={(_, newValue) => {
+                      props?.setValue(
+                        "acadlix_thankyou_page_id",
+                        newValue?.ID ?? null,
+                        {
+                          shouldDirty: true,
+                        }
+                      );
+                    }}
+                    slots={{
+                      paper: (data) => {
+                        return (
+                          <Paper>
+                            {data?.children}
+                            <Button
+                              color="primary"
+                              fullWidth
+                              sx={{ justifyContent: "flex-start", pl: 2 }}
+                              disabled={!hasCapability("acadlix_create_page_setting")}
+                              onMouseDown={(e) => {
+                                if (methods?.watch("thankyouInput") === "") {
+                                  toast.error(__("Title cannot be empty.", "acadlix"));
+                                  return;
+                                }
+                                createPageMutation?.mutate(
+                                  {
+                                    title: methods?.watch("thankyouInput"),
+                                    user_id: acadlixOptions?.user_id,
+                                  },
+                                  {
+                                    onSuccess: (data) => {
+                                      methods?.setValue("thankyouInput", "", { shouldDirty: true });
+                                      methods?.setValue(
+                                        "all_pages",
+                                        data?.data?.all_pages,
+                                        { shouldDirty: true }
+                                      );
+                                      props?.setValue(
+                                        "acadlix_thankyou_page_id",
+                                        data?.data?.page_id,
+                                        { shouldDirty: true }
+                                      );
+                                    },
+                                  }
+                                );
+                              }}
+                            >
+                              + {__("Add New", "acadlix")}
+                            </Button>
+                          </Paper>
+                        );
+                      }
+                    }}
                   />
-                )}
-                onChange={(_, newValue) => {
-                  props?.setValue(
-                    "acadlix_thankyou_page_id",
-                    newValue?.ID ?? null,
-                    {
-                      shouldDirty: true,
-                    }
-                  );
-                }}
-                slots={{
-                  paper: (data) => {
-                    return (
-                      <Paper>
-                        {data?.children}
-                        <Button
-                          color="primary"
-                          fullWidth
-                          sx={{ justifyContent: "flex-start", pl: 2 }}
-                          disabled={!hasCapability("acadlix_create_page_setting")}
-                          onMouseDown={(e) => {
-                            if (methods?.watch("thankyouInput") === "") {
-                              toast.error(__("Title cannot be empty.", "acadlix"));
-                              return;
-                            }
-                            createPageMutation?.mutate(
-                              {
-                                title: methods?.watch("thankyouInput"),
-                                user_id: acadlixOptions?.user_id,
-                              },
-                              {
-                                onSuccess: (data) => {
-                                  methods?.setValue("thankyouInput", "", { shouldDirty: true });
-                                  methods?.setValue(
-                                    "all_pages",
-                                    data?.data?.all_pages,
-                                    { shouldDirty: true }
-                                  );
-                                  props?.setValue(
-                                    "acadlix_thankyou_page_id",
-                                    data?.data?.page_id,
-                                    { shouldDirty: true }
-                                  );
-                                },
-                              }
-                            );
-                          }}
-                        >
-                          + {__("Add New", "acadlix")}
-                        </Button>
-                      </Paper>
-                    );
-                  }
-                }}
-              />
-            </Grid>
+                </Grid>
 
-            {/* {general_page_setup_after.map((field, i) => {
+                {/* {general_page_setup_after.map((field, i) => {
           try {
             return (
               <React.Fragment key={`field-${i}`}>
@@ -533,415 +535,39 @@ function General(props) {
             return null;
           }
         })} */}
-            {general_page_setup_after.map((field, i) => (
-              <React.Fragment key={`field-${i}`}>
-                <DynamicMUIRenderer
-                  item={field}
-                  index={i}
-                  formProps={{
-                    register: props?.register,
-                    setValue: props?.setValue,
-                    watch: props?.watch,
-                    control: props?.control,
-                  }}
-                />
-              </React.Fragment>
-            ))}
-          </Grid>
-          {/* Course options */}
-          <CourseOptions {...props} />
-          {/* Currency options */}
-          <Box
-            sx={{
-              marginY: 2,
-            }}
-          >
-            <Typography variant="h4">{__("Currency Options", "acadlix")}
-              <CustomFeatureTooltip
-                plan={"open"}
-                msg={__("Configure the currency, symbol, symbol position, thousand and decimal separators, and the number of decimal places used for displaying prices to students.", "acadlix")}
-                placement="right-start"
-                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#currency-options`}
-              />
-            </Typography>
-            <Divider />
-          </Box>
-          <Grid
-            container
-            spacing={{
-              xs: 2,
-              sm: 4,
-            }}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Currency", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <Autocomplete
-                size="small"
-                value={
-                  props?.watch("acadlix_curreny") !== ""
-                    ? props?.currencies?.find(
-                      (c) => c?.short_name === props?.watch("acadlix_currency")
-                    )
-                    : null
-                }
-                options={props?.currencies ?? []}
-                getOptionLabel={(option) =>
-                  `(${getStripHtml(option?.symbol)} ${option?.short_name}) ${option?.name}` || ""
-                }
-                isOptionEqualToValue={(option, value) =>
-                  option?.name === value?.name
-                }
-                disableClearable
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    inputProps={{
-                      ...params.inputProps,
-                    }}
-                  />
-                )}
-                onChange={(_, newValue) => {
-                  props?.setValue(
-                    "acadlix_currency",
-                    newValue?.short_name ?? null,
-                    {
-                      shouldDirty: true,
-                    }
-                  );
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Currency position", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <Autocomplete
-                size="small"
-                value={props?.watch("acadlix_currency_position")}
-                options={[
-                  "Left ( $99.99 )",
-                  "Right ( 99.99$ )",
-                  "Left with space ( $ 99.99 )",
-                  "Right with space ( 99.99 $ )",
-                ]}
-                disableClearable
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    inputProps={{
-                      ...params.inputProps,
-                    }}
-                  />
-                )}
-                onChange={(_, newValue) => {
-                  props?.setValue("acadlix_currency_position", newValue, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Thousand separator", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTextField
-                fullWidth
-                size="small"
-                type="text"
-                value={props?.watch("acadlix_thousand_separator")}
-                onChange={(e) => {
-                  props?.setValue("acadlix_thousand_separator", e?.target?.value, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Decimal separator", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTextField
-                fullWidth
-                size="small"
-                type="text"
-                value={props?.watch("acadlix_decimal_separator")}
-                onChange={(e) => {
-                  props?.setValue("acadlix_decimal_separator", e?.target?.value, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("The number of decimals", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTextField
-                fullWidth
-                size="small"
-                type="number"
-                value={props?.watch("acadlix_number_of_decimals")}
-                onChange={(e) => {
-                  props?.setValue(
-                    "acadlix_number_of_decimals",
-                    Number(e?.target?.value),
-                    {
-                      shouldDirty: true,
-                    }
-                  );
-                }}
-              />
-            </Grid>
-          </Grid>
-          {/* Admin Options */}
-          <Box
-            sx={{
-              marginY: 2,
-            }}
-          >
-            <Typography variant="h4">{__("Admin Options", "acadlix")}
-              <CustomFeatureTooltip
-                plan={"open"}
-                msg={__("Set how many rows per page will be displayed in the admin panel.", "acadlix")}
-                placement="right-start"
-                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#admin-options`}
-              />
-            </Typography>
-            <Divider />
-          </Box>
-          <Grid
-            container
-            spacing={{
-              xs: 2,
-              sm: 4,
-            }}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Default rows per page", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <Select
-                fullWidth
-                size="small"
-                value={props?.watch("acadlix_default_rows_per_page")}
-                onChange={(e) => {
-                  props?.setValue(
-                    "acadlix_default_rows_per_page",
-                    Number(e?.target?.value),
-                    {
-                      shouldDirty: true,
-                    }
-                  );
+                {general_page_setup_after.map((field, i) => (
+                  <React.Fragment key={`field-${i}`}>
+                    <DynamicMUIRenderer
+                      item={field}
+                      index={i}
+                      formProps={{
+                        register: props?.register,
+                        setValue: props?.setValue,
+                        watch: props?.watch,
+                        control: props?.control,
+                      }}
+                    />
+                  </React.Fragment>
+                ))}
+              </Grid>
+              {/* Course options */}
+              <CourseOptions {...props} />
+              {/* Currency options */}
+              <Box
+                sx={{
+                  marginY: 2,
                 }}
               >
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={20}>20</MenuItem>
-                <MenuItem value={50}>50</MenuItem>
-                <MenuItem value={100}>100</MenuItem>
-              </Select>
-            </Grid>
-          </Grid>
-          {/* Frontend Options */}
-          <Box
-            sx={{
-              marginY: 2,
-            }}
-          >
-            <Typography variant="h4">{__("Frontend Options", "acadlix")}
-            </Typography>
-            <Divider />
-          </Box>
-          <Grid
-            container
-            spacing={{
-              xs: 2,
-              sm: 4,
-            }}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Disable Admin Toolbar", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                label={__("Activate", "acadlix")}
-                control={<CustomSwitch />}
-                value="yes"
-                checked={props?.watch("acadlix_disable_admin_toolbar") === "yes"}
-                onClick={(e) => {
-                  if (e?.target?.checked !== undefined) {
-                    props?.setValue(
-                      "acadlix_disable_admin_toolbar",
-                      e?.target?.checked ? e?.target?.value : "no",
-                      { shouldDirty: true }
-                    );
-                  }
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Enable content protection", "acadlix")}
-                <CustomFeatureTooltip
-                  plan="open"
-                  msg={__("If you enable this option, it will disable right-click, copy text, and text selection site wide.", "acadlix")}
-                  placement="right-start"
-                />
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                label={__("Activate", "acadlix")}
-                control={<CustomSwitch />}
-                value="yes"
-                checked={props?.watch("acadlix_enable_content_protection") === "yes"}
-                onClick={(e) => {
-                  if (e?.target?.checked !== undefined) {
-                    props?.setValue(
-                      "acadlix_enable_content_protection",
-                      e?.target?.checked ? e?.target?.value : "no",
-                      { shouldDirty: true }
-                    );
-                  }
-                }}
-              />
-            </Grid>
-          </Grid>
-          {/* Student Dashboard options */}
-          <Box
-            sx={{
-              marginY: 2,
-            }}
-          >
-            <Typography variant="h4">{__("Student Dashboard Options", "acadlix")}
-              <CustomFeatureTooltip
-                plan={"open"}
-                msg={__("Configure dashboard settings such as the logout redirect URL, enable a full-width dashboard layout, and display the site logo in the header.", "acadlix")}
-                placement="right-start"
-                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#student-dashboard-options`}
-              />
-            </Typography>
-            <Divider />
-          </Box>
-          <Grid
-            container
-            spacing={{
-              xs: 2,
-              sm: 4,
-            }}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Logout redirect url", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 9 }}>
-              <CustomTextField
-                fullWidth
-                size="small"
-                type="text"
-                value={props?.watch("acadlix_logout_redirect_url") !== "" ? props?.watch("acadlix_logout_redirect_url") : acadlixOptions?.home_url}
-                onChange={(e) => {
-                  props?.setValue("acadlix_logout_redirect_url", e?.target?.value, {
-                    shouldDirty: true,
-                  });
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Enable dashboard fullwidth", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                label={__("Activate", "acadlix")}
-                control={<CustomSwitch />}
-                value="yes"
-                checked={props?.watch("acadlix_enable_dashboard_fullwidth") === "yes"}
-                onClick={(e) => {
-                  if (e?.target?.checked !== undefined) {
-                    props?.setValue(
-                      "acadlix_enable_dashboard_fullwidth",
-                      e?.target?.checked ? e?.target?.value : "no",
-                      { shouldDirty: true }
-                    );
-                  }
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Enable site logo in header", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                label={__("Activate", "acadlix")}
-                control={<CustomSwitch />}
-                value="yes"
-                checked={props?.watch("acadlix_enable_site_logo_in_header") === "yes"}
-                onClick={(e) => {
-                  if (e?.target?.checked !== undefined) {
-                    props?.setValue(
-                      "acadlix_enable_site_logo_in_header",
-                      e?.target?.checked ? e?.target?.value : "no",
-                      { shouldDirty: true }
-                    );
-                  }
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Enable course content scroll button", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                label={__("Activate", "acadlix")}
-                control={<CustomSwitch />}
-                value="yes"
-                checked={props?.watch("acadlix_enable_course_content_scroll_button") === "yes"}
-                onClick={(e) => {
-                  if (e?.target?.checked !== undefined) {
-                    props?.setValue(
-                      "acadlix_enable_course_content_scroll_button",
-                      e?.target?.checked ? e?.target?.value : "no",
-                      { shouldDirty: true }
-                    );
-                  }
-                }}
-              />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 12, lg: 12 }} >
+                <Typography variant="h4">{__("Currency Options", "acadlix")}
+                  <CustomFeatureTooltip
+                    plan={"open"}
+                    msg={__("Configure the currency, symbol, symbol position, thousand and decimal separators, and the number of decimal places used for displaying prices to students.", "acadlix")}
+                    placement="right-start"
+                    redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#currency-options`}
+                  />
+                </Typography>
+                <Divider />
+              </Box>
               <Grid
                 container
                 spacing={{
@@ -952,156 +578,549 @@ function General(props) {
                   alignItems: "center",
                 }}
               >
-                <Grid size={{ xs: 12, sm: 3, lg: 3 }}>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                   <CustomTypography>
-                    {__("Light logo", "acadlix")}
+                    {__("Currency", "acadlix")}
                   </CustomTypography>
                 </Grid>
-                <Grid size={{ xs: 12, sm: 9, lg: 9 }}>
-                  <Box sx={{
-                    display: "flex",
-                    flexDirection: {
-                      xs: "column",
-                      md: "row",
-                    },
-                    gap: 1,
-                    alignItems: "center",
-                    border: "1px solid lightgray",
-                    padding: 1,
-                    borderRadius: 1,
-                  }}>
-                    <Avatar
-                      variant="rounded"
-                      src={props?.watch("acadlix_custom_logo")?.url ?? acadlixOptions?.default_img_url}
-                      sx={{
-                        width: "280px",
-                        height: "90px",
-                        bgcolor: (theme) => theme?.palette?.grey[200],
-                      }}
-                    />
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 1,
-                        pl: 1,
-                      }}
-                    >
-                      <CustomTypography variant="body2">
-                        {__("Recommended size: 280x90 pixels. Max file size: 1MB.", "acadlix")}
-                      </CustomTypography>
-                      <CustomTypography variant="body2">
-                        {__("File Support: .jpg, .jpeg, .png", "acadlix")}
-                      </CustomTypography>
-                      <MediaUpload
-                        onSelect={(media) => {
-                          console.log(media);
-                          if (!media?.url) {
-                            toast.error(__("Media upload failed. Please try again.", "acadlix"));
-                            return;
-                          }
-                          if (["jpg", "jpeg", "png"].indexOf(media?.subtype) === -1) {
-                            toast.error(__("Unsupported file type. Please upload a .jpg, .jpeg, or .png file.", "acadlix"));
-                            return;
-                          }
-                          if(media?.filesizeInBytes > 1048576) {
-                            toast.error(__("File size exceeds the maximum limit of 1MB. Please upload a smaller file.", "acadlix"));
-                            return;
-                          }
-                          props?.setValue(
-                            "acadlix_custom_logo",
-                            {
-                              id: media?.id,
-                              url: media?.url,
-                              filename: media?.filename,
-                              author: media?.author,
-                              height: media?.height,
-                              width: media?.width,
-                              filesizeInBytes: media?.filesizeInBytes,
-                            },
-                            { shouldDirty: true }
-                          );
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <Autocomplete
+                    size="small"
+                    value={
+                      props?.watch("acadlix_curreny") !== ""
+                        ? props?.currencies?.find(
+                          (c) => c?.short_name === props?.watch("acadlix_currency")
+                        )
+                        : null
+                    }
+                    options={props?.currencies ?? []}
+                    getOptionLabel={(option) =>
+                      `(${getStripHtml(option?.symbol)} ${option?.short_name}) ${option?.name}` || ""
+                    }
+                    isOptionEqualToValue={(option, value) =>
+                      option?.name === value?.name
+                    }
+                    disableClearable
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
                         }}
-                        render={({ open }) => (
-                          <Button
-                            size="small"
-                            variant="contained"
-                            onClick={open}
-                            startIcon={<FaImage />}
-                          >
-                            {__("Upload", "acadlix")}
-                          </Button>
-                        )}
                       />
-                    </Box>
-                  </Box>
+                    )}
+                    onChange={(_, newValue) => {
+                      props?.setValue(
+                        "acadlix_currency",
+                        newValue?.short_name ?? null,
+                        {
+                          shouldDirty: true,
+                        }
+                      );
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Currency position", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <Autocomplete
+                    size="small"
+                    value={props?.watch("acadlix_currency_position")}
+                    options={[
+                      "Left ( $99.99 )",
+                      "Right ( 99.99$ )",
+                      "Left with space ( $ 99.99 )",
+                      "Right with space ( 99.99 $ )",
+                    ]}
+                    disableClearable
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                        }}
+                      />
+                    )}
+                    onChange={(_, newValue) => {
+                      props?.setValue("acadlix_currency_position", newValue, {
+                        shouldDirty: true,
+                      });
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Thousand separator", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    type="text"
+                    value={props?.watch("acadlix_thousand_separator")}
+                    onChange={(e) => {
+                      props?.setValue("acadlix_thousand_separator", e?.target?.value, {
+                        shouldDirty: true,
+                      });
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Decimal separator", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    type="text"
+                    value={props?.watch("acadlix_decimal_separator")}
+                    onChange={(e) => {
+                      props?.setValue("acadlix_decimal_separator", e?.target?.value, {
+                        shouldDirty: true,
+                      });
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("The number of decimals", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    type="number"
+                    value={props?.watch("acadlix_number_of_decimals")}
+                    onChange={(e) => {
+                      props?.setValue(
+                        "acadlix_number_of_decimals",
+                        Number(e?.target?.value),
+                        {
+                          shouldDirty: true,
+                        }
+                      );
+                    }}
+                  />
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
-          {/* Checkout options  */}
-          <CheckoutOptions {...props} />
-          <Box
-            sx={{
-              marginY: 2,
-            }}
-          >
-            <Typography variant="h4">{__("Data Management", "acadlix")}
-              <CustomFeatureTooltip
-                plan={"open"}
-                msg={__("Enabling this option will delete all the associated data with the Acadlix LMS when you delete it from your site. If you want to keep the data stored in your database even when you delete the Acadlix LMS from your site, then keep it disabled.", "acadlix")}
-                placement="right-start"
-                redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#data-management`}
-              />
-            </Typography>
-            <Divider />
-          </Box>
-          <Grid
-            container
-            spacing={{
-              xs: 2,
-              sm: 4,
-            }}
-            sx={{
-              alignItems: "center",
-            }}
-          >
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <CustomTypography>
-                {__("Delete Data on Plugin Uninstall", "acadlix")}
-              </CustomTypography>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-              <FormControlLabel
-                label={__("Activate", "acadlix")}
-                control={<CustomSwitch />}
-                value="yes"
-                checked={props?.watch("acadlix_delete_data_on_plugin_uninstall") === "yes"}
-                onClick={(e) => {
-                  if (e?.target?.checked !== undefined) {
-                    props?.setValue(
-                      "acadlix_delete_data_on_plugin_uninstall",
-                      e?.target?.checked ? e?.target?.value : "no",
-                      { shouldDirty: true }
-                    );
-                  }
+              {/* Admin Options */}
+              <Box
+                sx={{
+                  marginY: 2,
                 }}
-              />
-            </Grid>
-          </Grid>
-        </Box>
-      </CardContent>
-      <CardActions>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          loading={props?.isPending}
-        >
-          {__("Save", "acadlix")}
-        </Button>
-      </CardActions>
-    </Card >
+              >
+                <Typography variant="h4">{__("Admin Options", "acadlix")}
+                  <CustomFeatureTooltip
+                    plan={"open"}
+                    msg={__("Set how many rows per page will be displayed in the admin panel.", "acadlix")}
+                    placement="right-start"
+                    redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#admin-options`}
+                  />
+                </Typography>
+                <Divider />
+              </Box>
+              <Grid
+                container
+                spacing={{
+                  xs: 2,
+                  sm: 4,
+                }}
+                sx={{
+                  alignItems: "center",
+                }}
+              >
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Default rows per page", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <Select
+                    fullWidth
+                    size="small"
+                    value={props?.watch("acadlix_default_rows_per_page")}
+                    onChange={(e) => {
+                      props?.setValue(
+                        "acadlix_default_rows_per_page",
+                        Number(e?.target?.value),
+                        {
+                          shouldDirty: true,
+                        }
+                      );
+                    }}
+                  >
+                    <MenuItem value={10}>10</MenuItem>
+                    <MenuItem value={20}>20</MenuItem>
+                    <MenuItem value={50}>50</MenuItem>
+                    <MenuItem value={100}>100</MenuItem>
+                  </Select>
+                </Grid>
+              </Grid>
+              {/* Frontend Options */}
+              <Box
+                sx={{
+                  marginY: 2,
+                }}
+              >
+                <Typography variant="h4">{__("Frontend Options", "acadlix")}
+                </Typography>
+                <Divider />
+              </Box>
+              <Grid
+                container
+                spacing={{
+                  xs: 2,
+                  sm: 4,
+                }}
+                sx={{
+                  alignItems: "center",
+                }}
+              >
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Disable Admin Toolbar", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <FormControlLabel
+                    label={__("Activate", "acadlix")}
+                    control={<CustomSwitch />}
+                    value="yes"
+                    checked={props?.watch("acadlix_disable_admin_toolbar") === "yes"}
+                    onClick={(e) => {
+                      if (e?.target?.checked !== undefined) {
+                        props?.setValue(
+                          "acadlix_disable_admin_toolbar",
+                          e?.target?.checked ? e?.target?.value : "no",
+                          { shouldDirty: true }
+                        );
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Enable content protection", "acadlix")}
+                    <CustomFeatureTooltip
+                      plan="open"
+                      msg={__("If you enable this option, it will disable right-click, copy text, and text selection site wide.", "acadlix")}
+                      placement="right-start"
+                    />
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <FormControlLabel
+                    label={__("Activate", "acadlix")}
+                    control={<CustomSwitch />}
+                    value="yes"
+                    checked={props?.watch("acadlix_enable_content_protection") === "yes"}
+                    onClick={(e) => {
+                      if (e?.target?.checked !== undefined) {
+                        props?.setValue(
+                          "acadlix_enable_content_protection",
+                          e?.target?.checked ? e?.target?.value : "no",
+                          { shouldDirty: true }
+                        );
+                      }
+                    }}
+                  />
+                </Grid>
+              </Grid>
+              {/* Student Dashboard options */}
+              <Box
+                sx={{
+                  marginY: 2,
+                }}
+              >
+                <Typography variant="h4">{__("Student Dashboard Options", "acadlix")}
+                  <CustomFeatureTooltip
+                    plan={"open"}
+                    msg={__("Configure dashboard settings such as the logout redirect URL, enable a full-width dashboard layout, and display the site logo in the header.", "acadlix")}
+                    placement="right-start"
+                    redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#student-dashboard-options`}
+                  />
+                </Typography>
+                <Divider />
+              </Box>
+              <Grid
+                container
+                spacing={{
+                  xs: 2,
+                  sm: 4,
+                }}
+                sx={{
+                  alignItems: "center",
+                }}
+              >
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Logout redirect url", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 9 }}>
+                  <CustomTextField
+                    fullWidth
+                    size="small"
+                    type="text"
+                    value={props?.watch("acadlix_logout_redirect_url") !== "" ? props?.watch("acadlix_logout_redirect_url") : acadlixOptions?.home_url}
+                    onChange={(e) => {
+                      props?.setValue("acadlix_logout_redirect_url", e?.target?.value, {
+                        shouldDirty: true,
+                      });
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Enable dashboard fullwidth", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <FormControlLabel
+                    label={__("Activate", "acadlix")}
+                    control={<CustomSwitch />}
+                    value="yes"
+                    checked={props?.watch("acadlix_enable_dashboard_fullwidth") === "yes"}
+                    onClick={(e) => {
+                      if (e?.target?.checked !== undefined) {
+                        props?.setValue(
+                          "acadlix_enable_dashboard_fullwidth",
+                          e?.target?.checked ? e?.target?.value : "no",
+                          { shouldDirty: true }
+                        );
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Enable site logo in header", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <FormControlLabel
+                    label={__("Activate", "acadlix")}
+                    control={<CustomSwitch />}
+                    value="yes"
+                    checked={props?.watch("acadlix_enable_site_logo_in_header") === "yes"}
+                    onClick={(e) => {
+                      if (e?.target?.checked !== undefined) {
+                        props?.setValue(
+                          "acadlix_enable_site_logo_in_header",
+                          e?.target?.checked ? e?.target?.value : "no",
+                          { shouldDirty: true }
+                        );
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Enable course content scroll button", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <FormControlLabel
+                    label={__("Activate", "acadlix")}
+                    control={<CustomSwitch />}
+                    value="yes"
+                    checked={props?.watch("acadlix_enable_course_content_scroll_button") === "yes"}
+                    onClick={(e) => {
+                      if (e?.target?.checked !== undefined) {
+                        props?.setValue(
+                          "acadlix_enable_course_content_scroll_button",
+                          e?.target?.checked ? e?.target?.value : "no",
+                          { shouldDirty: true }
+                        );
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 12, lg: 12 }} >
+                  <Grid
+                    container
+                    spacing={{
+                      xs: 2,
+                      sm: 4,
+                    }}
+                    sx={{
+                      alignItems: "center",
+                    }}
+                  >
+                    <Grid size={{ xs: 12, sm: 3, lg: 3 }}>
+                      <CustomTypography>
+                        {__("Light logo", "acadlix")}
+                      </CustomTypography>
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 9, lg: 9 }}>
+                      <Box sx={{
+                        display: "flex",
+                        flexDirection: {
+                          xs: "column",
+                          md: "row",
+                        },
+                        gap: 1,
+                        alignItems: "center",
+                        border: "1px solid lightgray",
+                        padding: 1,
+                        borderRadius: 1,
+                      }}>
+                        <Avatar
+                          variant="rounded"
+                          src={props?.watch("acadlix_custom_logo")?.url ?? acadlixOptions?.default_img_url}
+                          sx={{
+                            width: "280px",
+                            height: "90px",
+                            bgcolor: (theme) => theme?.palette?.grey[200],
+                          }}
+                        />
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 1,
+                            pl: 1,
+                          }}
+                        >
+                          <CustomTypography variant="body2">
+                            {__("Recommended size: 280x90 pixels. Max file size: 1MB.", "acadlix")}
+                          </CustomTypography>
+                          <CustomTypography variant="body2">
+                            {__("File Support: .jpg, .jpeg, .png", "acadlix")}
+                          </CustomTypography>
+                          <MediaUpload
+                            onSelect={(media) => {
+                              console.log(media);
+                              if (!media?.url) {
+                                toast.error(__("Media upload failed. Please try again.", "acadlix"));
+                                return;
+                              }
+                              if (["jpg", "jpeg", "png"].indexOf(media?.subtype) === -1) {
+                                toast.error(__("Unsupported file type. Please upload a .jpg, .jpeg, or .png file.", "acadlix"));
+                                return;
+                              }
+                              if (media?.filesizeInBytes > 1048576) {
+                                toast.error(__("File size exceeds the maximum limit of 1MB. Please upload a smaller file.", "acadlix"));
+                                return;
+                              }
+                              props?.setValue(
+                                "acadlix_custom_logo",
+                                {
+                                  id: media?.id,
+                                  url: media?.url,
+                                  filename: media?.filename,
+                                  author: media?.author,
+                                  height: media?.height,
+                                  width: media?.width,
+                                  filesizeInBytes: media?.filesizeInBytes,
+                                },
+                                { shouldDirty: true }
+                              );
+                            }}
+                            render={({ open }) => (
+                              <Button
+                                size="small"
+                                variant="contained"
+                                onClick={open}
+                                startIcon={<FaImage />}
+                              >
+                                {__("Upload", "acadlix")}
+                              </Button>
+                            )}
+                          />
+                        </Box>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {/* Checkout options  */}
+              <CheckoutOptions {...props} />
+              <Box
+                sx={{
+                  marginY: 2,
+                }}
+              >
+                <Typography variant="h4">{__("Data Management", "acadlix")}
+                  <CustomFeatureTooltip
+                    plan={"open"}
+                    msg={__("Enabling this option will delete all the associated data with the Acadlix LMS when you delete it from your site. If you want to keep the data stored in your database even when you delete the Acadlix LMS from your site, then keep it disabled.", "acadlix")}
+                    placement="right-start"
+                    redirectTo={`${acadlixOptions?.acadlix_docs_url}settings/general/#data-management`}
+                  />
+                </Typography>
+                <Divider />
+              </Box>
+              <Grid
+                container
+                spacing={{
+                  xs: 2,
+                  sm: 4,
+                }}
+                sx={{
+                  alignItems: "center",
+                }}
+              >
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <CustomTypography>
+                    {__("Delete Data on Plugin Uninstall", "acadlix")}
+                  </CustomTypography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+                  <FormControlLabel
+                    label={__("Activate", "acadlix")}
+                    control={<CustomSwitch />}
+                    value="yes"
+                    checked={props?.watch("acadlix_delete_data_on_plugin_uninstall") === "yes"}
+                    onClick={(e) => {
+                      if (e?.target?.checked !== undefined) {
+                        props?.setValue(
+                          "acadlix_delete_data_on_plugin_uninstall",
+                          e?.target?.checked ? e?.target?.value : "no",
+                          { shouldDirty: true }
+                        );
+                      }
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid size={{ xs: 12, sm: 12 }}
+        sx={{
+          position: "sticky",
+          bottom: 0,
+          zIndex: 10,
+        }}
+      >
+        <Card>
+          <CardContent sx={{
+            padding: 4,
+            ":last-child": {
+              paddingBottom: 4,
+            },
+          }}>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              loading={props?.isPending}
+            >
+              {__("Save", "acadlix")}
+            </Button>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }
 

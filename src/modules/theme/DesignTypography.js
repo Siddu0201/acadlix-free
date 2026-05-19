@@ -5,6 +5,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  Grid,
   IconButton,
   Typography,
   useTheme
@@ -263,141 +264,161 @@ const DesignTypography = (props) => {
     }
   }
   return (
-    <Card
-      sx={cardSx}
-    >
-      <CardHeader
-        title={
-          <Box
+    <Grid container spacing={4}>
+      <Grid size={{ xs: 12, sm: 12 }}>
+        <Card
+          sx={cardSx}
+        >
+          <CardHeader
+            title={
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2,
+                }}
+              >
+                <Typography variant="h3">
+                  {__('Typography', 'acadlix')}
+                </Typography>
+                <Button
+                  className='acadlix-btn'
+                  variant="contained"
+                  color="primary"
+                  onClick={handleReset}
+                >
+                  {__('Reset', 'acadlix')}
+                </Button>
+              </Box>
+            }
+          />
+          <CardContent
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 2,
+              pointerEvents: props?.free ? 'none' : 'auto',
             }}
           >
-            <Typography variant="h3">
-              {__('Typography', 'acadlix')}
-            </Typography>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 2,
+            }}>
+              <IconButton
+                className='acadlix-icon-btn'
+                sx={{
+                  color: selected === 'desktop' ? theme.palette.primary.main : theme.palette.text.primary,
+                }}
+                onClick={() => setSelected('desktop')}
+              >
+                <IoDesktopSharp />
+              </IconButton>
+              <IconButton
+                className='acadlix-icon-btn'
+                sx={{
+                  color: selected === 'tablet' ? theme.palette.primary.main : theme.palette.text.primary,
+                }}
+                onClick={() => setSelected('tablet')}
+              >
+                <FaTabletScreenButton />
+              </IconButton>
+              <IconButton
+                className='acadlix-icon-btn'
+                sx={{
+                  color: selected === 'mobile' ? theme.palette.primary.main : theme.palette.text.primary,
+                }}
+                onClick={() => setSelected('mobile')}
+              >
+                <FaMobileAlt />
+              </IconButton>
+            </Box>
+
+            {
+              selected === 'desktop' && (
+                <TypographyDesktop {...props} />
+              )
+            }
+            {
+              selected === 'tablet' && (
+                <TypographyTablet {...props} />
+              )
+            }
+            {
+              selected === 'mobile' && (
+                <TypographyMobile {...props} />
+              )
+            }
+          </CardContent>
+
+          {/* Overlay with Upgrade CTA */}
+          {
+            props?.free && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  bgcolor: 'rgba(0, 0, 0, 0.6)',
+                  color: '#fff',
+                  transition: 'opacity 0.3s ease',
+                  opacity: 0,
+                  pointerEvents: 'none',
+                  zIndex: 2,
+                }}
+              >
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '20%',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    textAlign: 'center',
+                  }}
+                >
+                  <Button
+                    className='acadlix-btn'
+                    variant="contained"
+                    color="primary"
+                    href={acadlixOptions?.pricing_link}
+                    target="_blank"
+                  >
+                    {__('Upgrade to Pro', 'acadlix')}
+                  </Button>
+                </Box>
+              </Box>
+            )
+          }
+        </Card >
+      </Grid>
+      <Grid size={{ xs: 12, sm: 12 }}
+        sx={{
+          position: "sticky",
+          bottom: 0,
+          zIndex: 10,
+        }}
+      >
+        <Card>
+          <CardContent sx={{
+            padding: 4,
+            ":last-child": {
+              paddingBottom: 4,
+            },
+          }}>
             <Button
               className='acadlix-btn'
               variant="contained"
               color="primary"
-              onClick={handleReset}
+              type="submit"
+              loading={props?.isPending}
+              disabled={props?.free}
             >
-              {__('Reset', 'acadlix')}
+              {__('Save Changes', 'acadlix')}
             </Button>
-          </Box>
-        }
-      />
-      <CardContent
-        sx={{
-          pointerEvents: props?.free ? 'none' : 'auto',
-        }}
-      >
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 2,
-        }}>
-          <IconButton
-            className='acadlix-icon-btn'
-            sx={{
-              color: selected === 'desktop' ? theme.palette.primary.main : theme.palette.text.primary,
-            }}
-            onClick={() => setSelected('desktop')}
-          >
-            <IoDesktopSharp />
-          </IconButton>
-          <IconButton
-            className='acadlix-icon-btn'
-            sx={{
-              color: selected === 'tablet' ? theme.palette.primary.main : theme.palette.text.primary,
-            }}
-            onClick={() => setSelected('tablet')}
-          >
-            <FaTabletScreenButton />
-          </IconButton>
-          <IconButton
-            className='acadlix-icon-btn'
-            sx={{
-              color: selected === 'mobile' ? theme.palette.primary.main : theme.palette.text.primary,
-            }}
-            onClick={() => setSelected('mobile')}
-          >
-            <FaMobileAlt />
-          </IconButton>
-        </Box>
-
-        {
-          selected === 'desktop' && (
-            <TypographyDesktop {...props} />
-          )
-        }
-        {
-          selected === 'tablet' && (
-            <TypographyTablet {...props} />
-          )
-        }
-        {
-          selected === 'mobile' && (
-            <TypographyMobile {...props} />
-          )
-        }
-      </CardContent>
-
-      {/* Overlay with Upgrade CTA */}
-      {
-        props?.free && (
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              bgcolor: 'rgba(0, 0, 0, 0.6)',
-              color: '#fff',
-              transition: 'opacity 0.3s ease',
-              opacity: 0,
-              pointerEvents: 'none',
-              zIndex: 2,
-            }}
-          >
-            <Box
-              sx={{
-                position: 'absolute',
-                top: '20%',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                textAlign: 'center',
-              }}
-            >
-              <Button
-                className='acadlix-btn'
-                variant="contained"
-                color="primary"
-                href={acadlixOptions?.pricing_link}
-                target="_blank"
-              >
-                {__('Upgrade to Pro', 'acadlix')}
-              </Button>
-            </Box>
-          </Box>
-        )
-      }
-      <CardActions>
-        <Button
-          className='acadlix-btn'
-          variant="contained"
-          color="primary"
-          type="submit"
-          loading={props?.isPending}
-        >
-          {__('Save Changes', 'acadlix')}
-        </Button>
-      </CardActions>
-    </Card >
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   )
 }
 

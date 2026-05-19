@@ -87,6 +87,9 @@ const QuizSettingSection = (props) => {
           ref={(el) => (sectionsRef.current[index] = el)}
           sx={{
             marginY: 3,
+            ":last-child": {
+              marginBottom: 0,
+            },
             display:
               index === 4 && props?.watch("meta.mode") !== "advance_mode" ? "none" : "",
           }}
