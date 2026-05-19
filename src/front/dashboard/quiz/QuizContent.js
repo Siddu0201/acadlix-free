@@ -34,6 +34,7 @@ const QuizContent = (props) => {
     logo: props?.logo,
     login_modal: false,
     login_modal_at_answer_sheet: false,
+    error_modal_at_answer_sheet: false,
     start: props?.start ?? false,
     view_instruction1: props?.start ?? false,
     view_instruction2: false,
@@ -158,6 +159,7 @@ const QuizContent = (props) => {
     ),
     minimum_percent_to_pass: props?.quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass, // above 0 => pass
     hide_answer_sheet: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
+    min_percentage_to_view_answer_sheet: props?.quiz?.rendered_metas?.quiz_settings?.min_percentage_to_view_answer_sheet, // above 0 => view answer sheet
     show_per_question_time: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
     ),

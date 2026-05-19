@@ -142,6 +142,7 @@ export default function Result() {
             status: stat_ref?.status ?? "NA",
             hide_answer_sheet: stat_ref?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet ?? false,
             category_name: stat_ref?.quiz?.category?.name || "",
+            min_percentage_to_view_answer_sheet: stat_ref?.quiz?.rendered_metas?.quiz_settings?.min_percentage_to_view_answer_sheet ?? 0,
           },
           {
             stat_ref: stat_ref,
@@ -650,6 +651,18 @@ const SingleResult = ({ row, ...props }) => {
     label = __("NA", "acadlix");
   }
 
+  const disablaAnswerSheet = () => {
+    const percentage = parseFloat(row?.percentage);
+    const minPercentageToView = parseFloat(row?.min_percentage_to_view_answer_sheet);
+    if (row?.hide_answer_sheet) {
+      return true;
+    }
+    if (minPercentageToView > 0 && minPercentageToView > percentage) {
+      return true;
+    }
+    return false;
+  };
+
   const defaultSetting = {
     component: "Box",
     component_name: "single_result_box",
@@ -706,7 +719,7 @@ const SingleResult = ({ row, ...props }) => {
                   color: "warning",
                   LinkComponent: Link,
                   to: `/result/${row?.id}`,
-                  disabled: row?.hide_answer_sheet,
+                  disabled: disablaAnswerSheet(),
                 },
                 children: [
                   {

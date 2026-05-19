@@ -6,6 +6,7 @@ import CustomSwitch from '@acadlix/components/CustomSwitch';
 import CustomTypography from '@acadlix/components/CustomTypography';
 import { __ } from "@wordpress/i18n";
 import CustomFeatureTooltip from '@acadlix/components/CustomFeatureTooltip';
+import CustomTextField from '@acadlix/components/CustomTextField';
 
 const AnswerSheetOptions = (props) => {
   return (
@@ -44,6 +45,42 @@ const AnswerSheetOptions = (props) => {
             props?.watch("meta.mode") === "advance_mode" &&
             props?.watch("meta.advance_mode_type") !== "advance_panel"
           }
+        />
+      </GridItem1>
+
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <CustomTypography>{__("Min % to view answer sheet", "acadlix")}
+          <CustomFeatureTooltip
+            plan={"open"}
+            msg={__("This will disable the answer sheet on frontend, if the user hasn't achieved the minimum percentage required.", "acadlix")}
+          />
+        </CustomTypography>
+      </GridItem1>
+      <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+        <CustomTextField
+          fullWidth
+          size="small"
+          label={__("Minimum % to view answer sheet", "acadlix")}
+          type="number"
+          value={props?.watch("meta.quiz_settings.min_percentage_to_view_answer_sheet") ?? 0}
+          onChange={(e) => {
+            props?.setValue("meta.quiz_settings.min_percentage_to_view_answer_sheet",
+              Number(e?.target?.value), {
+              shouldDirty: true,
+            });
+          }}
+          disabled={
+            props?.watch("meta.quiz_settings.hide_answer_sheet")
+          }
+          sx={{
+            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+            {
+              display: "none",
+            },
+            "& input[type=number]": {
+              MozAppearance: "textfield",
+            },
+          }}
         />
       </GridItem1>
 

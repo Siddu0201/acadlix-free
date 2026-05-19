@@ -1,9 +1,11 @@
-import { Box } from "@mui/material";
+import { Alert, Box, DialogContent } from "@mui/material";
 import React from "react";
 import CustomButton from "@acadlix/components/CustomButton";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import UserAuth from "@acadlix/modules/user-auth/UserAuth";
 import { deleteCookie } from "@acadlix/helpers/cookie";
+import BootstrapDialog from "@acadlix/components/BootstrapDialog";
+import CustomTypography from "@acadlix/components/CustomTypography";
 
 const ViewButtonSection = (props) => {
   const handleResetQuiz = () => {
@@ -32,6 +34,11 @@ const ViewButtonSection = (props) => {
   }
 
   const viewAnswerSheet = () => {
+    let result = props?.getResult();
+    if (props?.watch("min_percentage_to_view_answer_sheet") > 0 && props?.watch("min_percentage_to_view_answer_sheet") > result) {
+      props?.setValue("error_modal_at_answer_sheet", true, { shouldDirty: true });
+      return;
+    }
     props?.setValue('view_answer', !props?.watch('view_answer'), { shouldDirty: true });
     if (props?.watch('questions')?.filter(d => d.selected).length === 0) {
       props?.setValue('questions.0.selected', true, { shouldDirty: true });
@@ -77,6 +84,20 @@ const ViewButtonSection = (props) => {
         onSuccessLogin={handleUserLoginAtAnswerSheet}
         onSuccessRegister={handleUserLoginAtAnswerSheet}
       />
+      <BootstrapDialog
+        open={props?.watch("error_modal_at_answer_sheet")}
+        onClose={() => props?.setValue("error_modal_at_answer_sheet", false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <Alert
+          severity="warning"
+          onClose={() => props?.setValue("error_modal_at_answer_sheet", false)}
+        >{sprintf(
+          __("You need at least %d%% to view the answer sheet.", "acadlix"),
+          props?.watch("min_percentage_to_view_answer_sheet")
+        )}</Alert>
+      </BootstrapDialog>
       {
         !props?.watch("hide_restart_button") &&
         <CustomButton

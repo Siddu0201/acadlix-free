@@ -140,6 +140,7 @@ const QuizContent = (props) => {
         ),
         minimum_percent_to_pass: props?.quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass ?? 0, // above 0 => pass
         hide_answer_sheet: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
+        min_percentage_to_view_answer_sheet: props?.quiz?.rendered_metas?.quiz_settings?.min_percentage_to_view_answer_sheet ?? 0,
         show_per_question_time: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
         ),
