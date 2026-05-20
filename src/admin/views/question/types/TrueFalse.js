@@ -74,12 +74,13 @@ function TrueFalse(props) {
                       checked={data.field.value}
                       onChange={() => {
                         const answers = props.watch(
-                          `language.${props.language_index}.answer_data.${props.type}`
+                          `language.${props.index}.answer_data.${props.type}`
                         );
+                        console.log(answers, "answers");
 
                         answers.forEach((_, index) => {
                           props.setValue(
-                            `language.${props.language_index}.answer_data.${props.type}.${index}.isCorrect`,
+                            `language.${props.index}.answer_data.${props.type}.${index}.isCorrect`,
                             index === option_index,
                             {
                               shouldDirty: true,
