@@ -28,8 +28,9 @@ const SingleChoice = (props) => {
       <CardContent>
         <RadioGroup>
           <Grid container spacing={4}>
-              {props?.lang?.answer_data?.[props?.type]?.length > 0 &&
-              props?.lang?.answer_data?.[props?.type]?.map((option, index) => (
+            {
+              props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.length > 0 &&
+              props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.map((option, index) => (
                 <Grid size={{ xs: 12, lg: 12 }} key={index}>
                   <Option
                     {...props}
@@ -41,7 +42,7 @@ const SingleChoice = (props) => {
                     option_index={index}
                     language_index={props?.index}
                     last={
-                      props?.lang?.answer_data?.[props?.type]?.length - 1 ===
+                      props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.length - 1 ===
                       index
                     }
                     autoFocus={index === newlyAddedOptionIndex}
@@ -54,7 +55,7 @@ const SingleChoice = (props) => {
                 variant="contained"
                 color="success"
                 onClick={() => {
-                  const currentLength = props?.lang?.answer_data?.[props?.type]?.length ?? 0;
+                  const currentLength = props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.length ?? 0;
                   props?.watch("language")?.forEach((_, index) => {
                     props?.setValue(
                       `language.${index}.answer_data.${props?.type}`,

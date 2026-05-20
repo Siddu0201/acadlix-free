@@ -12,6 +12,7 @@ import AppFront from "@acadlix/front/AppFront";
 import VideoPlayer from "@acadlix/modules/video-player/VideoPlayer";
 import {
   PostUpdateLessonTime,
+  PostUpdateLessonTimeStatistics,
 } from "@acadlix/requests/front/FrontDashboardRequest";
 import {
   getVideoSrc,
@@ -324,6 +325,41 @@ const LessonVideoContent = (props) => {
     });
   }
 
+  const updateTimeStatisticsMutation = PostUpdateLessonTimeStatistics();
+  const updateTimeStatistics = (
+    current_time = 0,
+    duration = 0,
+    progress_percentage = 0,
+  ) => {
+    if (!props?.c?.course_statistic_id) {
+      return;
+    }
+    let max_watched_time = props?.c?.meta_value?.max_watched_time ?? 0;
+    if (current_time > max_watched_time) {
+      max_watched_time = current_time;
+    }
+    updateTimeStatisticsMutation?.mutate({
+      course_statistic_id: props?.c?.course_statistic_id,
+      meta_value: {
+        current_time: current_time,
+        duration: duration,
+        progress_percentage: progress_percentage,
+        max_watched_time: max_watched_time,
+        last_watched_at: Date.now(),
+      }
+    }, {
+      onSuccess: (data) => {
+        if (data?.data?.success && data?.data?.course_statistic) {
+          props?.setValue(
+            `sections.${props?.index}.content.${props?.c_index}.meta_value`,
+            data?.data?.course_statistic?.meta_value,
+            { shouldDirty: true }
+          );
+        }
+      }
+    });
+  }
+
   const handleNext = () => {
     if (!props?.last) {
       const nextContent = props
@@ -362,6 +398,7 @@ const LessonVideoContent = (props) => {
   return (
     <Box id="acadlix-video-player">
       <VideoPlayer
+        key={props?.c?.id}
         src={src}
         videoType={props?.c?.video?.video_type}
         hours={props?.c?.hours}
@@ -379,6 +416,8 @@ const LessonVideoContent = (props) => {
         hasExternalFullscreen={true}
         onClickFullscreen={props?.handleFullScreen}
         onEnded={handleEnded}
+        updateTimeStatistics={updateTimeStatistics}
+        meta_value={props?.c?.meta_value}
         {...props}
       />
     </Box>

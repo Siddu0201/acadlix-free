@@ -69,7 +69,10 @@ import Provider from './provider/Provider';
         short.__REACT_ROOT__.render(
           <div id={loginId}>
             <Provider id={loginId}>
-              <FrontLogin />
+              <FrontLogin
+                redirect_url={short.getAttribute('data-redirect-url')}
+                type="shortcode"
+              />
             </Provider>
           </div>
         );

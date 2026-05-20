@@ -76,6 +76,18 @@ class FrontDashboardController
 
     register_rest_route(
       $this->namespace,
+      '/' . $this->base . '/post-update-lesson-time-statistics',
+      [
+        [
+          'methods' => WP_REST_Server::EDITABLE,
+          'callback' => [$this, 'post_update_lesson_time_statistics'],
+          'permission_callback' => [$this, 'check_permission'],
+        ],
+      ]
+    );
+
+    register_rest_route(
+      $this->namespace,
       '/' . $this->base . '/post-set-active',
       [
         [
@@ -426,6 +438,37 @@ class FrontDashboardController
     return rest_ensure_response(['success' => true, 'lesson' => acadlix()->model()->lesson()->ofLesson()->find($lessonId)]);
   }
 
+  public function post_update_lesson_time_statistics($request)
+  {
+    $required_fields = array('course_statistic_id', 'meta_value');
+    foreach ($required_fields as $field) {
+      $param = $request->get_param($field);
+
+      if (empty($param)) {
+        /* translators: %s is the required field */
+        $errors[] = sprintf(__('The %s parameter is required.', 'acadlix'), $field);
+      }
+    }
+
+    if (!empty($errors)) {
+      return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
+    }
+    $courseStatisticId = $request->get_param('course_statistic_id');
+    $metaValue = $request->get_param('meta_value');
+
+    $courseStatistic = acadlix()->model()->courseStatistic()->find($courseStatisticId);
+    if ($courseStatistic) {
+      $courseStatistic->update([
+        'meta_value' => $metaValue
+      ]);
+    }
+    return rest_ensure_response(
+      [
+        'success' => true,
+        'course_statistic' => acadlix()->model()->courseStatistic()->find($courseStatisticId)
+      ]
+    );
+  }
   public function post_set_active($request)
   {
     $required_fields = array('course_id', 'course_section_content_id', 'user_id');

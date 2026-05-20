@@ -221,6 +221,7 @@ const CourseContent = () => {
                 sort: c?.menu_order ?? "",
                 content_type_id: c?.contentable?.id ?? null,
                 course_statistic_id: statistic?.id ?? null,
+                meta_value: statistic?.meta_value ?? null,
                 is_active: data?.data?.course_section_content_id == c?.ID,
                 is_completed: Boolean(Number(statistic?.is_completed)) ?? false,
                 type: c?.contentable?.type ?? "", // lesson/quiz/assignment,

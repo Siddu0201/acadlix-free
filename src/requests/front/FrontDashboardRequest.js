@@ -1,7 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { handleMutationError, handleQueryError, useInstance } from "@acadlix/helpers/util";
-import toast from "react-hot-toast";
-
 
 const base = "/front-dashboard";
 
@@ -99,6 +97,22 @@ export const PostUpdateLessonTime = () => {
   return useMutation({
     mutationFn: (data) => {
       return instance.post(`${base}/post-update-lesson-time`, data, {
+        headers: {
+          'X-WP-Nonce': acadlixOptions.nonce
+        },
+      });
+    },
+    onError: (error) => {
+      handleMutationError(error);
+    }
+  })
+}
+
+export const PostUpdateLessonTimeStatistics = () => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/post-update-lesson-time-statistics`, data, {
         headers: {
           'X-WP-Nonce': acadlixOptions.nonce
         },

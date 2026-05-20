@@ -16,7 +16,7 @@ class Manager
   public function __construct()
   {
     add_action('init', function () {
-      if(acadlix()->isDev){
+      if (acadlix()->isDev) {
         acadlix()->helper()->queryLogger()->enable();
       }
     });
@@ -108,14 +108,26 @@ class Manager
     return $content;
   }
 
-  public function add_shortcode_login()
+  public function add_shortcode_login($atts)
   {
     $content = '';
+    $atts = shortcode_atts([
+      'redirect_url' => '',
+      'redirect_page_id' => '',
+    ], $atts);
+    $redirect_url = '';
+    if (!empty($atts['redirect_url'])) {
+      $redirect_url = esc_url($atts['redirect_url']);
+    }
+    
+    if (!empty($atts['redirect_page_id']) && is_numeric($atts['redirect_page_id'])) {
+      $redirect_url = get_permalink($atts['redirect_page_id']);
+    }
     $user_id = get_current_user_id();
     ob_start();
     if (!$user_id) {
       ?>
-      <div class="acadlix-front-login"></div>
+      <div class="acadlix-front-login" data-redirect-url="<?php echo esc_url($redirect_url); ?>"></div>
       <?php
     }
     $content = ob_get_contents();

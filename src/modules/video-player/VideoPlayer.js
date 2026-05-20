@@ -19,6 +19,7 @@ const VideoPlayer = ({
   hours = 0,
   minutes = 0,
   seconds = 0,
+  meta_value = null,
   controls = [],
   settings = [],
   keyboard = {},
@@ -37,10 +38,17 @@ const VideoPlayer = ({
   hasExternalFullscreen = false,
   onClickFullscreen = null,
   onEnded = null,
+  updateTimeStatistics = null,
   ...props
 }) => {
   const playerRef = useRef(null);
   const maskRef = useRef(null);
+  const saveIntervalRef = useRef(null);
+  const lastSavedSecondRef = useRef(0);
+  const hasResumedRef = useRef(false);
+  const pendingResumeRef = useRef(
+    meta_value?.current_time || 0
+  );
 
   useEffect(() => {
     const Plyr = window.Plyr;
@@ -225,6 +233,22 @@ const VideoPlayer = ({
       addExtraButtons();
 
       let duration = plyrInstance.duration;
+
+      // // ✅ Resume only once
+      // const resumeTime = meta_value?.current_time || 0;
+      // if (
+      //   !hasResumedRef.current &&
+      //   resumeTime > 5 &&
+      //   resumeTime < plyrInstance.duration - 5
+      // ) {
+      //   try {
+      //     plyrInstance.currentTime = resumeTime;
+      //     hasResumedRef.current = true;
+      //   } catch (e) {
+      //     console.warn("Resume failed", e);
+      //   }
+      // }
+
       if (duration === 0) {
         // Handle case where duration is 0 (e.g., Vimeo videos)
         if (plyrInstance?.isVimeo) {
@@ -240,7 +264,74 @@ const VideoPlayer = ({
       }
     };
 
+    const saveTimeStatistics = () => {
+      if (!updateTimeStatistics) return;
+
+      const currentTime = plyrInstance.currentTime || 0;
+      const duration = plyrInstance.duration || 0;
+
+      const progress =
+        duration > 0 ? (currentTime / duration) * 100 : 0;
+
+      // prevent duplicate saves
+      if (Math.floor(currentTime) === lastSavedSecondRef.current) {
+        return;
+      }
+
+      lastSavedSecondRef.current = Math.floor(currentTime);
+
+      updateTimeStatistics(
+        currentTime,
+        duration,
+        progress,
+      );
+    };
+
+    const handlePlay = () => {
+      // ✅ Resume ONLY once
+      if (
+        !hasResumedRef.current &&
+        pendingResumeRef.current > 3 &&
+        pendingResumeRef.current < plyrInstance.duration - 3 
+      ) {
+        plyrInstance.currentTime = pendingResumeRef.current;
+
+        hasResumedRef.current = true;
+        pendingResumeRef.current = 0;
+
+        // small trick for YouTube stability
+        setTimeout(() => {
+          plyrInstance.currentTime = plyrInstance.currentTime;
+        }, 200);
+      }
+
+      // Save immediately when video starts
+      saveTimeStatistics();
+
+      // Start interval (every 10 sec)
+      saveIntervalRef.current = setInterval(() => {
+        saveTimeStatistics();
+      }, 10000);
+    };
+
+    const handlePause = () => {
+      if (saveIntervalRef.current) {
+        clearInterval(saveIntervalRef.current);
+        saveIntervalRef.current = null;
+      }
+
+      // Save once when paused
+      saveTimeStatistics();
+    };
+
     const handleEnded = () => {
+      saveTimeStatistics();
+
+      if (saveIntervalRef.current) {
+        clearInterval(saveIntervalRef.current);
+        saveIntervalRef.current = null;
+      }
+
       if (onEnded) {
         onEnded();
       }
@@ -257,6 +348,9 @@ const VideoPlayer = ({
     };
 
     plyrInstance.on("ready", handleReady);
+    plyrInstance.on("play", handlePlay);
+    plyrInstance.on("pause", handlePause);
+    plyrInstance.on("ended", handleEnded);
     plyrInstance.on("ended", handleEnded);
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
@@ -265,7 +359,13 @@ const VideoPlayer = ({
 
     // Cleanup: Destroy the Plyr instance when the component unmounts
     return () => {
+      if (saveIntervalRef.current) {
+        clearInterval(saveIntervalRef.current);
+      }
       plyrInstance.off("ready", handleReady);
+      plyrInstance.off("play", handlePlay);
+      plyrInstance.off("pause", handlePause);
+      plyrInstance.off("ended", handleEnded);
       plyrInstance.off("ended", handleEnded);
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
       document.removeEventListener(
@@ -367,6 +467,7 @@ VideoPlayer.prototype = {
   hours: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   minutes: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   seconds: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  meta_value: PropTypes.any,
   controls: PropTypes.array,
   settings: PropTypes.array,
   keyboard: PropTypes.object,
@@ -385,6 +486,7 @@ VideoPlayer.prototype = {
   hasExternalFullscreen: PropTypes.bool,
   onClickFullscreen: PropTypes.func,
   onEnded: PropTypes.func,
+  updateTimeStatistics: PropTypes.func,
 };
 
 export default VideoPlayer;

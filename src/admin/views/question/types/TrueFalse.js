@@ -36,8 +36,8 @@ function TrueFalse(props) {
             </Alert>
           )}
         <RadioGroup row>
-          {props?.lang?.answer_data?.[props?.type]?.length > 0 &&
-            props?.lang?.answer_data?.[props?.type]?.map(
+          {props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.length > 0 &&
+            props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.map(
               (option, option_index) => (
                 <Controller
                   key={option_index}
