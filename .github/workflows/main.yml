@@ -26,6 +26,9 @@ jobs:
         run: npm ci
 
       - name: Build React app (Free)
+        env:
+          GENERATE_SOURCEMAP: "false" # Disables source maps for underlying webpack builds
+          NODE_ENV: "production"
         run: npm run build:free
 
       - name: Set plugin version for Free
