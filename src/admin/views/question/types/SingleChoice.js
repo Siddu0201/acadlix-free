@@ -152,50 +152,63 @@ const Option = (props) => {
               )}
             <Controller
               rules={{
-                required: {
-                  value:
-                    props?.watch(`language.${props?.index}.default`) &&
-                    props
-                      ?.watch(
-                        `language.${props?.language_index}.answer_data.${props?.type}`
-                      )
-                      .filter((d) => d?.isCorrect).length === 0,
-                  message: __(
-                    "Please set atleast one correct option",
-                    "acadlix"
-                  ),
-                },
+                validate: () => {
+                  const answers = props.getValues(
+                    `language.${props.language_index}.answer_data.${props.type}`
+                  );
+
+                  const hasCorrect = answers?.some(a => a?.isCorrect);
+
+                  if (
+                    props.getValues(`language.${props.index}.default`) &&
+                    !hasCorrect
+                  ) {
+                    return __("Please set atleast one correct option", "acadlix");
+                  }
+
+                  return true;
+                }
               }}
               control={props.control}
               name={`language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.isCorrect`}
               render={(data) => (
                 <FormControlLabel
-                  control={
-                    <Radio />
-                  }
+                  control={<Radio />}
                   onBlur={data.field.onBlur}
+                  checked={data.field.value}
                   onChange={(e) => {
-                    props?.setValue(
-                      "language",
-                      [...props?.watch("language")?.map((lang) => {
-                        lang.answer_data[props?.type] = lang?.answer_data?.[
-                          props?.type
-                        ]?.map((answer, option_index) => {
-                          if (option_index === props?.option_index) {
-                            answer.isCorrect = true;
-                          } else {
-                            answer.isCorrect = false;
-                          }
-                          return answer;
-                        });
-                        return lang;
-                      })],
-                      { shouldDirty: true }
+                    const answers = props.getValues(
+                      `language.${props.language_index}.answer_data.${props.type}`
                     );
+
+                    answers.forEach((_, index) => {
+                      props.setValue(
+                        `language.${props.language_index}.answer_data.${props.type}.${index}.isCorrect`,
+                        index === props.option_index,
+                        {
+                          shouldDirty: true,
+                          shouldValidate: true,
+                        }
+                      );
+                    });
+                    // props?.setValue(
+                    //   "language",
+                    //   [...props?.watch("language")?.map((lang) => {
+                    //     lang.answer_data[props?.type] = lang?.answer_data?.[
+                    //       props?.type
+                    //     ]?.map((answer, option_index) => {
+                    //       if (option_index === props?.option_index) {
+                    //         answer.isCorrect = true;
+                    //       } else {
+                    //         answer.isCorrect = false;
+                    //       }
+                    //       return answer;
+                    //     });
+                    //     return lang;
+                    //   })],
+                    //   { shouldDirty: true }
+                    // );
                   }}
-                  checked={props?.watch(
-                    `language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.isCorrect`
-                  )}
                   label={__("Correct", "acadlix")}
                 />
               )}
