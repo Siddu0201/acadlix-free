@@ -73,7 +73,7 @@ function TrueFalse(props) {
                       onBlur={data.field.onBlur}
                       checked={data.field.value}
                       onChange={() => {
-                        const answers = props.getValues(
+                        const answers = props.watch(
                           `language.${props.language_index}.answer_data.${props.type}`
                         );
 

@@ -205,7 +205,7 @@ const Option = (props) => {
                   onBlur={data.field.onBlur}
                   checked={data.field.value}
                   onChange={(e) => {
-                    const answers = props.getValues(
+                    const answers = props.watch(
                       `language.${props.language_index}.answer_data.${props.type}`
                     );
 
