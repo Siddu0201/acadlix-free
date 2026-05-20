@@ -26,9 +26,6 @@ jobs:
         run: npm ci
 
       - name: Build React app (Free)
-        env:
-          GENERATE_SOURCEMAP: "false" # Disables source maps for underlying webpack builds
-          NODE_ENV: "production"
         run: npm run build:free
 
       - name: Set plugin version for Free
@@ -49,6 +46,15 @@ jobs:
         run: |
           composer install --no-dev --optimize-autoloader --classmap-authoritative
           composer dumpautoload -o --no-dev --classmap-authoritative
+      
+      - name: Purge Vendor Development Trash
+        run: |
+          echo "Blazing fast native cleanup of vendor dev artifacts..."
+          # Delete heavy development/test directories from the vendor folder
+          find vendor/ -type d \( -name "tests" -o -name "Tests" -o -name "test" -o -name "testing" -o -name "phpunit" -o -name "PHPUnit" -o -name "docs" -o -name ".github" -o -name "bin" -o -name "stubs" \) -exec rm -rf {} +
+          
+          # Delete non-production configuration and markdown documentation files
+          find vendor/ -type f \( -name "*.md" -o -name "*.toml" -o -name "*.bat" -o -name "*.sh" -o -name "composer.json" -o -name "installed.json" \) -delete
       
       # ----------------------------------
       # Install WP-CLI (REQUIRED)

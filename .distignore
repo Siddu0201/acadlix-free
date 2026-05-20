@@ -30,25 +30,9 @@ circle.yml
 # -----------------------------
 # Tests & Dev Artifacts
 # -----------------------------
-tests/
 phpunit.xml
 phpunit.xml.dist
-vendor/**/tests/
-vendor/**/Tests/
-vendor/**/test/
-vendor/**/testing/
-vendor/**/phpunit/
-vendor/**/PHPUnit/
-vendor/**/*.md
-vendor/**/.github/
-vendor/**/docs/
-vendor/**/bin/
-vendor/**/stubs/
-vendor/**/installed.json
-vendor/**/composer.json
-vendor/**/*.toml
-vendor/**/*.bat
-vendor/**/*.sh
+
 
 # -----------------------------
 # Specific Library Cleanup
