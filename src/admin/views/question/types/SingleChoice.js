@@ -26,6 +26,34 @@ const SingleChoice = (props) => {
         }
       ></CardHeader>
       <CardContent>
+        <Controller
+          control={props.control}
+          name={`language.${props.index}.answer_data.${props.type}`}
+          rules={{
+            validate: (answers) => {
+              const hasCorrect = answers?.some(a => a?.isCorrect);
+
+              if (
+                props.watch(`language.${props.index}.default`) &&
+                !hasCorrect
+              ) {
+                return __("Please set atleast one correct option", "acadlix");
+              }
+
+              return true;
+            },
+          }}
+          render={() => null}
+        />
+        {props.formState.errors?.language?.[props.index]
+          ?.answer_data?.[props.type] && (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {
+                props.formState.errors.language[props.index]
+                  .answer_data[props.type].message
+              }
+            </Alert>
+          )}
         <RadioGroup>
           <Grid container spacing={4}>
             {
@@ -133,7 +161,7 @@ const Option = (props) => {
       >
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, lg: 2 }}>
-            {Boolean(
+            {/* {Boolean(
               props.formState?.errors?.language?.[props?.language_index]
                 ?.answer_data?.[props?.type]?.[props?.option_index]?.isCorrect
             ) && (
@@ -149,26 +177,26 @@ const Option = (props) => {
                       ?.isCorrect?.message
                   }
                 </Alert>
-              )}
+              )} */}
             <Controller
-              rules={{
-                validate: () => {
-                  const answers = props.getValues(
-                    `language.${props.language_index}.answer_data.${props.type}`
-                  );
+              // rules={{
+              //   validate: () => {
+              //     const answers = props.getValues(
+              //       `language.${props.language_index}.answer_data.${props.type}`
+              //     );
 
-                  const hasCorrect = answers?.some(a => a?.isCorrect);
+              //     const hasCorrect = answers?.some(a => a?.isCorrect);
 
-                  if (
-                    props.getValues(`language.${props.index}.default`) &&
-                    !hasCorrect
-                  ) {
-                    return __("Please set atleast one correct option", "acadlix");
-                  }
+              //     if (
+              //       props.getValues(`language.${props.index}.default`) &&
+              //       !hasCorrect
+              //     ) {
+              //       return __("Please set atleast one correct option", "acadlix");
+              //     }
 
-                  return true;
-                }
-              }}
+              //     return true;
+              //   }
+              // }}
               control={props.control}
               name={`language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.isCorrect`}
               render={(data) => (
