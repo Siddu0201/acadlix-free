@@ -177,7 +177,7 @@ const Option = (props) => {
                   onChange={(e) => {
                     props?.setValue(
                       "language",
-                      props?.watch("language")?.map((lang) => {
+                      [...props?.watch("language")?.map((lang) => {
                         lang.answer_data[props?.type] = lang?.answer_data?.[
                           props?.type
                         ]?.map((answer, option_index) => {
@@ -189,7 +189,7 @@ const Option = (props) => {
                           return answer;
                         });
                         return lang;
-                      }),
+                      })],
                       { shouldDirty: true }
                     );
                   }}
