@@ -56,14 +56,7 @@ function TrueFalse(props) {
               (option, option_index) => (
                 <Controller
                   key={option_index}
-                  // rules={{
-                  //   required: props?.watch(`language.${props?.index}.default`) &&
-                  //     props
-                  //       ?.watch(
-                  //         `language.${props?.index}.answer_data.${props?.type}`
-                  //       )
-                  //       .filter((d) => d?.isCorrect).length === 0
-                  // }}
+                  
                   control={props?.control}
                   name={`language.${props?.index}.answer_data.${props?.type}.${option_index}.isCorrect`}
                   render={(data) => (
@@ -88,23 +81,6 @@ function TrueFalse(props) {
                             }
                           );
                         });
-                        // props?.setValue(
-                        //   "language",
-                        //   props?.watch("language")?.map((lang) => {
-                        //     lang.answer_data[props?.type] = lang?.answer_data?.[
-                        //       props?.type
-                        //     ]?.map((answer, o_index) => {
-                        //       if (option_index === o_index) {
-                        //         answer.isCorrect = true;
-                        //       } else {
-                        //         answer.isCorrect = false;
-                        //       }
-                        //       return answer;
-                        //     });
-                        //     return lang;
-                        //   }),
-                        //   { shouldDirty: true }
-                        // );
                       }}
                       label={option?.option === "True" ? __("True", "acadlix") : __("False", "acadlix")}
                     />

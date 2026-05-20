@@ -161,42 +161,7 @@ const Option = (props) => {
       >
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, lg: 2 }}>
-            {/* {Boolean(
-              props.formState?.errors?.language?.[props?.language_index]
-                ?.answer_data?.[props?.type]?.[props?.option_index]?.isCorrect
-            ) && (
-                <Alert
-                  severity="error"
-                  sx={{
-                    marginTop: 2,
-                  }}
-                >
-                  {
-                    props.formState.errors?.language?.[props?.language_index]
-                      ?.answer_data?.[props?.type]?.[props?.option_index]
-                      ?.isCorrect?.message
-                  }
-                </Alert>
-              )} */}
             <Controller
-              // rules={{
-              //   validate: () => {
-              //     const answers = props.getValues(
-              //       `language.${props.language_index}.answer_data.${props.type}`
-              //     );
-
-              //     const hasCorrect = answers?.some(a => a?.isCorrect);
-
-              //     if (
-              //       props.getValues(`language.${props.index}.default`) &&
-              //       !hasCorrect
-              //     ) {
-              //       return __("Please set atleast one correct option", "acadlix");
-              //     }
-
-              //     return true;
-              //   }
-              // }}
               control={props.control}
               name={`language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.isCorrect`}
               render={(data) => (
@@ -219,23 +184,6 @@ const Option = (props) => {
                         }
                       );
                     });
-                    // props?.setValue(
-                    //   "language",
-                    //   [...props?.watch("language")?.map((lang) => {
-                    //     lang.answer_data[props?.type] = lang?.answer_data?.[
-                    //       props?.type
-                    //     ]?.map((answer, option_index) => {
-                    //       if (option_index === props?.option_index) {
-                    //         answer.isCorrect = true;
-                    //       } else {
-                    //         answer.isCorrect = false;
-                    //       }
-                    //       return answer;
-                    //     });
-                    //     return lang;
-                    //   })],
-                    //   { shouldDirty: true }
-                    // );
                   }}
                   label={__("Correct", "acadlix")}
                 />
