@@ -248,6 +248,6 @@ const Option = (props) => {
         </Grid>
       </CardContent>
     </Card>
-  );
+  ); 
 };
 export default MultipleChoice;
