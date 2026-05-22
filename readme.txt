@@ -3,7 +3,7 @@ Contributors: acadlix
 Donate link: https://acadlix.com/
 Tags: lms, ai quiz, course, assessment, exam
 Requires at least: 6.8
-Tested up to: 6.9.4
+Tested up to: 7.0
 Requires PHP: 8.2
 Stable tag: {{VERSION}}
 License: GPLv2 or later
@@ -18,6 +18,12 @@ Acadlix bridges the gap between advanced assessment and course management. Effor
 It is an all-in-one LMS and quiz plugin for WordPress designed for coaching institutes, training centers, and course creators. Whether you need to sell online courses, conduct mock exams, or manage a student body, Acadlix handles it all from one dashboard.
 
 **The Acadlix Difference**: Unlike basic quiz tools, education plugins, or traditional LMS plugins, we combine AI-powered creation, advanced proctoring features, and built-in eCommerce with subscriptions—eliminating the need for a messy stack of expensive add-ons.
+
+👉 [Acadlix LMS Pro](https://acadlix.com/pricing/)
+
+👉 [Live Demo](https://demo.acadlix.com/)
+
+👉 [Documentation](https://acadlix.com/docs/acadlix/)
 
 == Why Choose Acadlix? ==
 
