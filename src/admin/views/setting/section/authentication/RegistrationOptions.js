@@ -193,7 +193,7 @@ const ActiveItem = React.forwardRef(({ activeId, ...props }, ref) => {
             >
               {props?.item?.name}
               {
-                props?.item?.required && (
+                props?.item?.enabled && props?.item?.required && (
                   <span style={{ color: 'red' }}>*</span>
                 )
               }
@@ -339,7 +339,7 @@ const SortableItem = (props) => {
             >
               {props?.item?.name}
               {
-                props?.item?.required && (
+                props?.item?.enabled && props?.item?.required && (
                   <span style={{ color: 'red' }}> *</span>
                 )
               }

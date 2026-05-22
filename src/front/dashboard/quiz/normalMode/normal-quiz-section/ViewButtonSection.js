@@ -89,12 +89,13 @@ const ViewButtonSection = (props) => {
         onClose={() => props?.setValue("error_modal_at_answer_sheet", false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        xl="40%"
       >
         <Alert
           severity="warning"
           onClose={() => props?.setValue("error_modal_at_answer_sheet", false)}
         >{sprintf(
-          __("You need at least %d%% to view the answer sheet.", "acadlix"),
+          __("You need to score at least %d%% to view the answer sheet.", "acadlix"),
           props?.watch("min_percentage_to_view_answer_sheet")
         )}</Alert>
       </BootstrapDialog>

@@ -319,6 +319,9 @@ class Ajax
       $phone_number = $processed['phone_number'] ?? '';
       $phonecode = $processed['phonecode'] ?? '';
       $user_meta = $processed['meta'];
+      $first_name = $user_meta['first_name'] ?? '';
+      $last_name = $user_meta['last_name'] ?? '';
+      $display_name = trim("$first_name $last_name") ?: $username;
 
       // check if phone number are already used by another user
       if (!empty($phone_number)) {
@@ -383,7 +386,7 @@ class Ajax
         $username,
         $email,
         $password,
-        ['user_url' => $user_url],
+        ['user_url' => $user_url, 'display_name' => $display_name],
         $user_meta,
         true
       );
