@@ -91,7 +91,22 @@ const Authentication = (props) => {
                             children: [
                               {
                                 component: "CustomTypography",
-                                value: __("Login Shortcode", "acadlix"),
+                                children: [
+                                  {
+                                    component: "span",
+                                    value: __("Login Shortcode", "acadlix"),
+                                  },
+                                  {
+                                    component: "CustomFeatureTooltip",
+                                    component_name: "login_feature_tooltip",
+                                    props: {
+                                      plan: "open",
+                                      msg: __(`redirect_page_id redirects users to a specific WordPress page after login using the page ID.</br>
+                                                redirect_url redirects users to any custom URL after login.</br> 
+                                                If both are used, redirect_url will take priority over redirect_page_id`, "acadlix"),
+                                    }
+                                  }
+                                ]
                               }
                             ],
                           },
@@ -99,32 +114,18 @@ const Authentication = (props) => {
                             component: "Grid",
                             component_name: "setting_authentication_login_option_grid_item_login_shortcode_value",
                             props: {
-                              size: { xs: 12, sm: 6, lg: 4 },
+                              size: { xs: 12, sm: 6, lg: 9 },
                             },
                             children: [
                               {
                                 component: "CustomCopyableText",
                                 props: {
-                                  value: "[acadlix_login]",
+                                  value: `[acadlix_login redirect_url=""]`,
                                   successMessage: __("Login shortcode copied to clipboard!", "acadlix"),
                                   errorMessage: __("Failed to copy login shortcode: ", "acadlix"),
                                 },
                               }
                             ],
-                          },
-                          {
-                            component: "Grid",
-                            component_name: "setting_authentication_login_option_grid_item_spacer",
-                            props: {
-                              size: { xs: 0, sm: 0, lg: 5 },
-                              sx: {
-                                display: {
-                                  xs: "none",
-                                  sm: "none",
-                                  lg: "block",
-                                }
-                              }
-                            }
                           },
                           {
                             component: "Grid",

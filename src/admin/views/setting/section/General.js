@@ -956,7 +956,7 @@ function General(props) {
                   >
                     <Grid size={{ xs: 12, sm: 3, lg: 3 }}>
                       <CustomTypography>
-                        {__("Light logo", "acadlix")}
+                        {__("Custom logo", "acadlix")}
                       </CustomTypography>
                     </Grid>
                     <Grid size={{ xs: 12, sm: 9, lg: 9 }}>

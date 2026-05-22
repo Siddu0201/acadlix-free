@@ -638,11 +638,21 @@ const QuizContent = (props) => {
     methods?.setValue('finish', false, { shouldDirty: true });
     methods?.setValue('view_result', true, { shouldDirty: true });
     methods?.setValue('view_question', false, { shouldDirty: true });
+    methods?.setValue('questions', methods?.watch('questions')?.map((q, i) => {
+      if (i === 0) {
+        q.selected = true;
+      } else {
+        q.selected = false;
+      }
+      return {
+        ...q,
+      }
+    }), { shouldDirty: true });
   }
 
   React.useEffect(() => {
     const handleAdvanceLoginAtAnswerSheet = (event) => {
-      if(event?.data?.type === "ADVANCE_LOGIN_AT_ANSWER_SHEET") {
+      if (event?.data?.type === "ADVANCE_LOGIN_AT_ANSWER_SHEET") {
         window.location.reload();
       }
     }
