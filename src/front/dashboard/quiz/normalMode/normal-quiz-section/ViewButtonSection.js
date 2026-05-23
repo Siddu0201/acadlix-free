@@ -90,6 +90,8 @@ const ViewButtonSection = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         xl="40%"
+        md="40%"
+
       >
         <Alert
           severity="warning"

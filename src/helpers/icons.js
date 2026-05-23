@@ -851,6 +851,110 @@ export const FaBookOpen = (props) => {
   )
 }
 
+export const TbFilePencilFilled = (props) => {
+  return (
+    <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l.117 .007a1 1 0 0 1 .876 .876l.007 .117v4l.005 .15a2 2 0 0 0 1.838 1.844l.157 .006h4l.117 .007a1 1 0 0 1 .876 .876l.007 .117v9a3 3 0 0 1 -2.824 2.995l-.176 .005h-10a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-14a3 3 0 0 1 2.824 -2.995l.176 -.005zm1 10l-5 5v2h2l5 -5a1.414 1.414 0 0 0 -2 -2"></path><path d="M19 7h-4l-.001 -4.001z"></path></svg>
+  )
+}
+
+export const CourseIcon = (props) => {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 64 64">
+
+      <g data-name="18_Online Library" id="_18_Online_Library">
+
+        <path d="M59,52H5a1,1,0,0,1-1-1V16a3,3,0,0,1,3-3H57a3,3,0,0,1,3,3V51A1,1,0,0,1,59,52Z" style={{
+          fill: "#0455bf"
+        }} />
+
+        <path d="M42,50A36,36,0,0,1,6,14H6a2.943,2.943,0,0,1,.141-.859A2.993,2.993,0,0,0,4,16V51a1,1,0,0,0,1,1H59a1,1,0,0,0,1-1V50Z" style={{
+          fill: "#004787"
+        }} />
+
+        <path d="M55,48H9a1,1,0,0,1-1-1V18a1,1,0,0,1,1-1H55a1,1,0,0,1,1,1V47A1,1,0,0,1,55,48Z" style={{
+          fill: "#fdfeff"
+        }} />
+
+        <path d="M14,45l32,.039h0a1,1,0,0,0,1-1V17H13V44A1,1,0,0,0,14,45Z" style={{
+          fill: "#b8ced3"
+        }} />
+
+        <path d="M48,40.039h0L16,40a1,1,0,0,1-1-1V5a3,3,0,0,1,3-3H46a3,3,0,0,1,3,3V39.039a1,1,0,0,1-1,1Z" style={{
+          fill: "#03a65a"
+        }} />
+
+        <path d="M17.614,39.922A1,1,0,0,1,17,39V5a3,3,0,0,1,3-3H18a3,3,0,0,0-3,3V39a1,1,0,0,0,1,1l1.615,0Z" style={{
+          fill: "#027d44"
+        }} />
+
+        <path d="M26,16a1,1,0,0,1-.556-.169L23.005,14.2l-2.451,1.631A1,1,0,0,1,19,15V2h8V15a1,1,0,0,1-1,1Z" style={{
+          fill: "#027d44"
+        }} />
+
+        <path d="M27,15a1,1,0,0,1-.556-.169L24.005,13.2l-2.451,1.631A1,1,0,0,1,20,14V2h8V14a1,1,0,0,1-1,1Z" style={{
+          fill: "#febc00"
+        }} />
+
+        <path d="M22,14V2H20V14a1,1,0,0,0,1.554.833l.564-.375A.99.99,0,0,1,22,14Z" style={{
+          fill: "#edaa03"
+        }} />
+
+        <rect height="2" style={{
+          fill: "#febc00"
+        }} width="6" x="39" y="27" />
+
+        <rect height="2" style={{
+          fill: "#febc00"
+        }} width="6" x="39" y="31" />
+
+        <rect height="2" style={{
+          fill: "#febc00"
+        }} width="2" x="35" y="27" />
+
+        <rect height="2" style={{
+          fill: "#febc00"
+        }} width="2" x="35" y="31" />
+
+        <path d="M53,60H11a9.01,9.01,0,0,1-9-9,1,1,0,0,1,1-1H61a1,1,0,0,1,1,1A9.01,9.01,0,0,1,53,60Z" style={{
+          fill: "#0455bf"
+        }} />
+
+        <path d="M55,58H13a9.01,9.01,0,0,1-8.941-8H3a1,1,0,0,0-1,1,9.01,9.01,0,0,0,9,9H53a8.984,8.984,0,0,0,7.276-3.724A8.942,8.942,0,0,1,55,58Z" style={{
+          fill: "#004787"
+        }} />
+
+        <rect height="4" style={{
+          fill: "#004787"
+        }} width="2" x="13" y="13" />
+
+        <path d="M18.5,36H49a0,0,0,0,1,0,0v5a2,2,0,0,1-2,2H18.5A3.5,3.5,0,0,1,15,39.5v0A3.5,3.5,0,0,1,18.5,36Z" style={{
+          fill: "#fdfeff"
+        }} />
+
+        <path d="M20.72,41a3.7,3.7,0,0,1-3.57-2.517,3.358,3.358,0,0,1,.092-2.241,3.494,3.494,0,0,0-2.225,3.606A3.617,3.617,0,0,0,18.672,43H47a2,2,0,0,0,2-2H20.72Z" style={{
+          fill: "#dfeaef"
+        }} />
+
+        <polygon points="38 53 26 53 24 50 40 50 38 53" style={{
+          fill: "#febc00"
+        }} />
+
+        <path d="M25.667,50H24l2,3H38l.667-1H29.4A4.492,4.492,0,0,1,25.667,50Z" style={{
+          fill: "#edaa03"
+        }} />
+
+      </g>
+
+    </svg>
+  )
+}
+
+export const FaChartLine = (props) => {
+  return (
+    <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64L0 400c0 44.2 35.8 80 80 80l400 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 416c-8.8 0-16-7.2-16-16L64 64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z"></path></svg>
+  )
+}
+
 export const iconMap = {
   IoClose: <IoClose />,
   IoMdRefresh: <IoMdRefresh />,
@@ -975,5 +1079,8 @@ export const iconMap = {
   KnitPayIcon: <KnitPayIcon />,
   FaClipboardQuestion: <FaClipboardQuestion />,
   FaRegClock: <FaRegClock />,
-  FaBookOpen: <FaBookOpen />
+  FaBookOpen: <FaBookOpen />,
+  TbFilePencilFilled: <TbFilePencilFilled />,
+  CourseIcon: <CourseIcon />,
+  FaChartLine: <FaChartLine />
 };

@@ -18,13 +18,13 @@ export const defaultPaletteColor = {
     info: "#03C3EC",
   },
   light: {
-    primary: "#66b2ff",
-    secondary: "#ba68c8",
+    primary: "#e5f2ff",
+    secondary: "#eedaf1",
     grey: "#eeeeee",
     success: "#e7ffe7",
     error: "#ffe5e6",
-    warning: "#FFB826",
-    info: "#29CCEF",
+    warning: "#fff5df",
+    info: "#e4faff",
   },
   dark: {
     primary: "#1565c0",

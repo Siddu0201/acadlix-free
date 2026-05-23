@@ -19,3 +19,20 @@ export const GetHomeData = () => {
     }
   });
 }
+
+export const GetQuickPerformanceData = () => {
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getQuickPerformanceData"],
+    queryFn: () => {
+      return instance.get(`${base}/quick-performance`, {
+        params: {
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    }
+  });
+}

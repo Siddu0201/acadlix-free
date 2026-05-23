@@ -21,6 +21,10 @@ import { useForm } from "react-hook-form";
 import { GetHomeData } from "@acadlix/requests/admin/AdminHomeRequest";
 import Loader from "@acadlix/components/Loader";
 import { currencyPosition } from "../../../helpers/util";
+import QuickActions from "./sections/QuickActions";
+import WelcomeHeader from "./sections/WelcomeHeader";
+import QuickPerformance from "./sections/QuickPerformance";
+import CourseOverview from "./sections/CourseOverview";
 
 const Home = () => {
   const methods = useForm({
@@ -31,6 +35,14 @@ const Home = () => {
       'questions': 0,
       'today_sale': 0,
       'total_sale': 0,
+      'courseUrl': `${acadlixOptions?.admin_url}edit.php?post_type=acadlix_course`,
+      'createCourseUrl': `${acadlixOptions?.admin_url}post-new.php?post_type=acadlix_course`,
+      'quizUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_quiz`,
+      'createQuizUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_quiz#/create`,
+      'lessonUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_lesson`,
+      'createLessonUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_lesson#/create`,
+      'couponUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_coupon`,
+      'createCouponUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_coupon#/create`,
     }
   });
 
@@ -47,7 +59,7 @@ const Home = () => {
     }
   }, [data]);
 
-  if(process.env.REACT_APP_MODE === 'development'){
+  if (process.env.REACT_APP_MODE === 'development') {
     console.log(methods?.watch());
   }
 
@@ -330,6 +342,18 @@ const Home = () => {
             </Button>
           </CardActions>
         </Card>
+      </Grid>
+      <Grid size={{ xs: 12, md: 12 }}>
+        <WelcomeHeader {...methods} />
+      </Grid>
+      <Grid size={{ xs: 12, md: 12 }}>
+        <QuickPerformance {...methods} />
+      </Grid>
+      <Grid size={{ xs: 12, md: 12 }}>
+        <QuickActions {...methods} />
+      </Grid>
+      <Grid size={{ xs: 12, md: 12 }}>
+        <CourseOverview {...methods} />
       </Grid>
     </Grid>
   );

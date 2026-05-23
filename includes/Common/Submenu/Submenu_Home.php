@@ -54,6 +54,8 @@ class Submenu_Home
       'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
       'acadlix_documentation_url' => ACADLIX_DOCUMENTATION_URL,
       'acadlix_contact_us_url' => ACADLIX_CONTACT_US_URL,
+      'admin_url' => admin_url(),
+      
       'isActive' => acadlix()->license()->isActive ?? false,
       'theme_settings' => acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
     ];

@@ -347,6 +347,7 @@ const QuizContent = (props) => {
       name: "",
       email: "",
     },
+    quiz_attempts: props?.quiz?.quiz_attempts ?? 0,
     toplist_id: 0,
     toplist: [],
     toplist_count: 0,
@@ -775,6 +776,7 @@ const QuizContent = (props) => {
           userToken={userToken}
           countdownApi={countdownApi}
           handleQuizAttempt={handleQuizAttempt}
+          getTotalPoints={getTotalPoints}
         />
       </>
     );

@@ -50,6 +50,17 @@ if (!class_exists('Quiz')) {
       return acadlix()->helper()->renderShortCode($this->post_content);
     }
 
+    public function getQuizAttemptsAttribute()
+    {
+      return acadlix()
+        ->model()
+        ->userActivityMeta()
+        ->ofQuiz()
+        ->ofQuizAttempt()
+        ->where('type_id', $this->ID)
+        ->whereRaw("meta_value REGEXP '^-?[0-9]+(\\.[0-9]+)?$'")
+        ->sum('meta_value');
+    }
 
     public function quiz_shortcode()
     {
