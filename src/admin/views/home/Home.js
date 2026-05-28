@@ -21,7 +21,7 @@ const Home = () => {
     'couponUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_coupon`,
     'createCouponUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_coupon#/create`,
     'settingsUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_settings`,
-    'orderUrl': `${acadlixOptions?.admin_url}admin.php?post_type=acadlix_order`,
+    'orderUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_order`,
     'documentationUrl': acadlixOptions?.acadlix_documentation_url,
     'youtubeUrl': acadlixOptions?.acadlix_youtube_channel_url,
   };
