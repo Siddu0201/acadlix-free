@@ -195,98 +195,8 @@ const TopSoldCourses = (props) => {
                 children: methods.watch('rows')?.map((row) => {
                   return (
                     {
-                      component: "TableRow",
-                      component_name: "top_sold_courses_table_body_row",
-                      props: {
-                        sx: { '&:last-child td, &:last-child th': { border: 0 } },
-                      },
-                      children: [
-                        {
-                          component: "TableCell",
-                          component_name: "top_sold_courses_table_body_cell_course",
-                          props: {
-                            component: "th",
-                            scope: "row",
-                          },
-                          children: [
-                            {
-                              component: "Box",
-                              component_name: "top_sold_courses_table_body_cell_course_box",
-                              props: {
-                                sx: {
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 2,
-                                }
-                              },
-                              children: [
-                                {
-                                  component: "Avatar",
-                                  component_name: "top_sold_courses_table_body_cell_course_avatar",
-                                  props: {
-                                    src: row.course?.thumbnail?.url || acadlixOptions?.default_img_url || "",
-                                    alt: row.course_name,
-                                    sx: {
-                                      width: 96,
-                                      height: 60,
-                                    },
-                                    variant: "rounded"
-                                  },
-                                },
-                                {
-                                  component: "Typography",
-                                  component_name: "top_sold_courses_table_body_cell_course_name",
-                                  props: {
-                                    variant: "body2",
-                                  },
-                                  value: row.course_name,
-                                }
-                              ]
-                            }
-                          ],
-                        },
-                        {
-                          component: "TableCell",
-                          component_name: "top_sold_courses_table_body_cell_one_time",
-                          props: {
-                            align: "center",
-                            sx: {
-                              fontWeight: `400 !important`,
-                            },
-                          },
-                          value: row.one_time_sales,
-                        },
-                        {
-                          component: "TableCell",
-                          component_name: "top_sold_courses_table_body_cell_total_sales",
-                          props: {
-                            align: "center",
-                          },
-                          value: currencyPosition(row.total_sales_amount),
-                        },
-                        {
-                          component: "TableCell",
-                          component_name: "top_sold_courses_table_body_cell_action",
-                          props: {
-                            align: "center",
-                          },
-                          children: [
-                            {
-                              component: "Button",
-                              component_name: "top_sold_courses_table_body_cell_action_button",
-                              props: {
-                                color: "primary",
-                                size: "small",
-                                component: Link,
-                                href: `${props?.watch('courseStudentUrl')}&course_id=${row.course_id}`,
-                                target: "_blank",
-                                rel: "noopener noreferrer",
-                              },
-                              value: __("View", "acadlix"),
-                            }
-                          ]
-                        }
-                      ]
+                      component: <SingleTopSoldCourse {...props} row={row} />,
+                      component_name: `top_sold_courses_table_body_row_${row.course_id}`,
                     }
                   )
                 })
@@ -333,3 +243,131 @@ const TopSoldCourses = (props) => {
 }
 
 export default TopSoldCourses;
+
+const SingleTopSoldCourse = ({ row, ...props }) => {
+  const defaultSetting = {
+    component: "TableRow",
+    component_name: "top_sold_courses_table_body_row",
+    props: {
+      sx: { '&:last-child td, &:last-child th': { border: 0 } },
+    },
+    children: [
+      {
+        component: "TableCell",
+        component_name: "top_sold_courses_table_body_cell_course",
+        props: {
+          component: "th",
+          scope: "row",
+        },
+        children: [
+          {
+            component: "Box",
+            component_name: "top_sold_courses_table_body_cell_course_box",
+            props: {
+              sx: {
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+              }
+            },
+            children: [
+              {
+                component: "Avatar",
+                component_name: "top_sold_courses_table_body_cell_course_avatar",
+                props: {
+                  src: row.course?.thumbnail?.url || acadlixOptions?.default_img_url || "",
+                  alt: row.course_name,
+                  sx: {
+                    width: 96,
+                    height: 60,
+                  },
+                  variant: "rounded"
+                },
+              },
+              {
+                component: "Typography",
+                component_name: "top_sold_courses_table_body_cell_course_name",
+                props: {
+                  variant: "body2",
+                },
+                value: row.course_name,
+              }
+            ]
+          }
+        ],
+      },
+      {
+        component: "TableCell",
+        component_name: "top_sold_courses_table_body_cell_one_time",
+        props: {
+          align: "center",
+          sx: {
+            fontWeight: `400 !important`,
+          },
+        },
+        value: row.one_time_sales,
+      },
+      {
+        component: "TableCell",
+        component_name: "top_sold_courses_table_body_cell_total_sales",
+        props: {
+          align: "center",
+        },
+        value: currencyPosition(row.total_sales_amount),
+      },
+      {
+        component: "TableCell",
+        component_name: "top_sold_courses_table_body_cell_action",
+        props: {
+          align: "center",
+        },
+        children: [
+          {
+            component: "Button",
+            component_name: "top_sold_courses_table_body_cell_action_button",
+            props: {
+              color: "primary",
+              size: "small",
+              component: Link,
+              href: `${props?.watch('courseStudentUrl')}&course_id=${row.course_id}`,
+              target: "_blank",
+              rel: "noopener noreferrer",
+            },
+            value: __("View", "acadlix"),
+          }
+        ]
+      }
+    ]
+  };
+
+  const single_top_sold_course = window?.acadlixHooks?.applyFilters?.(
+    "acadlix.admin.home.top_sold_courses.single_course",
+    [defaultSetting],
+    {
+      register: props?.register,
+      control: props?.control,
+      watch: props?.watch,
+      setValue: props?.setValue,
+      props: props,
+      row: row,
+    }
+  ) ?? [];
+
+  return (
+    <>
+      {single_top_sold_course.map((field, i) => (
+        <React.Fragment key={i}>
+          <DynamicMUIRenderer
+            item={field}
+            index={i}
+            formProps={{
+              register: props?.register,
+              setValue: props?.setValue,
+              watch: props?.watch,
+            }}
+          />
+        </React.Fragment>
+      ))}
+    </>
+  )
+}
