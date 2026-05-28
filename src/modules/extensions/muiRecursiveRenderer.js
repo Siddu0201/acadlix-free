@@ -72,6 +72,7 @@ import DragDropUpload from "@acadlix/components/DragDropUpload";
 import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 import CustomFeatureElement from "@acadlix/components/CustomFeatureElement";
 import Loader from "@acadlix/components/Loader";
+import CustomRating from "@acadlix/components/CustomRating";
 
 const HTML_COMPONENTS = [
   "form",
@@ -180,6 +181,7 @@ const COMPONENT_MAP = {
   DragDropUpload,
   CustomFeatureTooltip,
   CustomFeatureElement,
+  CustomRating,
   Loader,
   // WordPress Components
   RawHTML,
