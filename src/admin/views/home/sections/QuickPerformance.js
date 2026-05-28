@@ -5,17 +5,28 @@ import { GetQuickPerformanceData } from '@acadlix/requests/admin/AdminHomeReques
 import { Avatar, Box, Card, CardContent, Grid, Skeleton, Typography } from '@mui/material'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { __ } from '@wordpress/i18n'
+import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer'
 
 const QuickPerformance = (props) => {
-  const methods = useForm({
-    defaultValues: {
-      'quizes': 0,
-      'courses': 0,
-      'lessons': 0,
-      'questions': 0,
-      'today_sale': 0,
-      'total_sale': 0,
+  const baseSettings = {
+    'quizes': 0,
+    'courses': 0,
+    'lessons': 0,
+    'questions': 0,
+    'today_sale': 0,
+    'total_sale': 0,
+  };
+  const filteredSettings = window?.acadlixHooks?.applyFilters?.(
+    "acadlix.admin.home.quick_performance.base_settings",
+    baseSettings,
+    {
+      acadlixOptions: acadlixOptions,
     }
+  ) ?? baseSettings;
+
+  const methods = useForm({
+    defaultValues: filteredSettings,
   });
 
   const { data, isFetching } = GetQuickPerformanceData();
@@ -31,54 +42,108 @@ const QuickPerformance = (props) => {
     }
   }, [data]);
 
+  const defaultSetting = {
+    component: "Grid",
+    component_name: "quick_performance_grid",
+    props: {
+      container: true,
+      spacing: {
+        xs: 2,
+        sm: 4,
+      },
+    },
+    children: [
+      {
+        component: <SinglePerformance
+          icon={<FaMoneyBillTransfer />}
+          iconColor="primary"
+          title={__("Today's Sale", "acadlix")}
+          value={currencyPosition(methods.watch('today_sale'))}
+          isFetching={isFetching}
+        />,
+        component_name: "quick_performance_today_sale",
+      },
+      {
+        component: <SinglePerformance
+          icon={<FaChartLine />}
+          iconColor="info"
+          title={__("Total Sale", "acadlix")}
+          value={currencyPosition(methods.watch('total_sale'))}
+          isFetching={isFetching}
+        />,
+        component_name: "quick_performance_total_sale",
+      },
+      {
+        component: <SinglePerformance
+          icon={<CourseIcon />}
+          iconColor="warning"
+          title={__("Total Courses", "acadlix")}
+          value={methods.watch('courses')}
+          isFetching={isFetching}
+        />,
+        component_name: "quick_performance_total_courses",
+      },
+      {
+        component: <SinglePerformance
+          icon={<FaVideo />}
+          iconColor="success"
+          title={__("Total Lessons", "acadlix")}
+          value={methods.watch('lessons')}
+          isFetching={isFetching}
+        />,
+        component_name: "quick_performance_total_lessons",
+      },
+      {
+        component: <SinglePerformance
+          icon={<FaClipboardQuestion />}
+          iconColor="error"
+          title={__("Total Quizzes", "acadlix")}
+          value={methods.watch('quizes')}
+          isFetching={isFetching}
+        />,
+        component_name: "quick_performance_total_quizzes",
+      },
+      {
+        component: <SinglePerformance
+          icon={<FaQuora />}
+          iconColor="secondary"
+          title={__("Total Questions", "acadlix")}
+          value={methods.watch('questions')}
+          isFetching={isFetching}
+        />,
+        component_name: "quick_performance_total_questions",
+      },
+    ]
+  }
+
+  const quick_performace = window?.acadlixHooks?.applyFilters?.(
+    "acadlix.admin.home.quick_performance",
+    [defaultSetting],
+    {
+      register: methods?.register,
+      control: methods?.control,
+      watch: methods?.watch,
+      props: props,
+    }
+  );
+
   return (
-    <Grid container spacing={{
-      xs: 2,
-      sm: 4,
-    }}>
-      <SinglePerformance
-        icon={<FaMoneyBillTransfer />}
-        iconColor="primary"
-        title="Today's Sale"
-        value={currencyPosition(methods.watch('today_sale'))}
-        isFetching={isFetching}
-      />
-      <SinglePerformance
-        icon={<FaChartLine />}
-        iconColor="info"
-        title="Total Sale"
-        value={currencyPosition(methods.watch('total_sale'))}
-        isFetching={isFetching}
-      />
-      <SinglePerformance
-        icon={<CourseIcon />}
-        iconColor="warning"
-        title="Total Courses"
-        value={methods.watch('courses')}
-        isFetching={isFetching}
-      />
-      <SinglePerformance
-        icon={<FaVideo />}
-        iconColor="success"
-        title="Total Lessons"
-        value={methods.watch('lessons')}
-        isFetching={isFetching}
-      />
-      <SinglePerformance
-        icon={<FaClipboardQuestion />}
-        iconColor="error"
-        title="Total Quizzes"
-        value={methods.watch('quizes')}
-        isFetching={isFetching}
-      />
-      <SinglePerformance
-        icon={<FaQuora />}
-        iconColor="secondary"
-        title="Total Questions"
-        value={methods.watch('questions')}
-        isFetching={isFetching}
-      />
-    </Grid>
+    <>
+      {quick_performace.map((field, i) => (
+        <React.Fragment key={i}>
+          <DynamicMUIRenderer
+            item={field}
+            index={i}
+            formProps={{
+              register: methods?.register,
+              setValue: methods?.setValue,
+              watch: methods?.watch,
+              control: methods?.control,
+            }}
+          />
+        </React.Fragment>
+      ))}
+    </>
   )
 }
 
@@ -107,7 +172,9 @@ const SinglePerformance = (props) => {
             </Avatar>
             <Typography
               variant="caption"
-              color={(theme) => theme.palette.text.secondary}
+              sx={{
+                color: (theme) => `${theme.palette.text.secondary}`
+              }}
             >
               {props.title}
             </Typography>

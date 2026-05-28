@@ -27,6 +27,7 @@ final class Course extends CPT_Abstract
 
     add_filter('wp_insert_post_empty_content', [$this, 'update_title'], 10, 2);
     add_action('edit_form_after_title', [$this, 'add_nonce_field_to_edit_form']);
+    add_filter('post_row_actions', [$this, 'acadlix_course_student_action'], 10, 2);
   }
 
   public function get_post_type()
@@ -313,6 +314,23 @@ final class Course extends CPT_Abstract
     echo '<div id="acadlix-admin-course-ai-content" style="padding-bottom: 4px;">
                 </div>';
     wp_nonce_field('acadlix_course_action', 'acadlix_course_field'); // Creates a nonce
+  }
+
+  public function acadlix_course_student_action($actions, $post)
+  {
+    if ($post->post_type !== $this->get_post_type()) {
+      return $actions;
+    }
+    $url = admin_url(
+      'admin.php?page=acadlix_course_students&course_id=' . $post->ID
+    );
+
+    $actions['students'] = sprintf(
+      '<a href="%s">Students</a>',
+      esc_url($url)
+    );
+
+    return $actions;
   }
 
   public function update_title($maybe_empty, $post_acc)

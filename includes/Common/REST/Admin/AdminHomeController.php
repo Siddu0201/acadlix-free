@@ -40,6 +40,20 @@ class AdminHomeController
         ],
       ]
     );
+
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/course-overview',
+      [
+        [
+          'methods' => WP_REST_Server::READABLE,
+          'callback' => [$this, 'get_course_overview_data'],
+          'permission_callback' => function () {
+            return current_user_can('manage_options');
+          },
+        ],
+      ]
+    );
   }
 
   public function get_home_data($request)
@@ -63,6 +77,13 @@ class AdminHomeController
     $res['questions'] = acadlix()->model()->question()->ofOnline()->count();
     $res['today_sale'] = acadlix()->model()->order()->getTodaySalesTotal();
     $res['total_sale'] = acadlix()->model()->order()->getTotalSales();
+    return rest_ensure_response($res);
+  }
+
+  public function get_course_overview_data($request)
+  {
+    $res = [];
+    $res['top_courses'] = acadlix()->model()->course()->getTopCourses(5);
     return rest_ensure_response($res);
   }
 }

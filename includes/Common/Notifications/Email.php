@@ -44,7 +44,7 @@ if (!class_exists(__NAMESPACE__ . '\\Email')) {
         'order_id' => $order_id,
         'username' => $order->user->display_name ?? '',
         'course_names' => $order->getCourseNames(),
-        'order_amount' => acadlix()->helper()->acadlix_get_price_with_currency($order->total_amount, $order->getMetaValue('currency') ?? 'USD'),
+        'order_amount' => acadlix()->helper()->acadlix_get_price_with_currency($order->total_amount, $order->getMetaValue('currency') ?? acadlix()->helper()->acadlix_get_option('acadlix_currency', 'USD')),
         'payment_method' => $order->getMetaValue('payment_method') ?? __('Free', 'acadlix'),
         'order_date' => acadlix()->helper()->formatDate($order->updated_at),
         'year' => wp_date('Y'),
@@ -97,7 +97,7 @@ if (!class_exists(__NAMESPACE__ . '\\Email')) {
         'order_id' => $order_id,
         'username' => $order->user->display_name ?? '',
         'course_names' => $order->getCourseNames(),
-        'order_amount' => acadlix()->helper()->acadlix_get_price_with_currency($order->total_amount, $order->getMetaValue('currency') ?? 'USD'),
+        'order_amount' => acadlix()->helper()->acadlix_get_price_with_currency($order->total_amount, $order->getMetaValue('currency') ?? acadlix()->helper()->acadlix_get_option('acadlix_currency', 'USD')),
         'payment_method' => $order->getMetaValue('payment_method') ?? __('Free', 'acadlix'),
         'order_date' => acadlix()->helper()->formatDate($order->updated_at),
         'year' => wp_date('Y'),
@@ -112,7 +112,7 @@ if (!class_exists(__NAMESPACE__ . '\\Email')) {
           $r
         );
         /* translators: %d is the order ID */
-        $student_subject = sprintf(__('Payement failed for order #%d', 'acadlix'), $order_id);
+        $student_subject = sprintf(__('Payment failed for order #%d', 'acadlix'), $order_id);
         acadlix()->helper()->email()->sendEmail(
           $student_email,
           $student_subject,
@@ -230,7 +230,7 @@ if (!class_exists(__NAMESPACE__ . '\\Email')) {
         'order_id' => $order_id,
         'username' => $order->user->display_name ?? '',
         'course_names' => $order->getCourseNames(),
-        'order_amount' => acadlix()->helper()->acadlix_get_price_with_currency($order->total_amount, $order->getMetaValue('currency') ?? 'USD'),
+        'order_amount' => acadlix()->helper()->acadlix_get_price_with_currency($order->total_amount, $order->getMetaValue('currency') ?? acadlix()->helper()->acadlix_get_option('acadlix_currency', 'USD')),
         'payment_method' => $order->getMetaValue('payment_method') ?? __('Free', 'acadlix'),
         'order_date' => acadlix()->helper()->formatDate($order->updated_at),
         'year' => wp_date('Y'),

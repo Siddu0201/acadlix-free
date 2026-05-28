@@ -247,6 +247,30 @@ class AdminCourseController
         ],
       ]
     );
+
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<course_id>[\d]+)/students',
+      [
+        [
+          'methods' => WP_REST_Server::READABLE,
+          'callback' => [$this, 'get_course_student_data'],
+          'permission_callback' => function () {
+            return true;
+            // return current_user_can('acadlix_add_course_section_quiz');
+          },
+          'args' => array(
+            'course_id' => array(
+              'validate_callback' => function ($param, $request, $key) {
+                return is_numeric($param);
+              }
+            ),
+          ),
+        ],
+      ]
+    );
+
+
   }
 
   public function get_courses()
@@ -900,6 +924,52 @@ class AdminCourseController
       }
     }
     $res['section'] = acadlix()->model()->courseSection()->ofCourseSection()->find($section_id);
+    return rest_ensure_response($res);
+  }
+
+  public function get_course_student_data($request)
+  {
+    $res = [];
+    $course_id = $request['course_id'];
+
+    // Validate required fields
+    if (empty($course_id)) {
+      return new WP_Error(
+        'missing_id',
+        __('Course id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    $course = acadlix()
+      ->model()
+      ->course()
+      ->ofCourse()
+      ->with('sections')
+      ->find($course_id);
+    $course->content_overview = $course->getContentTypeCounts();
+    if (!$course) {
+      return new WP_Error(
+        'course_not_found',
+        __('Course not found.', 'acadlix'),
+        ['status' => 500]
+      );
+    }
+    $res['course'] = $course;
+    $enrolled_users = acadlix()->model()->wpUsers()->getEnrolledUsers(
+      $course_id,
+      null,
+      0,
+      10,
+      [
+        'course_statistics' => function ($query) use ($course_id) {
+          $query->where('course_id', $course_id);
+        }
+      ]
+    );
+    $res['students_count'] = $enrolled_users['total'] ?? 0;
+    $res['students'] = $enrolled_users['users'] ?? [];
+
     return rest_ensure_response($res);
   }
 }

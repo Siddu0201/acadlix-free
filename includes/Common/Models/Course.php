@@ -32,6 +32,7 @@ if (!class_exists('Course')) {
     ];
 
     protected static $postType = ACADLIX_COURSE_CPT;
+    protected $contentTypeCounts = null;
 
     public function __construct(array $attributes = [])
     {
@@ -316,6 +317,41 @@ if (!class_exists('Course')) {
       return $enable_sale_price ? 0 == $sale_price : 0 == $price;
     }
 
+    public function getContentTypeCounts()
+    {
+      if ($this->contentTypeCounts !== null) {
+        return $this->contentTypeCounts;
+      }
+
+      $counts = [];
+
+      $metas = $this->sections
+        ->flatMap->contents
+        ->flatMap->metas
+        ->where('meta_key', '_acadlix_course_section_content_type');
+
+      foreach ($metas as $meta) {
+
+        $type = $meta->meta_value;
+
+        $counts[$type] = ($counts[$type] ?? 0) + 1;
+      }
+
+      $this->contentTypeCounts = $counts;
+
+      return $counts;
+    }
+
+    public function getTotalLessons()
+    {
+      return $this->getContentTypeCounts()['lesson'] ?? 0;
+    }
+
+    public function getTotalQuizzes()
+    {
+      return $this->getContentTypeCounts()['quiz'] ?? 0;
+    }
+
     public function isPurchasedBy($userId = '')
     {
       if (empty($userId)) {
@@ -344,7 +380,6 @@ if (!class_exists('Course')) {
           'category_ids' => collect(),
         ];
       }
-      $courseTable = (new static)->getTable();
       $orderItemTable = acadlix()->model()->orderItem()->getTable();
       $ordersTable = acadlix()->model()->order()->getTable();
 
@@ -358,52 +393,11 @@ if (!class_exists('Course')) {
         ->groupBy("$orderItemTable.item_id")
         ->pluck('purchased_at', 'course_id');
 
-      // Base query for one-time purchases
-      // $oneTimeCourseIds = self::ofPublish()->whereHas('order_items', function ($oi) use ($userId) {
-      //   $oi
-      //     ->whereHas('order', function ($q) use ($userId) {
-      //       $q
-      //         ->where('user_id', $userId)
-      //         ->where('status', 'success');
-      //     })
-      //     ->whereNull('subscription_id');  // exclude subscription items
-      // })->pluck('ID')
-      //   ->unique()
-      //   ->values();
-
-      // $purchaseMap = self::ofPublish()
-      //   ->whereHas('order_items', function ($oi) use ($userId) {
-      //     $oi->whereNull('subscription_id')
-      //       ->whereHas('order', function ($q) use ($userId) {
-      //         $q->where('user_id', $userId)
-      //           ->where('status', 'success');
-      //       });
-      //   })
-      //   ->with([
-      //     'order_items.order' => function ($q) use ($userId) {
-      //       $q->where('user_id', $userId)
-      //         ->where('status', 'success');
-      //     }
-      //   ])
-      //   ->get()
-      //   ->mapWithKeys(function ($course) {
-
-      //     $latestOrder = $course->order_items
-      //       ->filter(fn($oi) => $oi->order)
-      //       ->sortByDesc(fn($oi) => $oi->order->created_at)
-      //       ->first();
-
-      //     return [
-      //       $course->ID => optional($latestOrder->order)->created_at
-      //     ];
-      //   })
-      //   ->filter()
-      //   ->sortByDesc(fn($date) => $date);
 
       $purchaseMap = $purchaseMap
         ->filter()
         ->sortByDesc(fn($date) => $date);
-        
+
       $courseIds = $purchaseMap->keys()->values();
 
       if ($courseIds->isEmpty()) {
@@ -414,15 +408,6 @@ if (!class_exists('Course')) {
         ];
       }
 
-      // $categoryIds = self::ofPublish()
-      //   ->whereIn('ID', $courseIds)
-      //   ->with('course_categories')
-      //   ->get()
-      //   ->pluck('course_categories')
-      //   ->flatten()
-      //   ->pluck('term_id')
-      //   ->unique()
-      //   ->values();
       $termRelationshipsTable = acadlix()->model()->wpTermRelationship()->getTable();
       $categoryIds = DB::table($termRelationshipsTable)
         ->whereIn('object_id', $courseIds)
@@ -471,6 +456,61 @@ if (!class_exists('Course')) {
         'courses' => $paginatedCourses,
         'category_ids' => $categoryIds,
       ];
+    }
+
+    public function getTopCourses($limit = 5)
+    {
+      $courseTable = $this->getTable();
+      $orderItemTable = acadlix()->model()->orderItem()->getTable();
+      $ordersTable = acadlix()->model()->order()->getTable();
+
+      $topCourses = DB::table($courseTable)
+        ->join($orderItemTable, "$orderItemTable.item_id", '=', "$courseTable.ID")
+        ->join($ordersTable, "$ordersTable.id", '=', "$orderItemTable.order_id")
+        ->where("$orderItemTable.type", 'course')
+        ->where("$ordersTable.status", 'success')
+        ->select(
+          "$courseTable.ID",
+          "$courseTable.post_title as course_name",
+          DB::raw("COUNT(DISTINCT $ordersTable.user_id) as total_users")
+        )
+        ->groupBy("$courseTable.ID")
+        ->orderByDesc('total_users')
+        ->limit($limit)
+        ->get()
+        ->map(function ($course) {
+          $course->average_rating = $this->find($course->ID)->getAverageRating();
+          $course->total_revenue = $this->find($course->ID)->getRevenue();
+          return $course;
+        });
+
+      return $topCourses;
+    }
+
+    public function getRevenue()
+    {
+      $courseTable = $this->getTable();
+      $orderItemTable = acadlix()->model()->orderItem()->getTable();
+      $ordersTable = acadlix()->model()->order()->getTable();
+      $totalRevenue = DB::table($courseTable)
+        ->join(
+          $orderItemTable,
+          "$orderItemTable.item_id",
+          '=',
+          "$courseTable.ID"
+        )
+        ->join(
+          $ordersTable,
+          "$ordersTable.id",
+          '=',
+          "$orderItemTable.order_id"
+        )
+        ->whereNull("$orderItemTable.subscription_id")
+        ->where("$orderItemTable.type", 'course')
+        ->where("$ordersTable.status", 'success')
+        ->where("$courseTable.ID", $this->ID)
+        ->sum("$ordersTable.total_amount");
+      return $totalRevenue;
     }
 
     public function course_statistics()
@@ -525,6 +565,11 @@ if (!class_exists('Course')) {
     public function getStudentCountAttribute()
     {
       return $this->getStudentUsers()->unique()->count();
+    }
+
+    public function getStudentsAttribute()
+    {
+      return $this->getStudentUsers()->unique()->values();
     }
 
     protected function getStudentUsers()

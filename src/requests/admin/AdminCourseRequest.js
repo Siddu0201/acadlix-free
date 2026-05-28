@@ -277,3 +277,20 @@ export const RemoveContentFromSection = (section_id = 0, content_id = 0) => {
     },
   });
 }
+
+export const GetCourseStudentData = (course_id = 0) => {
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getCourseStudentData", course_id],
+    queryFn: () => {
+      return instance.get(`${base}/${course_id}/students`, {
+        params: {
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    }
+  });
+};

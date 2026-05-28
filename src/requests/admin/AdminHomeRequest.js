@@ -36,3 +36,20 @@ export const GetQuickPerformanceData = () => {
     }
   });
 }
+
+export const GetCourseOverviewData = () => {
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getCourseOverviewData"],
+    queryFn: () => {
+      return instance.get(`${base}/course-overview`, {
+        params: {
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    }
+  });
+}

@@ -694,7 +694,7 @@ class FrontCheckoutController
       if (!empty($request->get_param('billing_info'))) {
         $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
       }
-
+      $order->updateOrCreateMeta('currency', $request->get_param('currency'));
       $order->updateOrCreateMeta('payment_method', 'free');
       $order->update([
         'status' => 'success',

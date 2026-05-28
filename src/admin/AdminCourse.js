@@ -6,6 +6,8 @@ import CourseSettings from './views/course_settings/CourseSettings';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CourseAi from './views/course_ai/CourseAi';
+import CourseStudent from './views/course_students/CourseStudent';
+import AdminLayout from '@acadlix/layout/AdminLayout';
 
 const AdminCourse = (props) => {
   const course = window?.acadlixCourseList?.course;
@@ -26,6 +28,12 @@ const AdminCourse = (props) => {
         {
           props?.type === "ai-content" &&
           <CourseAi />
+        }
+        {
+          props?.type === "student" &&
+          <AdminLayout>
+            <CourseStudent courseId={props?.courseId} />
+          </AdminLayout>
         }
       </LocalizationProvider>
     </Provider>

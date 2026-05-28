@@ -311,7 +311,7 @@ const Order = () => {
             order_date: formattedDateTime,
             user_name: `${order?.user?.display_name} (${order?.user?.user_login})`,
             user_email: order?.user?.user_email,
-            total_amount: currencyPosition(order?.total_amount, getStripHtml(acadlixOptions?.currency_symbols[getOrderMetaValue(order?.order_metas, "currency", "USD")])),
+            total_amount: currencyPosition(order?.total_amount, getStripHtml(acadlixOptions?.currency_symbols[getOrderMetaValue(order?.order_metas, "currency", acadlixOptions?.settings?.acadlix_currency)])),
             order_items: order?.order_items
               ?.map((items) => items?.course_title)
               ?.join(", "),
