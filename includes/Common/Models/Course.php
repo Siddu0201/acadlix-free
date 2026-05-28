@@ -697,6 +697,7 @@ if (!class_exists('Course')) {
           "$ordersTable.user_id"
         )
         ->where("$orderItemTable.type", 'course')
+        ->whereNull("$orderItemTable.subscription_id")
         ->where("$ordersTable.status", 'success');
       return $directCourseQuery;
     }

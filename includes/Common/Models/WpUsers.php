@@ -55,22 +55,50 @@ if (!class_exists('WpUsers')) {
 
     public function getCoursePurchasedCountAttribute()
     {
-      return $this->getPurchasedCoursesIds()->unique()->count();
+      return $this->getPurchasedCoursesIds()->count();
     }
 
     public function getPurchasedCoursesIds()
     {
-      return acadlix()->model()->course()
-        ->ofCourse()
-        ->whereHas('order_items', function ($query) {
-          $query->whereNull('subscription_id')
-            ->whereHas('order', function ($q) {
-              $q->ofSuccess()
-                ->where('user_id', $this->ID);
-            });
-        })
-        ->get()
-        ->pluck('ID');
+      // return acadlix()->model()->course()
+      //   ->ofCourse()
+      //   ->whereHas('order_items', function ($query) {
+      //     $query->whereNull('subscription_id')
+      //       ->whereHas('order', function ($q) {
+      //         $q->ofSuccess()
+      //           ->where('user_id', $this->ID);
+      //       });
+      //   })
+      //   ->get()
+      //   ->pluck('ID');
+      $query = $this->getEnrolledCoursesQuery();
+      return DB::query()
+        ->fromSub($query, 'purchased_courses')
+        ->where('purchased_courses.user_id', $this->ID)
+        ->distinct()
+        ->pluck('purchased_courses.course_id');
+    }
+
+    protected function getEnrolledCoursesQuery()
+    {
+      $orderItemTable = acadlix()->model()->orderItem()->getTable();
+      $ordersTable = acadlix()->model()->order()->getTable();
+
+      $directCourseQuery = DB::table($orderItemTable)
+        ->join(
+          $ordersTable,
+          "$ordersTable.id",
+          '=',
+          "$orderItemTable.order_id"
+        )
+        ->select(
+          "$orderItemTable.item_id as course_id",
+          "$ordersTable.user_id"
+        )
+        ->where("$orderItemTable.type", 'course')
+        ->whereNull("$orderItemTable.subscription_id")
+        ->where("$ordersTable.status", 'success');
+      return $directCourseQuery;
     }
 
     public function getEnrolledUsers(
