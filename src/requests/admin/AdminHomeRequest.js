@@ -37,12 +37,29 @@ export const GetQuickPerformanceData = () => {
   });
 }
 
-export const GetCourseOverviewData = () => {
+export const GetTopCoursesByEnrollment = () => {
   const instance = useInstance();
   return useQuery({
-    queryKey: ["getCourseOverviewData"],
+    queryKey: ["getTopCoursesByEnrollment"],
     queryFn: () => {
-      return instance.get(`${base}/course-overview`, {
+      return instance.get(`${base}/top-courses-by-enrollment`, {
+        params: {
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    }
+  });
+}
+
+export const GetTopCoursesBySales = () => {
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getTopCoursesBySales"],
+    queryFn: () => {
+      return instance.get(`${base}/top-courses-by-sales`, {
         params: {
           _t: Date.now(),
         },

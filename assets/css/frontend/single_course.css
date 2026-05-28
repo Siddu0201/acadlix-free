@@ -855,6 +855,7 @@
   background-color: var(--acadlix-primary-main);
   color: var(--acadlix-primary-contrastText);
   border: none;
+  background-image: none;
   border-radius: var(--acadlix-border-radius);
   cursor: pointer;
   box-shadow: var(--acadlix-box-shadow-2);

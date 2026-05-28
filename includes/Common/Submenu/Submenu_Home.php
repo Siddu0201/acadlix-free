@@ -56,6 +56,7 @@ class Submenu_Home
       'acadlix_contact_us_url' => ACADLIX_CONTACT_US_URL,
       'acadlix_youtube_channel_url' => ACADLIX_YOUTUBE_CHANNEL_URL,
       'admin_url' => admin_url(),
+      'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
       'isActive' => acadlix()->license()->isActive ?? false,
       'theme_settings' => acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
     ];

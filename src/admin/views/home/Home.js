@@ -4,9 +4,10 @@ import { useForm } from "react-hook-form";
 import QuickActions from "./sections/QuickActions";
 import WelcomeHeader from "./sections/WelcomeHeader";
 import QuickPerformance from "./sections/QuickPerformance";
-import CourseOverview from "./sections/CourseOverview";
+import TopEnrolledCourses from "./sections/TopEnrolledCourses";
 import RevenueOverview from "./sections/RevenueOverview";
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
+import TopSoldCourses from "./sections/TopSoldCourses";
 
 const Home = () => {
   const baseSettings = {
@@ -20,6 +21,7 @@ const Home = () => {
     'couponUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_coupon`,
     'createCouponUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_coupon#/create`,
     'settingsUrl': `${acadlixOptions?.admin_url}admin.php?page=acadlix_settings`,
+    'orderUrl': `${acadlixOptions?.admin_url}admin.php?post_type=acadlix_order`,
     'documentationUrl': acadlixOptions?.acadlix_documentation_url,
     'youtubeUrl': acadlixOptions?.acadlix_youtube_channel_url,
   };
@@ -42,6 +44,7 @@ const Home = () => {
 
   const defaultSetting = {
     component: "Grid",
+    component_name: "home_grid_container",
     props: {
       container: true,
       spacing: {
@@ -58,6 +61,7 @@ const Home = () => {
     children: [
       {
         component: "Grid",
+        component_name: "home_grid_welcome_header",
         props: {
           size: {
             xs: 12,
@@ -67,11 +71,13 @@ const Home = () => {
         children: [
           {
             component: <WelcomeHeader {...methods} />,
+            component_name: "welcome_header_component",
           },
         ]
       },
       {
         component: "Grid",
+        component_name: "home_grid_quick_performance",
         props: {
           size: {
             xs: 12,
@@ -81,11 +87,13 @@ const Home = () => {
         children: [
           {
             component: <QuickPerformance {...methods} />,
+            component_name: "quick_performance_component",
           },
         ]
       },
       {
         component: "Grid",
+        component_name: "home_grid_quick_actions",
         props: {
           size: {
             xs: 12,
@@ -95,11 +103,13 @@ const Home = () => {
         children: [
           {
             component: <QuickActions {...methods} />,
+            component_name: "quick_actions_component",
           },
         ]
       },
       {
         component: "Grid",
+        component_name: "home_grid_top_enrolled_courses",
         props: {
           size: {
             xs: 12,
@@ -108,7 +118,24 @@ const Home = () => {
         },
         children: [
           {
-            component: <CourseOverview {...methods} />,
+            component: <TopEnrolledCourses {...methods} />,
+            component_name: "top_enrolled_courses_component",
+          },
+        ]
+      },
+      {
+        component: "Grid",
+        component_name: "home_grid_top_sold_courses",
+        props: {
+          size: {
+            xs: 12,
+            md: 12,
+          },
+        },
+        children: [
+          {
+            component: <TopSoldCourses {...methods} />,
+            component_name: "top_sold_courses_component",
           },
         ]
       },

@@ -43,11 +43,25 @@ class AdminHomeController
 
     register_rest_route(
       $this->namespace,
-      '/' . $this->base . '/course-overview',
+      '/' . $this->base . '/top-courses-by-enrollment',
       [
         [
           'methods' => WP_REST_Server::READABLE,
-          'callback' => [$this, 'get_course_overview_data'],
+          'callback' => [$this, 'get_top_course_by_enrollment'],
+          'permission_callback' => function () {
+            return current_user_can('manage_options');
+          },
+        ],
+      ]
+    );
+
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/top-courses-by-sales',
+      [
+        [
+          'methods' => WP_REST_Server::READABLE,
+          'callback' => [$this, 'get_top_course_by_sales'],
           'permission_callback' => function () {
             return current_user_can('manage_options');
           },
@@ -80,10 +94,17 @@ class AdminHomeController
     return rest_ensure_response($res);
   }
 
-  public function get_course_overview_data($request)
+  public function get_top_course_by_enrollment($request)
   {
     $res = [];
-    $res['top_courses'] = acadlix()->model()->course()->getTopCourses(5);
+    $res['top_courses'] = acadlix()->model()->course()->getTopCoursesByEnrollment(5);
+    return rest_ensure_response($res);
+  }
+
+  public function get_top_course_by_sales($request)
+  {
+    $res = [];
+    $res['top_courses'] = acadlix()->model()->course()->getTopCoursesBySales(5);
     return rest_ensure_response($res);
   }
 }

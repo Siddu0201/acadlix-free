@@ -1,19 +1,17 @@
-import { Box, Button, Card, CardContent, CardHeader, Chip, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Link, Paper } from '@mui/material'
 import React from 'react'
 import { __ } from '@wordpress/i18n'
-import { GetCourseOverviewData } from '@acadlix/requests/admin/AdminHomeRequest';
+import { GetTopCoursesByEnrollment } from '@acadlix/requests/admin/AdminHomeRequest';
 import { useForm } from 'react-hook-form';
-import { currencyPosition } from '@acadlix/helpers/util';
-import CustomRating from '@acadlix/components/CustomRating';
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 
-const CourseOverview = (props) => {
+const TopEnrolledCourses = (props) => {
   const methods = useForm({
     defaultValues: {
       rows: [],
     }
   });
-  const { data, isFetching } = GetCourseOverviewData();
+  const { data, isFetching } = GetTopCoursesByEnrollment();
 
   React.useMemo(() => {
     if (data?.data?.top_courses) {
@@ -27,15 +25,15 @@ const CourseOverview = (props) => {
 
   const defaultSetting = {
     component: "Card",
-    component_name: "course_overview_card",
+    component_name: "top_enrolled_courses_card",
     children: [
       {
         component: "CardContent",
-        component_name: "course_overview_card_content",
+        component_name: "top_enrolled_courses_card_content",
         children: [
           {
             component: "Box",
-            component_name: "course_overview_box",
+            component_name: "top_enrolled_courses_box",
             props: {
               sx: {
                 display: "flex",
@@ -47,7 +45,7 @@ const CourseOverview = (props) => {
             children: [
               {
                 component: "Box",
-                component_name: "course_overview_inner_box",
+                component_name: "top_enrolled_courses_inner_box",
                 props: {
                   sx: {
                     display: "flex",
@@ -58,28 +56,28 @@ const CourseOverview = (props) => {
                 children: [
                   {
                     component: "Typography",
-                    component_name: "course_overview_title_typography",
+                    component_name: "top_enrolled_courses_title_typography",
                     props: {
                       variant: "h4",
                     },
-                    value: __("Course Overview", "acadlix"),
+                    value: __("Top Enrolled Courses", "acadlix"),
                   },
                   {
                     component: "Typography",
-                    component_name: "course_overview_subtitle_typography",
+                    component_name: "top_enrolled_courses_subtitle_typography",
                     props: {
                       variant: "caption",
                       sx: {
                         color: (theme) => `${theme.palette.text.secondary}`
                       },
                     },
-                    value: __("Manage and monitor your most important courses.", "acadlix"),
+                    value: __("Manage and monitor your top enrolled courses.", "acadlix"),
                   }
                 ]
               },
               {
                 component: "Box",
-                component_name: "course_overview_button_box",
+                component_name: "top_enrolled_courses_button_box",
                 props: {
                   sx: {
                     display: "flex",
@@ -90,7 +88,7 @@ const CourseOverview = (props) => {
                 children: [
                   {
                     component: "Button",
-                    component_name: "course_overview_view_courses_button",
+                    component_name: "top_enrolled_courses_view_courses_button",
                     props: {
                       variant: "outlined",
                       color: "primary",
@@ -109,14 +107,14 @@ const CourseOverview = (props) => {
       },
       {
         component: "TableContainer",
-        component_name: "course_overview_table_container",
+        component_name: "top_enrolled_courses_table_container",
         props: {
           component: Paper,
         },
         children: [
           {
             component: "Table",
-            component_name: "course_overview_table",
+            component_name: "top_enrolled_courses_table",
             props: {
               sx: { minWidth: 650 },
               'aria-label': "simple table",
@@ -124,7 +122,7 @@ const CourseOverview = (props) => {
             children: [
               {
                 component: "TableHead",
-                component_name: "course_overview_table_head",
+                component_name: "top_enrolled_courses_table_head",
                 props: {
                   sx: {
                     backgroundColor: "#f9fafc",
@@ -133,11 +131,11 @@ const CourseOverview = (props) => {
                 children: [
                   {
                     component: "TableRow",
-                    component_name: "course_overview_table_head_row",
+                    component_name: "top_enrolled_courses_table_head_row",
                     children: [
                       {
                         component: "TableCell",
-                        component_name: "course_overview_table_head_cell_course",
+                        component_name: "top_enrolled_courses_table_head_cell_course",
                         props: {
                           sx: {
                             fontSize: 14,
@@ -149,7 +147,7 @@ const CourseOverview = (props) => {
                       },
                       {
                         component: "TableCell",
-                        component_name: "course_overview_table_head_cell_students",
+                        component_name: "top_enrolled_courses_table_head_cell_students",
                         props: {
                           align: "center",
                           sx: {
@@ -162,7 +160,7 @@ const CourseOverview = (props) => {
                       },
                       {
                         component: "TableCell",
-                        component_name: "course_overview_table_head_cell_rating",
+                        component_name: "top_enrolled_courses_table_head_cell_rating",
                         props: {
                           align: "center",
                           sx: {
@@ -175,20 +173,7 @@ const CourseOverview = (props) => {
                       },
                       {
                         component: "TableCell",
-                        component_name: "course_overview_table_head_cell_revenue",
-                        props: {
-                          align: "center",
-                          sx: {
-                            fontSize: 14,
-                            fontWeight: 600,
-                            color: (theme) => theme.palette.text.secondary,
-                          },
-                        },
-                        value: __("Revenue", "acadlix"),
-                      },
-                      {
-                        component: "TableCell",
-                        component_name: "course_overview_table_head_cell_action",
+                        component_name: "top_enrolled_courses_table_head_cell_action",
                         props: {
                           align: "center",
                           sx: {
@@ -205,47 +190,81 @@ const CourseOverview = (props) => {
               },
               {
                 component: "TableBody",
-                component_name: "course_overview_table_body",
+                component_name: "top_enrolled_courses_table_body",
                 children: methods.watch('rows')?.map((row) => {
                   return (
                     {
                       component: "TableRow",
-                      component_name: "course_overview_table_body_row",
+                      component_name: "top_enrolled_courses_table_body_row",
                       props: {
-                        key: row.ID,
                         sx: { '&:last-child td, &:last-child th': { border: 0 } },
                       },
                       children: [
                         {
                           component: "TableCell",
-                          component_name: "course_overview_table_body_cell_course",
+                          component_name: "top_enrolled_courses_table_body_cell_course",
                           props: {
                             component: "th",
                             scope: "row",
                           },
-                          value: row.course_name,
+                          children: [
+                            {
+                              component: "Box",
+                              component_name: "top_enrolled_courses_table_body_cell_course_box",
+                              props: {
+                                sx: {
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 2,
+                                }
+                              },
+                              children: [
+                                {
+                                  component: "Avatar",
+                                  component_name: "top_enrolled_courses_table_body_cell_course_avatar",
+                                  props: {
+                                    src: row.course?.thumbnail?.url || acadlixOptions?.default_img_url || "",
+                                    alt: row.course_name,
+                                    sx: {
+                                      width: 96,
+                                      height: 60,
+                                    },
+                                    variant: "rounded"
+                                  },
+                                },
+                                {
+                                  component: "Typography",
+                                  component_name: "top_enrolled_courses_table_body_cell_course_name",
+                                  props: {
+                                    variant: "body2",
+                                  },
+                                  value: row.course_name,
+                                }
+                              ]
+                            }
+                          ],
                         },
                         {
                           component: "TableCell",
-                          component_name: "course_overview_table_body_cell_students",
+                          component_name: "top_enrolled_courses_table_body_cell_students",
                           props: {
                             align: "center",
                             sx: {
                               fontWeight: `400 !important`,
                             },
                           },
-                          value: row.total_users,
+                          value: row.total_students,
                         },
                         {
                           component: "TableCell",
-                          component_name: "course_overview_table_body_cell_rating",
+                          component_name: "top_enrolled_courses_table_body_cell_rating",
                           props: {
                             align: "center",
                           },
                           children: [
                             {
                               component: "CustomRating",
-                              component_name: "course_overview_table_body_cell_rating_custom_rating",
+                              component_name: "top_enrolled_courses_table_body_cell_rating_custom_rating",
                               props: {
                                 value: row.average_rating,
                                 fontSize: 20,
@@ -256,30 +275,19 @@ const CourseOverview = (props) => {
                         },
                         {
                           component: "TableCell",
-                          component_name: "course_overview_table_body_cell_revenue",
-                          props: {
-                            align: "center",
-                            sx: {
-                              fontWeight: `400 !important`,
-                            },
-                          },
-                          value: currencyPosition(row.total_revenue),
-                        },
-                        {
-                          component: "TableCell",
-                          component_name: "course_overview_table_body_cell_action",
+                          component_name: "top_enrolled_courses_table_body_cell_action",
                           props: {
                             align: "center",
                           },
                           children: [
                             {
                               component: "Button",
-                              component_name: "course_overview_table_body_cell_action_button",
+                              component_name: "top_enrolled_courses_table_body_cell_action_button",
                               props: {
                                 color: "primary",
                                 size: "small",
                                 component: Link,
-                                href: `${props?.watch('courseStudentUrl')}&course_id=${row.ID}`,
+                                href: `${props?.watch('courseStudentUrl')}&course_id=${row.course_id}`,
                                 target: "_blank",
                                 rel: "noopener noreferrer",
                               },
@@ -299,8 +307,8 @@ const CourseOverview = (props) => {
     ]
   };
 
-  const course_overview = window?.acadlixHooks?.applyFilters?.(
-    "acadlix.admin.home.course_overview",
+  const top_enrolled_courses = window?.acadlixHooks?.applyFilters?.(
+    "acadlix.admin.home.top_enrolled_courses",
     [defaultSetting],
     {
       register: methods?.register,
@@ -315,7 +323,7 @@ const CourseOverview = (props) => {
 
   return (
     <>
-      {course_overview.map((field, i) => (
+      {top_enrolled_courses.map((field, i) => (
         <React.Fragment key={i}>
           <DynamicMUIRenderer
             item={field}
@@ -331,125 +339,6 @@ const CourseOverview = (props) => {
       ))}
     </>
   )
-
-  return (
-    <Card>
-      <CardContent>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 2,
-          }}
-        >
-          <Box sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 0.25,
-          }}>
-            <Typography
-              variant="h4"
-            >
-              {__("Course Overview", "acadlix")}
-            </Typography>
-            <Typography
-              variant="caption"
-              sx={{
-                color: (theme) => `${theme.palette.text.secondary}`
-              }}
-            >
-              {__("Manage and monitor your most important courses.", "acadlix")}
-            </Typography>
-          </Box>
-          <Box sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 2,
-          }}>
-            <Button
-              variant="outlined"
-              color="primary"
-              component={Link}
-              href={props.watch('courseUrl')}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {__("View All Courses", "acadlix")}
-            </Button>
-          </Box>
-        </Box>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead sx={{
-              backgroundColor: "#f9fafc",
-            }}>
-              <TableRow>
-                <TableCell sx={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: (theme) => theme.palette.text.secondary,
-                }}>Course</TableCell>
-                <TableCell align="center" sx={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: (theme) => theme.palette.text.secondary,
-                }}>Students</TableCell>
-                <TableCell align="center" sx={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: (theme) => theme.palette.text.secondary,
-                }}>Rating</TableCell>
-                <TableCell align="center" sx={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: (theme) => theme.palette.text.secondary,
-                }}>Revenue</TableCell>
-                <TableCell align="center" sx={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: (theme) => theme.palette.text.secondary,
-                }}>Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {methods.watch('rows').map((row) => (
-                <TableRow
-                  key={row.ID}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.course_name}
-                  </TableCell>
-                  <TableCell align="center" sx={{
-                    fontWeight: `400 !important`,
-                  }}>{row.total_users}</TableCell>
-                  <TableCell align="center">
-                    <CustomRating
-                      value={row.average_rating}
-                      fontSize={20}
-                      style={{ marginRight: 8 }}
-                    />
-                  </TableCell>
-                  <TableCell align="center" sx={{
-                    fontWeight: `400 !important`,
-                  }}>{currencyPosition(row.total_revenue)}</TableCell>
-                  <TableCell align="center">
-                    <Button
-                      color="primary"
-                      size="small"
-                    >
-                      {__("View", "acadlix")}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </CardContent>
-    </Card>
-  )
 }
 
-export default CourseOverview
+export default TopEnrolledCourses

@@ -28,7 +28,7 @@ const CourseProfile = (props) => {
                     height: 120,
                   },
                   variant: "rounded",
-                  src: props?.watch('course')?.thumbnail?.url || "",
+                  src: props?.watch('course')?.thumbnail?.url || acadlixOptions?.default_img_url || "",
                 }
               },
               {
