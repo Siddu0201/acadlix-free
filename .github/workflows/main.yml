@@ -57,33 +57,48 @@ jobs:
           find vendor/ -type f \( -name "*.md" -o -name "*.toml" -o -name "*.bat" -o -name "*.sh" -o -name "composer.json" -o -name "installed.json" \) -delete
       
       # ----------------------------------
-      # Install WP-CLI (REQUIRED)
+      # Build plugin ZIP (native rsync + zip)
       # ----------------------------------
-      - name: Install WP-CLI
+      - name: Build plugin ZIP
         run: |
-          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-          php wp-cli.phar --info
-          chmod +x wp-cli.phar
-          sudo mv wp-cli.phar /usr/local/bin/wp
-      
-      # ----------------------------------
-      # Install dist-archive command
-      # ----------------------------------
-      - name: Install wp dist-archive command
-        run: |
-          wp package install wp-cli/dist-archive-command:@stable
-          # wp package install wp-cli/dist-archive-command:3.1.0 --allow-root
+          PLUGIN_SLUG="acadlix"
+          DEST="/tmp/${PLUGIN_SLUG}"
+          mkdir -p "$DEST"
 
-      # ----------------------------------
-      # Build WordPress.org compliant ZIP
-      # ----------------------------------
-      - name: Build plugin ZIP using wp dist-archive
-        run: |
-            wp dist-archive . --allow-root
-            echo "Files created:"
-            ls -lh
-            ls -lh ..
-            mv ../acadlix*.zip plugin.zip
+          rsync -a --no-links \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.gitignore' \
+            --exclude='.editorconfig' \
+            --exclude='node_modules/' \
+            --exclude='src/' \
+            --exclude='*.map' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='webpack.config.js' \
+            --exclude='composer.lock' \
+            --exclude='jsconfig.json' \
+            --exclude='.distignore' \
+            --exclude='README.md' \
+            --exclude='handle-dev-server.sh' \
+            --exclude='api.txt' \
+            --exclude='test.json' \
+            --exclude='phpunit.xml' \
+            --exclude='phpunit.xml.dist' \
+            --exclude='vendor/illuminate/database/Console/' \
+            --exclude='vendor/illuminate/database/Migrations/' \
+            --exclude='vendor/brick/' \
+            --exclude='*.po' \
+            --exclude='languages/Pro/' \
+            . "$DEST/"
+
+          # Carbon Lang: keep only en.php, remove all others
+          find "$DEST/vendor/nesbot/carbon/src/Carbon/Lang/" -type f ! -name 'en.php' -delete 2>/dev/null || true
+
+          cd /tmp
+          zip -r "${GITHUB_WORKSPACE}/plugin.zip" "${PLUGIN_SLUG}/"
+          echo "Files created:"
+          ls -lh "${GITHUB_WORKSPACE}/"
 
       # ----------------------------------
       # Upload ZIP to Hostinger
