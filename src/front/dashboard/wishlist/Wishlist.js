@@ -18,6 +18,7 @@ import {
   TablePagination,
   IconButton,
   Avatar,
+  Skeleton,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { IoMdRefresh, FaMoneyBillTransfer, HistoryToggleOff, FaExternalLinkAlt, FaTrash } from "@acadlix/helpers/icons";
@@ -25,7 +26,6 @@ import { PostRemoveWishlist } from '@acadlix/requests/front/FrontCourseRequest';
 import CustomRefresh from '@acadlix/components/CustomRefresh';
 import toast from 'react-hot-toast';
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
-import Loader from '@acadlix/components/Loader';
 
 const Wishlist = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -469,7 +469,13 @@ const MobileOnlyView = (props) => {
   )?.filter(Boolean) || [];
 
   if (props?.isFetching) {
-    return <Loader />;
+    return (
+      <>
+        {Array.from({ length: props?.paginationModel?.pageSize || 5 }).map((_, i) => (
+          <SingleWishlistItemSkeleton key={i} />
+        ))}
+      </>
+    );
   }
 
   return (
@@ -910,3 +916,50 @@ const SingleWishlistItem = ({ row, removeFromWishlist, getType, ...props }) => {
     </>
   )
 }
+
+const SingleWishlistItemSkeleton = () => {
+  return (
+    <Box
+      sx={{
+        padding: 2,
+        borderBottom: "1px solid #e0e0e0",
+        display: "flex",
+        alignItems: "stretch",
+        gap: 2,
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.4)",
+        marginBottom: "8px",
+        borderRadius: "8px",
+        backgroundColor: "white",
+        marginX: 0,
+      }}
+    >
+      <Box sx={{ display: "flex" }}>
+        <Skeleton variant="rounded" width={150} height={120} animation="wave" />
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          flex: 1,
+        }}
+      >
+        <Skeleton variant="text" width="70%" height={28} animation="wave" />
+        <Skeleton variant="rounded" width={90} height={24} animation="wave" />
+
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+          <Skeleton variant="circular" width={16} height={16} animation="wave" />
+          <Skeleton variant="text" width="45%" height={20} animation="wave" />
+        </Box>
+
+        <Skeleton variant="text" width="30%" height={20} animation="wave" />
+
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <Skeleton variant="circular" width={32} height={32} animation="wave" />
+          <Skeleton variant="circular" width={32} height={32} animation="wave" />
+        </Box>
+      </Box>
+    </Box>
+  );
+};

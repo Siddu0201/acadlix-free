@@ -9,12 +9,12 @@ import {
   LinearProgress,
   Stack,
   Pagination,
-  CircularProgress,
   PaginationItem,
   CardHeader,
   TextField,
   Autocomplete,
   TablePagination,
+  Skeleton,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -221,9 +221,19 @@ const Courses = () => {
                   sx={{ borderBottom: "1px solid #D3D3D3", pb: 5 }}
                 >
                   {isFetching ? (
-                    <Grid size={{ xs: 12, lg: 12 }}>
-                      <CircularProgress />
-                    </Grid>
+                    Array.from({ length: Math.min(paginationModel?.pageSize || 6, 12) }).map((_, index) => (
+                      <Grid
+                        key={index}
+                        size={{
+                          xs: 12,
+                          sm: 6,
+                          md: 4,
+                          lg: open ? 4 : 3,
+                        }}
+                      >
+                        <CourseCardSkeleton />
+                      </Grid>
+                    ))
                   ) : isError ? (
                     <Grid size={{ xs: 12, lg: 12 }}>
                       <Typography variant="h3" component="div">{__("Something went wrong", "acadlix")}</Typography>
@@ -415,6 +425,51 @@ const CourseCard = (props) => {
           >
             {props?.course?.completion_percentage}% {__("Complete", "acadlix")}
           </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
+
+const CourseCardSkeleton = () => {
+  return (
+    <Card
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: 2,
+        boxShadow: (theme) => theme.shadows[2],
+        backgroundColor: "white",
+      }}
+    >
+      <Skeleton
+        variant="rectangular"
+        height={200}
+        animation="wave"
+      />
+      <CardContent
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          justifyContent: "space-between",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+          }}
+        >
+          <Skeleton variant="text" height={30} width="85%" animation="wave" />
+          <Skeleton variant="text" height={20} width="60%" animation="wave" />
+        </Box>
+        <Box sx={{ marginTop: "auto" }}>
+          <Skeleton variant="rectangular" height={8} sx={{ borderRadius: 1 }} animation="wave" />
+          <Skeleton variant="text" height={22} width="40%" sx={{ marginTop: 1 }} animation="wave" />
         </Box>
       </CardContent>
     </Card>

@@ -1,4 +1,4 @@
-import { Link, Paper } from '@mui/material'
+import { Link, Paper, TablePagination } from '@mui/material'
 import React from 'react'
 import { __ } from '@wordpress/i18n'
 import { TiArrowLeftThick } from '@acadlix/helpers/icons'
@@ -11,6 +11,11 @@ import StudentOptions from './sections/StudentOptions'
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer'
 
 const CourseStudent = ({ courseId }) => {
+  const defaultPaginationModel = {
+    page: parseInt(localStorage.getItem('adminCourseStudentPage') || '0', 10),
+    pageSize: parseInt(localStorage.getItem('adminCourseStudentPageSize') || acadlixOptions?.settings?.acadlix_default_rows_per_page, 10),
+  };
+
   const baseSettings = {
     course_id: courseId,
     student_count: 0,
@@ -56,7 +61,19 @@ const CourseStudent = ({ courseId }) => {
     getTotalInProgressCourse,
   } = CourseStudentFunction(methods);
 
-  const { isFetching, data, refetch } = GetCourseStudentData(courseId);
+  const [paginationModel, setPaginationModel] = React.useState(defaultPaginationModel);
+
+  const { isFetching, data, refetch } = GetCourseStudentData(
+    courseId,
+    paginationModel.page,
+    paginationModel.pageSize
+  );
+
+  const handlePaginationChange = (model) => {
+    setPaginationModel(model);
+    localStorage.setItem('adminCourseStudentPage', model.page);
+    localStorage.setItem('adminCourseStudentPageSize', model.pageSize);
+  };
 
   React.useEffect(() => {
     if (data?.data?.students?.length > 0) {
@@ -346,6 +363,80 @@ const CourseStudent = ({ courseId }) => {
                               })
                             }
                           ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  component: "Grid",
+                  component_name: "course_student_grid_item_pagination",
+                  props: {
+                    size: {
+                      xs: 12,
+                      sm: 12,
+                    },
+                  },
+                  children: [
+                    {
+                      component: "Box",
+                      component_name: "course_student_pagination_box",
+                      props: {
+                        sx: {
+                          display: "flex",
+                          justifyContent: "center",
+                          padding: 2,
+                        }
+                      },
+                      children: [
+                        {
+                          component: <TablePagination
+                            component="div"
+                            count={methods?.watch("student_count") || 0}
+                            page={paginationModel?.page}
+                            onPageChange={(_, newPage) => handlePaginationChange({ ...paginationModel, page: newPage })}
+                            rowsPerPage={paginationModel?.pageSize}
+                            onRowsPerPageChange={(e) => {
+                              const pageSize = parseInt(e?.target?.value);
+                              const page = Math.min(paginationModel?.page, Math.floor(methods?.watch('students')?.length / pageSize)); // Ensure page does not exceed limit
+                              handlePaginationChange({
+                                pageSize: pageSize,
+                                page: page,
+                              });
+                            }}
+                            rowsPerPageOptions={[5, 10, 20, 50]}
+                            slotProps={{
+                              selectLabel: {
+                                component: "div",
+                              },
+                              displayedRows: {
+                                component: "div",
+                              },
+                              actions: {
+                                nextButton: {
+                                  className: "acadlix-icon-btn",
+                                },
+                                previousButton: {
+                                  className: "acadlix-icon-btn",
+                                }
+                              },
+                            }}
+                            sx={{
+                              '& .MuiToolbar-root': {
+                                paddingLeft: 0,
+                                paddingRight: 0,
+                              },
+                              '& .MuiTablePagination-selectLabel': {
+                                margin: 0,
+                              },
+                              '& .MuiTablePagination-displayedRows': {
+                                margin: 0,
+                              },
+                              '& .MuiInputBase-root': {
+                                marginX: 0,
+                              },
+                            }}
+                          />
                         }
                       ]
                     }

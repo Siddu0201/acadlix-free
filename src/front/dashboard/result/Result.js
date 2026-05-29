@@ -13,6 +13,7 @@ import {
   Autocomplete,
   TextField,
   InputAdornment,
+  Skeleton,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useForm } from "react-hook-form";
@@ -465,7 +466,13 @@ const MobileOnlyView = (props) => {
   )?.filter(Boolean) || [];
 
   if (props?.isFetching) {
-    return <Loader />;
+    return (
+      <>
+        {Array.from({ length: props?.paginationModel?.pageSize || 5 }).map((_, i) => (
+          <SingleResultSkeleton key={i} />
+        ))}
+      </>
+    );
   }
 
   return (
@@ -838,3 +845,61 @@ const SingleResult = ({ row, ...props }) => {
     </>
   )
 }
+
+const SingleResultSkeleton = () => {
+  return (
+    <Box
+      sx={{
+        padding: "8px",
+        marginTop: "8px",
+        marginBottom: "8px",
+        borderBottom: "1px solid #e0e0e0",
+        display: "flex",
+        flexDirection: "column",
+        gap: "8px",
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+        borderRadius: "8px",
+        backgroundColor: "white",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Skeleton variant="text" width="65%" height={24} animation="wave" />
+        <Skeleton variant="circular" width={28} height={28} animation="wave" />
+      </Box>
+
+      <Box>
+        <Skeleton variant="rounded" width={90} height={24} animation="wave" />
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: "4px",
+        }}
+      >
+        <Skeleton variant="circular" width={16} height={16} animation="wave" />
+        <Skeleton variant="text" width="50%" height={20} animation="wave" />
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Skeleton variant="text" width="35%" height={20} animation="wave" />
+        <Skeleton variant="rounded" width={64} height={24} animation="wave" />
+      </Box>
+    </Box>
+  );
+};
+
+

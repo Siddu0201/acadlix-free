@@ -65,6 +65,18 @@ const CourseContent = () => {
       toast.error("Invalid content id");
       return;
     }
+    navigate(`/course/${methods?.watch("course_id")}/content/${id}`);
+    handleSetActive(id);
+  };
+
+  const handleSetActive = (id = 0) => {
+    if (id == 0) {
+      toast.error("Invalid content id");
+      return;
+    }
+    if(courseSectionContentId != id) {
+      return;
+    }
     methods?.setValue(
       `sections`,
       methods?.watch("sections")?.map((s) => {
@@ -83,7 +95,6 @@ const CourseContent = () => {
       }),
       { shouldDirty: true }
     );
-    navigate(`/course/${methods?.watch("course_id")}/content/${id}`);
 
     const sectionIndex = methods?.watch("sections")?.findIndex((s) => s?.content?.find((c) => c?.id === id));
     const contentIndex = methods?.watch("sections")?.[sectionIndex]?.content?.findIndex((c) => c?.id === id);
@@ -168,7 +179,7 @@ const CourseContent = () => {
   );
 
   React.useEffect(() => {
-    if(data?.data?.certificate){
+    if (data?.data?.certificate) {
       methods?.setValue("certificate", data?.data?.certificate ?? {}, { shouldDirty: true });
     }
     if (data?.data?.course) {
@@ -445,7 +456,7 @@ const CourseContent = () => {
               // })
               methods?.setValue("course_completed", true, { shouldDirty: true });
             }
-            if(data?.data?.certificate){
+            if (data?.data?.certificate) {
               methods?.setValue("certificate", data?.data?.certificate ?? {}, { shouldDirty: true });
             }
           }
@@ -531,22 +542,24 @@ const CourseContent = () => {
       return;
     }
 
-    methods?.setValue(
-      "sections",
-      sections?.map((s) => {
-        const target = s?.content?.find((c) => c?.id === activeId);
-        return {
-          ...s,
-          open: target ? true : s?.open,
-          active: target ? true : false,
-          content: s?.content?.map((c) => ({
-            ...c,
-            is_active: c?.id === activeId,
-          })),
-        };
-      }),
-      { shouldDirty: true }
-    );
+    handleSetActive(activeId);
+
+    // methods?.setValue(
+    //   "sections",
+    //   sections?.map((s) => {
+    //     const target = s?.content?.find((c) => c?.id === activeId);
+    //     return {
+    //       ...s,
+    //       open: target ? true : s?.open,
+    //       active: target ? true : false,
+    //       content: s?.content?.map((c) => ({
+    //         ...c,
+    //         is_active: c?.id === activeId,
+    //       })),
+    //     };
+    //   }),
+    //   { shouldDirty: true }
+    // );
   }, [courseSectionContentId, methods]);
 
   return (

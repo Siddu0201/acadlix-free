@@ -931,6 +931,10 @@ class AdminCourseController
   {
     $res = [];
     $course_id = $request['course_id'];
+    $params = $request->get_params();
+    $page = $params['page'] ?? 0;
+    $pageSize = $params['pageSize'] ?? 10;
+    $skip = $page * $pageSize;
 
     // Validate required fields
     if (empty($course_id)) {
@@ -959,8 +963,8 @@ class AdminCourseController
     $enrolled_users = acadlix()->model()->wpUsers()->getEnrolledUsers(
       $course_id,
       null,
-      0,
-      10,
+      $skip,
+      $pageSize,
       [
         'course_statistics' => function ($query) use ($course_id) {
           $query->where('course_id', $course_id);
