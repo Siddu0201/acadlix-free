@@ -49,6 +49,18 @@ const ViewButtonSection = (props) => {
         return ques;
       })
     );
+
+    // Defer scroll until UI updates after state changes.
+    setTimeout(() => {
+      const resultOverviewId = `result_question_overview_${props?.watch("id")}`;
+      const resultOverviewEl = document.getElementById(resultOverviewId);
+      if (resultOverviewEl) {
+        resultOverviewEl.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 0);
   }
 
   const handleViewAnswer = () => {
@@ -66,6 +78,17 @@ const ViewButtonSection = (props) => {
 
   const handleViewLeaderBoard = () => {
     props?.setValue('view_leaderboard', !props?.watch('view_leaderboard'), { shouldDirty: true });
+    // Defer scroll until UI updates after state changes.
+    setTimeout(() => {
+      const resultOverviewId = `acadlix_normal_quiz_leaderboard_section_${props?.watch("id")}`;
+      const resultOverviewEl = document.getElementById(resultOverviewId);
+      if (resultOverviewEl) {
+        resultOverviewEl.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 0);
   }
   return (
     <Box
