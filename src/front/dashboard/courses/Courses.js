@@ -81,8 +81,9 @@ const Courses = () => {
     methods.setValue("rows", [], { shouldDirty: true });
   }, [data]);
 
-  // console.log("courses", methods.watch('rows'));
-
+  if (process.env.REACT_APP_MODE === "development") {
+    console.log(methods?.watch("rows"));
+  }
   const rowCountRef = React.useRef(data?.data?.total || 0);
 
   const rowCount = React.useMemo(() => {
@@ -343,7 +344,7 @@ const CourseCard = (props) => {
           boxShadow: (theme) => theme.shadows[6], // Optional: darker shadow on hover
         },
       }}
-      onClick={(e) => navigate(`/course/${props.course?.ID}`)}
+      onClick={(e) => navigate(`/course/${props.course?.ID}/content/${props?.course?.current_content_id || 0}`) }
     >
       <CardMedia
         component="img"

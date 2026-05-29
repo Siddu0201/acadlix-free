@@ -742,7 +742,7 @@ export const TbCertificate = (props) => {
 
 export const LockContent = (props) => {
   return (
-    <svg fill="#000000" viewBox="0 0 24 24" id="lock-file-2" dataName="Flat Color" xmlns="http://www.w3.org/2000/svg" className="icon flat-color" width="1em" height="1em" {...props}>
+    <svg fill="#000000" viewBox="0 0 24 24" id="lock-file-2" xmlns="http://www.w3.org/2000/svg" className="icon flat-color" width="1em" height="1em" {...props}>
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
       <g id="SVGRepo_iconCarrier">

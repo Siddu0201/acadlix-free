@@ -365,6 +365,52 @@ if (!class_exists('Course')) {
       return $this->getContentTypeCounts()['quiz'] ?? 0;
     }
 
+    public function getCurrentCourseContentId($userId = null)
+    {
+      $activeContentId = null;
+
+      if ($userId) {
+        $statistics = $this->course_statistics()
+          ->where('user_id', $userId)
+          ->where('is_active', 1)
+          ->first();
+        if ($statistics) {
+          $activeContentId = $statistics->course_section_content_id;
+        }
+      }
+
+      if (is_null($activeContentId)) {
+        $table = $this->getTable();
+
+        $baseQuery = DB::table("$table as course")
+          ->join(
+            "$table as section",
+            "section.post_parent",
+            '=',
+            'course.ID'
+          )
+          ->join(
+            "$table as content",
+            "content.post_parent",
+            '=',
+            'section.ID'
+          )
+          ->where('course.ID', $this->ID)
+          ->where('section.post_type', 'course-section')
+          ->where('content.post_type', 'course-content')
+          ->where('content.post_status', 'publish')
+          ->select('content.ID as content_id')
+          ->orderBy('section.menu_order')
+          ->orderBy('content.menu_order')
+          ->first();
+        if ($baseQuery) {
+          $activeContentId = $baseQuery->content_id;
+        }
+      }
+
+      return $activeContentId;
+    }
+
     public function isPurchasedBy($userId = '')
     {
       if (empty($userId)) {
@@ -462,6 +508,7 @@ if (!class_exists('Course')) {
       // Add completion percentage
       $paginatedCourses->each(function ($course) use ($userId) {
         $course->completion_percentage = $course->getCourseCompletionPercentage($userId);
+        $course->current_content_id = $course->getCurrentCourseContentId($userId);
       });
 
       return [

@@ -337,7 +337,7 @@ const CourseContent = () => {
           shouldDirty: true,
         }
       );
-      if (filteredSection?.length > 0) {
+      if (filteredSection?.length > 0 && !courseSectionContentId) {
         const activeId = filteredSection
           ?.find((s) => s?.active)
           ?.content?.find((c) => c?.is_active)?.id;
@@ -511,6 +511,43 @@ const CourseContent = () => {
       });
     }
   }, [location]);
+
+  useEffect(() => {
+    const activeId = Number(courseSectionContentId);
+    if (!activeId || Number.isNaN(activeId)) {
+      return;
+    }
+
+    const sections = methods?.watch("sections") ?? [];
+    if (!sections?.length) {
+      return;
+    }
+
+    const hasTarget = sections?.some((s) =>
+      s?.content?.some((c) => c?.id === activeId)
+    );
+
+    if (!hasTarget) {
+      return;
+    }
+
+    methods?.setValue(
+      "sections",
+      sections?.map((s) => {
+        const target = s?.content?.find((c) => c?.id === activeId);
+        return {
+          ...s,
+          open: target ? true : s?.open,
+          active: target ? true : false,
+          content: s?.content?.map((c) => ({
+            ...c,
+            is_active: c?.id === activeId,
+          })),
+        };
+      }),
+      { shouldDirty: true }
+    );
+  }, [courseSectionContentId, methods]);
 
   return (
     <Box>

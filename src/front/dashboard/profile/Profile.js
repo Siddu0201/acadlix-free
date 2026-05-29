@@ -158,12 +158,16 @@ const Profile = () => {
               <Card
                 sx={{
                   display: "flex",
-                  justifyContent: "space-evenly",
                   flexDirection: {
                     xs: "column",
                     sm: "row",
                     md: "column",
                     lg: "column",
+                  },
+                  justifyContent: "space-evenly",
+                  alignItems: {
+                    sm: "center",
+                    md: "unset",
                   },
                 }}
               >

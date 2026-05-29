@@ -47,6 +47,38 @@
   animation: fadeInOut 3s ease-out forwards;
 }
 
+@media (max-width: 600px) {
+  .acadlix-congrats-message {
+    left: 1rem;
+    right: 1rem;
+    text-align: center;
+    transform: translate(0, -50%);
+    animation: fadeInOutMobile 3s ease-out forwards;
+  }
+}
+
+@keyframes fadeInOutMobile {
+  0% {
+    opacity: 0;
+    transform: translate(0, -55%);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0, -45%);
+  }
+}
+
 @keyframes fadeInOut {
   0% {
     opacity: 0;
@@ -99,13 +131,14 @@
   width: 100%;
 }
 
-.mce-toolbar .mce-listbox button, .mce-toolbar .mce-btn button {
+.mce-toolbar .mce-listbox button,
+.mce-toolbar .mce-btn button {
   background-color: transparent !important;
   background-image: none;
   border: none;
 }
 
-#acadlix_dashboard *{
+#acadlix_dashboard * {
   box-sizing: border-box;
 }
 
@@ -1195,9 +1228,10 @@ a.plyr__control:before {
 
 /* remove youtube branding  */
 .plyr__video-embed iframe {
-	top: -50%;
-	height: 200%;
+  top: -50%;
+  height: 200%;
 }
+
 /* .plyr__video-embed iframe {
 	top: 0;
 	height: 100%;

@@ -280,7 +280,9 @@ class FrontDashboardController
 
     $res['categories'] = $categories;
     $res['total'] = $result['total'];
-    $res['courses'] = $result['courses'];
+    $res['courses'] = $result['courses']->each(function ($course) use ($userId) {
+      $course->new_world = "fdsfd";
+    });
     return rest_ensure_response($res);
   }
 

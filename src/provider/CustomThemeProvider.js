@@ -644,6 +644,13 @@ const CustomThemeProvider = ({ children, ...props }) => {
           }),
         },
       },
+      MuiButtonBase: {
+        styleOverrides: {
+          root: {
+            backgroundImage: "none",
+          }
+        }
+      },
       MuiIconButton: {
         styleOverrides: {
           root: ({ theme, ownerState }) => ({
