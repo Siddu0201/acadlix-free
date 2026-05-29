@@ -64,8 +64,6 @@ class Submenu_Course_Student
       'acadlix_docs_url' => ACADLIX_DOCUMENTATION_URL,
       'isPro' => acadlix()->pro,
       'isActive' => acadlix()->license()->isActive ?? false,
-      'isAssignmentActive' => acadlix()->helper()->is_assignment_addon_active() ?? false,
-      'isZoomActive' => acadlix()->helper()->is_zoom_integration_addon_active() ?? false,
     ];
   }
 
