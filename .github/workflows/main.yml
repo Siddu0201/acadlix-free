@@ -71,7 +71,8 @@ jobs:
       # ----------------------------------
       - name: Install wp dist-archive command
         run: |
-          wp package install wp-cli/dist-archive-command:3.1.0 --allow-root
+          wp package install wp-cli/dist-archive-command:@stable
+          # wp package install wp-cli/dist-archive-command:3.1.0 --allow-root
 
       # ----------------------------------
       # Build WordPress.org compliant ZIP
