@@ -256,6 +256,7 @@ const StudentList = (props) => {
       control: props?.control,
       watch: props?.watch,
       setValue: props?.setValue,
+      props: props,
     }
   ) ?? [];
 
