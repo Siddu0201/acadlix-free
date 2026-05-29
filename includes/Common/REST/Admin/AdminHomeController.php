@@ -97,14 +97,14 @@ class AdminHomeController
   public function get_top_course_by_enrollment($request)
   {
     $res = [];
-    $res['top_courses'] = acadlix()->model()->course()->getTopCoursesByEnrollment(5);
+    $res['top_courses'] = acadlix()->model()->course()->getTopCoursesByEnrollment(3);
     return rest_ensure_response($res);
   }
 
   public function get_top_course_by_sales($request)
   {
     $res = [];
-    $res['top_courses'] = acadlix()->model()->course()->getTopCoursesBySales(5);
+    $res['top_courses'] = acadlix()->model()->course()->getTopCoursesBySales(3);
     return rest_ensure_response($res);
   }
 }
