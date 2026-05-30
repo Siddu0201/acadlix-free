@@ -225,6 +225,7 @@ class Activator
       13 => 'updateV13', // update 1.6.4 (pro) 1.0.6 (free),
       14 => 'updateV14', // update 1.6.5 (pro) 1.0.7 (free),
       15 => 'updateV15', // update 1.6.8 (pro) 1.0.8 (free),
+      16 => 'updateV16', // update 1.6.9 (pro) 1.0.9 (free),
     ];
 
     foreach ($updates as $version => $method) {
@@ -238,6 +239,13 @@ class Activator
         $this->$method();
       }
     }
+  }
+
+  public function updateV16()
+  {
+    /**
+     * In this update add course student module.
+     */ 
   }
 
   public function updateV15()

@@ -27,7 +27,9 @@ class UserRole
   public function administrator_capabilities(): array
   {
     return array_merge(
+      $this->homepage_capabilities(),
       $this->course_capabilities(),
+      $this->course_student_capabilities(),
       $this->lesson_capabilities(),
       $this->quiz_capabilities(),
       $this->question_capabilities(),
@@ -49,6 +51,16 @@ class UserRole
       $this->coupon_capabilities(),
       $this->ai_capabilities(),
     );
+  }
+
+  public function homepage_capabilities(): array
+  {
+    return [
+      'acadlix_show_homepage' => true,
+      'acadlix_show_quick_performance' => true,
+      'acadlix_show_top_courses_by_enrollment' => true,
+      'acadlix_show_top_courses_by_sales' => true,
+    ];
   }
 
   public function course_capabilities(): array
@@ -80,6 +92,13 @@ class UserRole
       'acadlix_sort_course_section' => true,
       'acadlix_sort_course_section_content' => true,
       'acadlix_delete_course_section_content' => true,
+    ];
+  }
+
+  public function course_student_capabilities(): array
+  {
+    return [
+      'acadlix_show_course_student' => true,
     ];
   }
 

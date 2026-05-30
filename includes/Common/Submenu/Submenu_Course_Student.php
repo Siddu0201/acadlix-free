@@ -13,15 +13,16 @@ class Submenu_Course_Student
   public function __construct()
   {
     $this->_options = [
-      'parent_slug' => null,
+      'parent_slug' => ACADLIX_SLUG,
       'page_title' => __('Course Students', 'acadlix'),
       'menu_title' => __('Course Students', 'acadlix'),
-      'capability' => 'manage_options',
+      'capability' => 'acadlix_show_course_student',
       'menu_slug' => 'acadlix_course_students',
       'callback' => [$this, 'course_student_callback'],
       'position' => 850
     ];
     add_action('admin_enqueue_scripts', [$this, 'admin_print_scripts']);
+    add_action('admin_head', [$this, 'hide_submenu_item']);
   }
 
   public function get_position()
@@ -31,7 +32,7 @@ class Submenu_Course_Student
 
   public function add_submenu()
   {
-    $page = add_submenu_page(
+    add_submenu_page(
       $this->_options['parent_slug'],
       $this->_options['page_title'],
       $this->_options['menu_title'],
@@ -40,7 +41,11 @@ class Submenu_Course_Student
       $this->_options['callback'],
       $this->_options['position']
     );
+  }
 
+  public function hide_submenu_item()
+  {
+    echo '<style>#adminmenu a[href="admin.php?page=' . esc_attr($this->_options['menu_slug']) . '"]{display:none !important;}</style>';
   }
 
   public function localize_options()

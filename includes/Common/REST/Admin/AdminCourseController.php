@@ -256,8 +256,7 @@ class AdminCourseController
           'methods' => WP_REST_Server::READABLE,
           'callback' => [$this, 'get_course_student_data'],
           'permission_callback' => function () {
-            return true;
-            // return current_user_can('acadlix_add_course_section_quiz');
+            return current_user_can('acadlix_show_course_student');
           },
           'args' => array(
             'course_id' => array(

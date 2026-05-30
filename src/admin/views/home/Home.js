@@ -8,6 +8,7 @@ import TopEnrolledCourses from "./sections/TopEnrolledCourses";
 import RevenueOverview from "./sections/RevenueOverview";
 import { DynamicMUIRenderer } from '@acadlix/modules/extensions/muiRecursiveRenderer';
 import TopSoldCourses from "./sections/TopSoldCourses";
+import { hasCapability } from "@acadlix/helpers/util";
 
 const Home = () => {
   const baseSettings = {
@@ -75,7 +76,7 @@ const Home = () => {
           },
         ]
       },
-      {
+      hasCapability('acadlix_show_quick_performance') && {
         component: "Grid",
         component_name: "home_grid_quick_performance",
         props: {
@@ -107,7 +108,7 @@ const Home = () => {
           },
         ]
       },
-      {
+      hasCapability('acadlix_show_top_courses_by_enrollment') && {
         component: "Grid",
         component_name: "home_grid_top_enrolled_courses",
         props: {
@@ -123,7 +124,7 @@ const Home = () => {
           },
         ]
       },
-      {
+      hasCapability('acadlix_show_top_courses_by_sales') && {
         component: "Grid",
         component_name: "home_grid_top_sold_courses",
         props: {

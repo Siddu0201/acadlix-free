@@ -35,7 +35,7 @@ class AdminHomeController
           'methods' => WP_REST_Server::READABLE,
           'callback' => [$this, 'get_quick_performance_data'],
           'permission_callback' => function () {
-            return current_user_can('manage_options');
+            return current_user_can('acadlix_show_quick_performance');
           },
         ],
       ]
@@ -49,7 +49,7 @@ class AdminHomeController
           'methods' => WP_REST_Server::READABLE,
           'callback' => [$this, 'get_top_course_by_enrollment'],
           'permission_callback' => function () {
-            return current_user_can('manage_options');
+            return current_user_can('acadlix_show_top_courses_by_enrollment');
           },
         ],
       ]
@@ -63,7 +63,7 @@ class AdminHomeController
           'methods' => WP_REST_Server::READABLE,
           'callback' => [$this, 'get_top_course_by_sales'],
           'permission_callback' => function () {
-            return current_user_can('manage_options');
+            return current_user_can('acadlix_show_top_courses_by_sales');
           },
         ],
       ]

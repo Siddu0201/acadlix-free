@@ -325,10 +325,12 @@ final class Course extends CPT_Abstract
       'admin.php?page=acadlix_course_students&course_id=' . $post->ID
     );
 
-    $actions['students'] = sprintf(
-      '<a href="%s">Students</a>',
-      esc_url($url)
-    );
+    if(current_user_can('acadlix_show_course_student') && $post->post_status == 'publish') {
+      $actions['students'] = sprintf(
+        '<a href="%s">Students</a>',
+        esc_url($url)
+      );
+    }
 
     return $actions;
   }
