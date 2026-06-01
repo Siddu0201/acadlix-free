@@ -99,9 +99,13 @@ if (!class_exists('WpUsers')) {
 
       $usersTable = $this->getTable();
 
+      $enrolledUserIds = DB::query()
+        ->fromSub($baseQuery, 'enrolled_courses')
+        ->select('enrolled_courses.user_id');
+
       return $query->whereIn(
         "{$usersTable}.ID",
-        $baseQuery->select('user_id')
+        $enrolledUserIds
       );
     }
 
