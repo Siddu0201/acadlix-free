@@ -28,7 +28,7 @@ const CourseStudent = ({ courseId }) => {
   };
 
   const filteredSettings = window?.acadlixHooks?.applyFilters?.(
-    "acadlix.admin.course.course_student.base_settings",
+    "acadlix.admin.course_student.base_settings",
     baseSettings,
     {
       courseId: courseId,
@@ -43,7 +43,7 @@ const CourseStudent = ({ courseId }) => {
   }
 
   let availableType = window?.acadlixHooks?.applyFilters?.(
-    "acadlix.admin.course.course_student.available_type",
+    "acadlix.admin.course_student.available_type",
     [
       'lesson',
       'quiz',
@@ -82,7 +82,7 @@ const CourseStudent = ({ courseId }) => {
         "students",
         data?.data?.students?.map((student) => {
           return window?.acadlixHooks?.applyFilters?.(
-            "acadlix.admin.course.course_student.student_data",
+            "acadlix.admin.course_student.student_data",
             {
               id: student.ID,
               name: student.display_name,
@@ -450,7 +450,7 @@ const CourseStudent = ({ courseId }) => {
   }
 
   const course_student = window?.acadlixHooks?.applyFilters?.(
-    "acadlix.admin.course.course_student",
+    "acadlix.admin.course_student",
     [defaultSetting],
     {
       register: methods?.register,

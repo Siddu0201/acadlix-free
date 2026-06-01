@@ -409,7 +409,7 @@ const StudentOptions = (props) => {
   };
 
   const student_options = window?.acadlixHooks?.applyFilters?.(
-    "acadlix.admin.course.course_student.student_options",
+    "acadlix.admin.course_student.student_options",
     [defaultSetting],
     {
       register: props?.register,

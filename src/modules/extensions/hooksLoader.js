@@ -20,6 +20,28 @@ export const loadAdminCourseHooks = async (hooks) => {
   }
 }
 
+export const loadAdminCourseStudentHooks = async (hooks) => {
+  try {
+    const mod = await (
+      process.env.REACT_APP_IS_PREMIUM === 'true'
+        ? import(
+          /* webpackChunkName: "admin_course_student_hooks" */
+          '@acadlix/pro/hooks/AdminCourseStudentHooks'
+        )
+        : import(
+          /* webpackChunkName: "admin_course_student_hooks" */
+          '@acadlix/free/hooks/AdminCourseStudentHooks'
+        )
+    );
+
+    if (typeof mod.registerPluginHooks === 'function') {
+      mod.registerPluginHooks(hooks);
+    }
+  } catch (e) {
+    // console.log(e);
+  }
+}
+
 export const loadAdminHomeHooks = async (hooks) => {
   try {
     const mod = await (

@@ -29,12 +29,6 @@ const AdminCourse = (props) => {
           props?.type === "ai-content" &&
           <CourseAi />
         }
-        {
-          props?.type === "student" &&
-          <AdminLayout>
-            <CourseStudent courseId={props?.courseId} />
-          </AdminLayout>
-        }
       </LocalizationProvider>
     </Provider>
   )

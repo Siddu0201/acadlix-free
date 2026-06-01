@@ -140,7 +140,7 @@ const CourseProfile = (props) => {
   };
 
   const course_profile = window?.acadlixHooks?.applyFilters?.(
-    "acadlix.admin.course.course_student.course_profile",
+    "acadlix.admin.course_student.course_profile",
     [defaultSetting],
     {
       register: props?.register,

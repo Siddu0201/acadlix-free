@@ -25,12 +25,4 @@ import { loadAdminCourseHooks } from '@acadlix/modules/extensions/hooksLoader';
     const acadlixCourseAiContentElementRoot = createRoot(acadlixCourseAiContentElement);
     acadlixCourseAiContentElementRoot.render(<AdminCourse id={adminCourseAiContentId} type="ai-content"></AdminCourse>);
   }
-
-  const adminCourseStudentId = "acadlix-admin-course-student";
-  const acadlixCourseStudentElement = document.getElementById(adminCourseStudentId);
-  if (acadlixCourseStudentElement) {
-    const acadlixCourseStudentElementRoot = createRoot(acadlixCourseStudentElement);
-    const courseId = acadlixCourseStudentElement.getAttribute('data-course-id');
-    acadlixCourseStudentElementRoot.render(<AdminCourse id={adminCourseStudentId} type="student" courseId={courseId}></AdminCourse>);
-  }
 })();

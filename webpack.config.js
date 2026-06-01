@@ -49,6 +49,7 @@ module.exports = (env, argv) => {
       admin_design_studio: path.resolve(process.cwd(), "src", "admin-design-studio.js"),
       admin_review: path.resolve(process.cwd(), "src", "admin-review.js"),
       admin_coupon: path.resolve(process.cwd(), "src", "admin-coupon.js"),
+      admin_course_student: path.resolve(process.cwd(), "src", "admin-course-student.js"),
 
       front: path.resolve(process.cwd(), "src", "front.js"),
       front_checkout: path.resolve(process.cwd(), "src", "front-checkout.js"),

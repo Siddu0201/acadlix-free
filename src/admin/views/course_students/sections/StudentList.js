@@ -249,7 +249,7 @@ const StudentList = (props) => {
   };
 
   const student_list = window?.acadlixHooks?.applyFilters?.(
-    "acadlix.admin.course.course_student.student_list",
+    "acadlix.admin.course_student.student_list",
     [defaultSetting],
     {
       register: props?.register,

@@ -74,7 +74,7 @@ class Submenu_Course_Student
 
   public function admin_print_scripts()
   {
-    acadlix()->assets()->manager()->load_assets('admin_course', $this->localize_options());
+    acadlix()->assets()->manager()->load_assets('admin_course_student', $this->localize_options());
   }
 
   public function course_student_callback()
