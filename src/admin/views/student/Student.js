@@ -46,7 +46,7 @@ const Student = () => {
 
   React.useMemo(() => {
     if (Array.isArray(data?.data?.students)) {
-      const newRows = data?.data?.students?.filter(s => s?.course_purchased_count > 0).map((student) => {
+      const newRows = data?.data?.students?.map((student) => {
         return {
           id: student?.ID,
           name: student?.display_name,

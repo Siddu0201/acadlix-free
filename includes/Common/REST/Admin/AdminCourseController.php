@@ -959,7 +959,7 @@ class AdminCourseController
       );
     }
     $res['course'] = $course;
-    $enrolled_users = acadlix()->model()->wpUsers()->getEnrolledUsers(
+    $enrolled_users = acadlix()->model()->wpUsers()->getEnrolledUsersByCourseId(
       $course_id,
       null,
       $skip,

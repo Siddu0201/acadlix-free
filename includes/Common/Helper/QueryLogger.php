@@ -8,17 +8,27 @@ defined('ABSPATH') || exit();
 if (!class_exists('QueryLogger')) {
   class QueryLogger
   {
+    protected $totalQueryTime = 0;
+    protected $queryCount = 0;
     public function enable()
     {
       DB::listen(function ($query) {
-        $logMessage = sprintf(
-          "SQL: %s | Bindings: %s | Time: %sms",
-          $query->sql,
-          json_encode($query->bindings),
-          $query->time
-        );
+        $this->totalQueryTime += $query->time;
+        $this->queryCount++;
 
-        // error_log($logMessage);
+        // error_log(sprintf(
+        //   "SQL: %s | Time: %sms",
+        //   $query->sql,
+        //   $query->time
+        // ));
+      });
+
+      register_shutdown_function(function () {
+        // error_log(sprintf(
+        //   "Total Queries: %d | Total DB Time: %.2fms",
+        //   $this->queryCount,
+        //   $this->totalQueryTime
+        // ));
       });
     }
   }

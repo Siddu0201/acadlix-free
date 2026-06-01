@@ -14,7 +14,7 @@ if (!class_exists('WpUsers')) {
     protected $primaryKey = 'ID';
 
     protected $appends = [
-      'course_purchased_count'
+      // 'course_purchased_count'
     ];
 
     public function __construct(array $attributes = [])
@@ -53,30 +53,101 @@ if (!class_exists('WpUsers')) {
     //   });
     // }
 
-    public function getCoursePurchasedCountAttribute()
+    public function scopeSearch($query, $search = null)
     {
-      return $this->getPurchasedCoursesIds()->count();
+      if (empty($search)) {
+        return $query;
+      }
+
+      $usersTable = $this->getTable();
+
+      return $query->where(function ($q) use ($search, $usersTable) {
+        $q->where("{$usersTable}.display_name", 'like', "%{$search}%")
+          ->orWhere("{$usersTable}.user_email", 'like', "%{$search}%")
+          ->orWhere("{$usersTable}.user_login", 'like', "%{$search}%");
+      });
     }
+
+    public function scopeWithCoursePurchasedCount($query)
+    {
+      $baseQuery = $this->getEnrolledCoursesQuery();
+      $usersTable = $this->getTable();
+
+      $courseCountSubQuery = DB::query()
+        ->fromSub($baseQuery, 'purchased_courses')
+        ->select(
+          'purchased_courses.user_id',
+          DB::raw('COUNT(DISTINCT purchased_courses.course_id) as course_purchased_count')
+        )
+        ->groupBy('purchased_courses.user_id');
+
+      return $query->leftJoinSub(
+        $courseCountSubQuery,
+        'user_course_counts',
+        function ($join) {
+          $join->on('user_course_counts.user_id', '=', $this->getTable() . '.ID');
+        }
+      )->addSelect(
+          "{$usersTable}.*",
+          DB::raw('COALESCE(user_course_counts.course_purchased_count, 0) as course_purchased_count')
+        );
+    }
+
+    public function scopeEnrolled($query)
+    {
+      $baseQuery = $this->getEnrolledCoursesQuery();
+
+      $usersTable = $this->getTable();
+
+      return $query->whereIn(
+        "{$usersTable}.ID",
+        $baseQuery->select('user_id')
+      );
+    }
+
+    // public function getCoursePurchasedCountAttribute()
+    // {
+    //   return $this->getPurchasedCoursesIds()->count();
+    // }
 
     public function getPurchasedCoursesIds()
     {
-      // return acadlix()->model()->course()
-      //   ->ofCourse()
-      //   ->whereHas('order_items', function ($query) {
-      //     $query->whereNull('subscription_id')
-      //       ->whereHas('order', function ($q) {
-      //         $q->ofSuccess()
-      //           ->where('user_id', $this->ID);
-      //       });
-      //   })
-      //   ->get()
-      //   ->pluck('ID');
       $query = $this->getEnrolledCoursesQuery();
       return DB::query()
         ->fromSub($query, 'purchased_courses')
         ->where('purchased_courses.user_id', $this->ID)
         ->distinct()
         ->pluck('purchased_courses.course_id');
+    }
+
+    public function getEnrolledUsers()
+    {
+      $baseQuery = $this->getEnrolledCoursesQuery();
+
+      $usersTable = $this->getTable();
+      $courseCountSubQuery = DB::query()
+        ->fromSub($baseQuery, 'purchased_courses')
+        ->select(
+          'purchased_courses.user_id',
+          DB::raw('COUNT(DISTINCT purchased_courses.course_id) as course_purchased_count')
+        )
+        ->groupBy('purchased_courses.user_id');
+
+      $query = self::query()
+        ->from($usersTable)
+        ->joinSub($courseCountSubQuery, 'user_course_counts', function ($join) use ($usersTable) {
+          $join->on('user_course_counts.user_id', '=', "{$usersTable}.ID");
+        })
+        ->select("{$usersTable}.*", 'user_course_counts.course_purchased_count');
+
+      // if (!empty($search)) {
+      //   $query->where(function ($q) use ($search, $usersTable) {
+      //     $q->where("{$usersTable}.display_name", 'like', "%{$search}%")
+      //       ->orWhere("{$usersTable}.user_email", 'like', "%{$search}%");
+      //   });
+      // }
+
+      return $query;
     }
 
     protected function getEnrolledCoursesQuery()
@@ -101,7 +172,7 @@ if (!class_exists('WpUsers')) {
       return $directCourseQuery;
     }
 
-    public function getEnrolledUsers(
+    public function getEnrolledUsersByCourseId(
       $courseId = '',
       $search = null,
       $skip = 0,

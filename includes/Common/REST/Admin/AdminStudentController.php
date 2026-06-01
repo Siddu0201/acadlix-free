@@ -46,19 +46,29 @@ class AdminStudentController
     $params = $request->get_params();
     $search = $params['search'];
     $skip = $params['page'] * $params['pageSize'];
-    $student = acadlix()->model()->wpUsers()
-      ->whereHas('orders', function ($q) {
-        $q->ofSuccess(); // optional status filter
-      })
-      ->orderBy('ID', 'desc'); // or 'asc'
-    if (!empty($search)) {
-      $student->where(function ($query) use ($search) {
-        $query->where('display_name', 'like', "%{$search}%")
-          ->orWhere('user_email', 'like', "%{$search}%");
-      });
-    }
-    $res['total'] = $student->count();
-    $res['students'] = $student->skip($skip)->take($params['pageSize'])->get();
+    // $student = acadlix()->model()->wpUsers()
+    //   ->whereHas('orders', function ($q) {
+    //     $q->ofSuccess(); // optional status filter
+    //   })
+    //   ->orderBy('ID', 'desc'); // or 'asc'
+    // if (!empty($search)) {
+    //   $student->where(function ($query) use ($search) {
+    //     $query->where('display_name', 'like', "%{$search}%")
+    //       ->orWhere('user_email', 'like', "%{$search}%");
+    //   });
+    // }
+    // $res['total'] = $student->count();
+    // $res['students'] = $student->skip($skip)->take($params['pageSize'])->get();
+    $query = acadlix()
+      ->model()
+      ->wpUsers()
+      ->newQuery()
+      ->enrolled()
+      ->withCoursePurchasedCount()
+      ->search($search);
+
+    $res['total'] = (clone $query)->count();
+    $res['students'] = $query->orderBy('ID', 'desc')->skip($skip)->take($params['pageSize'])->get();
     return rest_ensure_response($res);
   }
 
