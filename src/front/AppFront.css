@@ -1114,7 +1114,7 @@ a.plyr__control:before {
 }
 
 @media (max-width: 767px) {
-  .acadlix-video-player .plyr__volume input[type="range"] {
+  .plyr__volume input[type="range"] {
     max-width: 50px;
     min-width: 30px;
   }
