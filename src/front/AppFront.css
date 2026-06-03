@@ -1113,6 +1113,22 @@ a.plyr__control:before {
   z-index: 2;
 }
 
+@media (max-width: 767px) {
+  .acadlix-video-player .plyr__volume input[type="range"] {
+    display: none;
+  }
+
+  .acadlix-video-player .plyr__volume {
+    margin-left: 0;
+  }
+
+  /* .acadlix-video-player .plyr,
+  .acadlix-video-player video,
+  .acadlix-video-player iframe {
+    touch-action: manipulation;
+  } */
+}
+
 .plyr--audio {
   display: block;
 }
