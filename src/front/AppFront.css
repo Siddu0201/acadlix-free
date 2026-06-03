@@ -1115,12 +1115,13 @@ a.plyr__control:before {
 
 @media (max-width: 767px) {
   .acadlix-video-player .plyr__volume input[type="range"] {
-    display: none;
+    max-width: 50px;
+    min-width: 30px;
   }
 
-  .acadlix-video-player .plyr__volume {
+  /* .acadlix-video-player .plyr__volume {
     margin-left: 0;
-  }
+  } */
 
   /* .acadlix-video-player .plyr,
   .acadlix-video-player video,
