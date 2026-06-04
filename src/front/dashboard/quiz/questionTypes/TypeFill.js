@@ -17,6 +17,50 @@ const TypeFill = (props) => {
     found.push(currmatch[1]);
   }
 
+  const getTextWidth = (text, font = "16px Roboto") => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.font = font;
+    return context.measureText(text).width;
+  };
+
+  const blankWidths = React.useMemo(() => {
+    return (
+      props?.answer_data?.[props?.type]?.correctOption?.map((item) => {
+        const options = item.option || [];
+
+        const maxWidth = Math.max(
+          ...options.map((opt) => getTextWidth(opt))
+        );
+
+        return Math.max(maxWidth + 30, 80);
+      }) || []
+    );
+  }, [props?.answer_data, props?.type]);
+
+  const getAnswerDisplayText = (options = []) => {
+    return options.join("/");
+  };
+
+  const getCorrectAnswerWidth = (
+    options = [],
+    font = "16px Roboto"
+  ) => {
+    const text = getAnswerDisplayText(options);
+
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    context.font = font;
+
+    const textWidth = context.measureText(text).width;
+    return Math.max(
+      textWidth + 30, // padding
+      80 // minimum width
+    );
+  };
+
+
   const handleChange = (index, e) => {
     props?.setValue(
       `questions.${props?.index}.language.${props?.lang_index}.answer_data.${props?.type}.correctOption.${index}.yourAnswer`,
@@ -111,11 +155,11 @@ const TypeFill = (props) => {
             ?.split(rxp)
             ?.map((data, index) => {
               if (found?.includes(data)) {
-                const maxLen = Math.max(
-                  ...(
-                    props?.answer_data?.[props?.type]?.correctOption?.[i]?.option || []
-                  ).map(opt => opt.length)
-                );
+                // const maxLen = Math.max(
+                //   ...(
+                //     props?.answer_data?.[props?.type]?.correctOption?.[i]?.option || []
+                //   ).map(opt => opt.length)
+                // );
                 return (
                   <CustomTextField
                     key={index}
@@ -125,7 +169,8 @@ const TypeFill = (props) => {
                       ".MuiInputBase-inputSizeSmall": {
                         padding: "0px 3px",
                       },
-                      width: `${maxLen + 4}ch`,
+                      // width: `${maxLen + 4}ch`,
+                      width: blankWidths?.[i] ? `${blankWidths[i]}px` : "80px",
                     }}
                     inputProps={{
                       sx: {
@@ -202,8 +247,11 @@ const TypeFill = (props) => {
                 ?.split(rxp)
                 ?.map((data, index) => {
                   if (found?.includes(data)) {
-                    const maxLen = Math.max(
-                      ...(props?.answer_data?.[props?.type]?.correctOption?.[i]?.option || []).map(opt => opt.length)
+                    // const maxLen = Math.max(
+                    //   ...(props?.answer_data?.[props?.type]?.correctOption?.[i]?.option || []).map(opt => opt.length)
+                    // );
+                    const width = getCorrectAnswerWidth(
+                      props?.answer_data?.[props?.type]?.correctOption?.[j]?.option
                     );
                     return (
                       <React.Fragment key={index}>
@@ -214,7 +262,9 @@ const TypeFill = (props) => {
                             ".MuiInputBase-inputSizeSmall": {
                               padding: "0px 3px",
                             },
-                            width: `${maxLen + 4}ch`,
+                            // width: `${maxLen + 4}ch`,
+                            // width: blankWidths?.[j] ? `${blankWidths[j]}px` : "80px",
+                            width: `${width}px`,
                           }}
                           inputProps={{
                             sx: {
@@ -222,7 +272,7 @@ const TypeFill = (props) => {
                             }
                           }}
                           value={getAnswerData(found[j])}
-                          disabled
+                        // disabled
                         />
                       </React.Fragment>
                     );
