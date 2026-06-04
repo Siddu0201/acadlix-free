@@ -20,10 +20,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm" 
+          # cache: "npm" 
 
       - name: Install Node dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build React app (Free)
         run: npm run build:free
