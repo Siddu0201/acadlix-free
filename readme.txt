@@ -372,7 +372,7 @@ You can share feedback and suggest new features through the Acadlix website. Use
 
 == Changelog ==
 
-= 1.0.9 - 
+= 1.0.9 - 04-06-2026 =
 * Added: Free checkout support without requiring any payment gateway configuration.
 * Added: User can change password from student dashboard.
 * Added: Resume video playback feature for lessons.
