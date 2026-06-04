@@ -15,7 +15,8 @@ class Submenu_Upgrade
       'parent_slug' => ACADLIX_SLUG,
       'page_title' => __('Upgrade to Pro', 'acadlix'),
       'menu_title' => sprintf('<span class="acadlix-get-pro-text">%s</span>', __('Upgrade to Pro', 'acadlix')),
-      'capability' => 'acadlix_show_upgrade',
+      // 'capability' => 'acadlix_show_upgrade',
+      'capability' => 'manage_options',
       'menu_slug' => 'acadlix_upgrade',
       'callback' => [$this, 'upgrade_callback'],
       'position' => 100
