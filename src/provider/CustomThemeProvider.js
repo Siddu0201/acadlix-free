@@ -9,7 +9,7 @@ import React from "react";
 
 export const defaultPaletteColor = {
   main: {
-    primary: "#1976d2",
+    primary: "#3858e9",
     secondary: "#9c27b0",
     grey: "#d1d7dc",
     success: "#01cd00",
@@ -18,7 +18,7 @@ export const defaultPaletteColor = {
     info: "#03C3EC",
   },
   light: {
-    primary: "#e5f2ff",
+    primary: "#d8dfff",
     secondary: "#eedaf1",
     grey: "#eeeeee",
     success: "#e7ffe7",
@@ -27,7 +27,7 @@ export const defaultPaletteColor = {
     info: "#e4faff",
   },
   dark: {
-    primary: "#1565c0",
+    primary: "#0e2db9",
     secondary: "#7b1fa2",
     grey: "#bac2c9",
     success: "#489744",
