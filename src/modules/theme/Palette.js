@@ -89,7 +89,7 @@ const Palette = (props) => {
     <Grid container spacing={4}>
       <Grid size={{ xs: 12, sm: 12 }}>
         <Card
-          sx={cardSx}
+          // sx={cardSx}
         >
           <CardHeader
             title={
@@ -116,7 +116,7 @@ const Palette = (props) => {
           />
           <CardContent
             sx={{
-              pointerEvents: props?.free ? 'none' : 'auto',
+              // pointerEvents: props?.free ? 'none' : 'auto',
             }}
           >
             <Box
@@ -295,7 +295,7 @@ const Palette = (props) => {
           </CardContent>
 
           {/* Overlay with Upgrade CTA */}
-          {
+          {/* {
             props?.free && (
               <Box
                 sx={{
@@ -333,7 +333,7 @@ const Palette = (props) => {
                 </Box>
               </Box>
             )
-          }
+          } */}
         </Card>
       </Grid>
       <Grid size={{ xs: 12, sm: 12 }}
@@ -356,7 +356,7 @@ const Palette = (props) => {
               color="primary"
               type="submit"
               loading={props?.isPending}
-              disabled={props?.free}
+              // disabled={props?.free}
             >
               {__('Save Changes', 'acadlix')}
             </Button>

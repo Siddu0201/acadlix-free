@@ -20,10 +20,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          # cache: "npm" 
+          cache: "npm" 
 
       - name: Install Node dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build React app (Free)
         run: npm run build:free
@@ -141,11 +141,11 @@ jobs:
             echo "Deploying to Hostinger..."
 
             # Deploy to dev subdomain
-            # echo "Deploying to dev subdomain..."
-            # rm -rf "$ACADLIX_DIR_DEV"
-            # unzip -o "$ZIP_PATH" -d "$PLUGIN_DIR_DEV"
-            # find "$ACADLIX_DIR_DEV" -type d -exec chmod 755 {} \;
-            # find "$ACADLIX_DIR_DEV" -type f -exec chmod 644 {} \;
+            echo "Deploying to dev subdomain..."
+            rm -rf "$ACADLIX_DIR_DEV"
+            unzip -o "$ZIP_PATH" -d "$PLUGIN_DIR_DEV"
+            find "$ACADLIX_DIR_DEV" -type d -exec chmod 755 {} \;
+            find "$ACADLIX_DIR_DEV" -type f -exec chmod 644 {} \;
 
             # Deploy to free subdomain
             echo "Deploying to free subdomain..."

@@ -372,19 +372,28 @@ You can share feedback and suggest new features through the Acadlix website. Use
 
 == Changelog ==
 
-= 1.0.9 - 22-05-2026 =
+= 1.0.9 - 
 * Added: Free checkout support without requiring any payment gateway configuration.
 * Added: User can change password from student dashboard.
 * Added: Resume video playback feature for lessons.
 * Added: Login functionality option for non-logged-in at view answersheet.
 * Added: Sticky save button in settings and admin pages for improved usability.
 * Added: Redirect option specifically for login shortcode functionality.
+* Added: Add redirect URL option in login shortcode settings for better user flow control.
+* Added: Add template override support quiz shortcode for frontend customization.
+* Added: Add skeleton loader for in student dashboard for better user experience during data fetching.
+* Added: Add Course Student pagen in admin to view students enrolled in a course.
+* Added: Add course analytics in admin to view course performance and student engagement.
+* Added: Add design studio palette for better design control.
 * Updated: Student certificate name formatting now displays first letter in uppercase automatically.
 * Updated: Passing percentage restriction now disables answer sheet access button when requirements are not met.
 * Updated: Free course purchase validation by checking course pricing before checkout.
+* Updated: Student dashboard update user avatar background. 
+* Updated: Scroll to top when view answer sheet button is clicked for better user experience. 
 * Fixed: Quiz answer sheet reopening issue when using finish quiz button.
 * Fixed: Video player button CSS styling inconsistencies.
 * Fixed: Single choice & true false question manual save issue caused by multiple clicks.
+* Fixed: Reduce the volumn slider for mobile view in video player.
 
 = 1.0.8 - 18-05-2026 =
 * Added: Knit Pay payment gateway integration.
