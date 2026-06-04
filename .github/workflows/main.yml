@@ -112,18 +112,39 @@ jobs:
         run: |
           set -euo pipefail
 
-          HOSTINGER_PORT_CLEAN="$(echo "${HOSTINGER_PORT:-22}" | tr -d '\r\n[:space:]')"
-          if [ -z "$HOSTINGER_PORT_CLEAN" ]; then HOSTINGER_PORT_CLEAN="22"; fi
+          HOSTINGER_PORT_CLEAN="$(echo "${HOSTINGER_PORT:-}" | tr -d '\r\n[:space:]')"
+          PORT_CANDIDATES="${HOSTINGER_PORT_CLEAN} 22 65002"
+
+          UNIQUE_PORTS=""
+          for p in $PORT_CANDIDATES; do
+            [ -z "$p" ] && continue
+            case " $UNIQUE_PORTS " in
+              *" $p "*) ;;
+              *) UNIQUE_PORTS="$UNIQUE_PORTS $p" ;;
+            esac
+          done
+
+          echo "Checking reachable SSH port on $HOSTINGER_HOST..."
+          REACHABLE_PORT=""
+          for p in $UNIQUE_PORTS; do
+            if timeout 12 bash -c "cat < /dev/null > /dev/tcp/$HOSTINGER_HOST/$p"; then
+              REACHABLE_PORT="$p"
+              break
+            fi
+          done
+
+          if [ -z "$REACHABLE_PORT" ]; then
+            echo "Cannot reach $HOSTINGER_HOST on any tested port:$UNIQUE_PORTS"
+            echo "Likely firewall/IP allowlist block for GitHub-hosted runners or wrong HOSTINGER_HOST secret."
+            exit 1
+          fi
+
+          HOSTINGER_PORT_CLEAN="$REACHABLE_PORT"
 
           printf '%s' "$HOSTINGER_SSH_KEY" | tr -d '\r' > private_key
           chmod 600 private_key
 
           echo "Uploading as $HOSTINGER_USER@$HOSTINGER_HOST on port $HOSTINGER_PORT_CLEAN"
-          if ! timeout 15 bash -c "cat < /dev/null > /dev/tcp/$HOSTINGER_HOST/$HOSTINGER_PORT_CLEAN"; then
-            echo "Cannot reach $HOSTINGER_HOST:$HOSTINGER_PORT_CLEAN from GitHub runner (network timeout)."
-            echo "Check Hostinger firewall / SSH port / IP allowlist / secret values."
-            exit 1
-          fi
 
           for attempt in 1 2 3; do
             echo "SCP upload attempt $attempt/3"
@@ -154,17 +175,37 @@ jobs:
         run: |
           set -euo pipefail
 
-          HOSTINGER_PORT_CLEAN="$(echo "${HOSTINGER_PORT:-22}" | tr -d '\r\n[:space:]')"
-          if [ -z "$HOSTINGER_PORT_CLEAN" ]; then HOSTINGER_PORT_CLEAN="22"; fi
+          HOSTINGER_PORT_CLEAN="$(echo "${HOSTINGER_PORT:-}" | tr -d '\r\n[:space:]')"
+          PORT_CANDIDATES="${HOSTINGER_PORT_CLEAN} 22 65002"
+
+          UNIQUE_PORTS=""
+          for p in $PORT_CANDIDATES; do
+            [ -z "$p" ] && continue
+            case " $UNIQUE_PORTS " in
+              *" $p "*) ;;
+              *) UNIQUE_PORTS="$UNIQUE_PORTS $p" ;;
+            esac
+          done
+
+          echo "Checking reachable SSH port on $HOSTINGER_HOST..."
+          REACHABLE_PORT=""
+          for p in $UNIQUE_PORTS; do
+            if timeout 12 bash -c "cat < /dev/null > /dev/tcp/$HOSTINGER_HOST/$p"; then
+              REACHABLE_PORT="$p"
+              break
+            fi
+          done
+
+          if [ -z "$REACHABLE_PORT" ]; then
+            echo "Cannot reach $HOSTINGER_HOST on any tested port:$UNIQUE_PORTS"
+            echo "Likely firewall/IP allowlist block for GitHub-hosted runners or wrong HOSTINGER_HOST secret."
+            exit 1
+          fi
+
+          HOSTINGER_PORT_CLEAN="$REACHABLE_PORT"
 
           printf '%s' "$HOSTINGER_SSH_KEY" | tr -d '\r' > private_key
           chmod 600 private_key
-
-          if ! timeout 15 bash -c "cat < /dev/null > /dev/tcp/$HOSTINGER_HOST/$HOSTINGER_PORT_CLEAN"; then
-            echo "Cannot reach $HOSTINGER_HOST:$HOSTINGER_PORT_CLEAN from GitHub runner (network timeout)."
-            echo "Check Hostinger firewall / SSH port / IP allowlist / secret values."
-            exit 1
-          fi
           
           USER_HOME="/home/$HOSTINGER_USER"
           PLUGIN_DIR_DEV="$USER_HOME/domains/acadlix.in/public_html/dev/wp-content/plugins"
