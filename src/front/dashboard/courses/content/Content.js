@@ -457,7 +457,7 @@ const LessonTextContent = (props) => {
     <Box
       sx={{
         paddingX: {
-          xs: 1,
+          xs: 3,
           sm: 20,
         },
         paddingY: 2,
