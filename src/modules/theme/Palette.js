@@ -36,6 +36,12 @@ const Palette = (props) => {
           light: defaultTheme?.light?.primary,
           contrastText: defaultTheme?.contrastText?.primary,
         },
+        secondary: {
+          main: defaultTheme?.main?.secondary,
+          dark: defaultTheme?.dark?.secondary,
+          light: defaultTheme?.light?.secondary,
+          contrastText: defaultTheme?.contrastText?.secondary,
+        },
         success: {
           main: defaultTheme?.main?.success,
           dark: defaultTheme?.dark?.success,
