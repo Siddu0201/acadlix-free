@@ -122,7 +122,7 @@ jobs:
         with:
           name: acadlix-plugin
           path: plugin.zip
-          retention-days: 7
+          retention-days: 1
 
   deploy:
     needs: build
