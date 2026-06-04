@@ -445,10 +445,6 @@ class Ajax
       return new WP_Error('invalid_email', __('Invalid email address.', 'acadlix'));
     }
 
-    if (username_exists($username)) {
-      return new WP_Error('username_exists', __('Username already exists.', 'acadlix'));
-    }
-
     if (email_exists($email)) {
       return new WP_Error('email_exists', __('Email already registered.', 'acadlix'));
     }
