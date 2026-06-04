@@ -15,7 +15,7 @@
   ],
   "require": {
     "php": "^8.2",
-    "illuminate/database": "12.56.0",
-    "illuminate/events": "12.56.0"
+    "illuminate/database": "12.61.0",
+    "illuminate/events": "12.61.0"
   }
 }
