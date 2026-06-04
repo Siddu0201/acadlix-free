@@ -441,6 +441,7 @@ if (!class_exists('Course')) {
       }
       $orderItemTable = acadlix()->model()->orderItem()->getTable();
       $ordersTable = acadlix()->model()->order()->getTable();
+      $usersTable = acadlix()->model()->wpUsers()->getTable();
 
       $purchaseMap = DB::table($orderItemTable)
         ->join($ordersTable, "$ordersTable.id", '=', "$orderItemTable.order_id")
@@ -731,6 +732,7 @@ if (!class_exists('Course')) {
     {
       $orderItemTable = acadlix()->model()->orderItem()->getTable();
       $ordersTable = acadlix()->model()->order()->getTable();
+      $userTable = acadlix()->model()->wpUsers()->getTable();
 
       $directCourseQuery = DB::table($orderItemTable)
         ->join(
@@ -739,9 +741,15 @@ if (!class_exists('Course')) {
           '=',
           "$orderItemTable.order_id"
         )
+        ->join(
+          $userTable,
+          "$userTable.ID",
+          '=',
+          "$ordersTable.user_id"
+        )
         ->select(
           "$orderItemTable.item_id as course_id",
-          "$ordersTable.user_id"
+          "$userTable.ID as user_id"
         )
         ->where("$orderItemTable.type", 'course')
         ->whereNull("$orderItemTable.subscription_id")
