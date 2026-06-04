@@ -9,7 +9,7 @@ env:
   PLUGIN_VERSION: "1.0.9"
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -50,12 +50,29 @@ jobs:
       - name: Purge Vendor Development Trash
         run: |
           echo "Blazing fast native cleanup of vendor dev artifacts..."
-          # Delete heavy development/test directories from the vendor folder
-          find vendor/ -type d \( -name "tests" -o -name "Tests" -o -name "test" -o -name "testing" -o -name "phpunit" -o -name "PHPUnit" -o -name "docs" -o -name ".github" -o -name "bin" -o -name "stubs" \) -exec rm -rf {} +
-          
-          # Delete non-production configuration and markdown documentation files
-          find vendor/ -type f \( -name "*.md" -o -name "*.toml" -o -name "*.bat" -o -name "*.sh" -o -name "composer.json" -o -name "installed.json" \) -delete
-      
+
+          find vendor/ -type d \( \
+            -name "tests" -o \
+            -name "Tests" -o \
+            -name "test" -o \
+            -name "testing" -o \
+            -name "phpunit" -o \
+            -name "PHPUnit" -o \
+            -name "docs" -o \
+            -name ".github" -o \
+            -name "bin" -o \
+            -name "stubs" \
+          \) -exec rm -rf {} +
+
+          find vendor/ -type f \( \
+            -name "*.md" -o \
+            -name "*.toml" -o \
+            -name "*.bat" -o \
+            -name "*.sh" -o \
+            -name "composer.json" -o \
+            -name "installed.json" \
+          \) -delete
+
       # ----------------------------------
       # Build plugin ZIP (native rsync + zip)
       # ----------------------------------
@@ -99,6 +116,23 @@ jobs:
           zip -r "${GITHUB_WORKSPACE}/plugin.zip" "${PLUGIN_SLUG}/"
           echo "Files created:"
           ls -lh "${GITHUB_WORKSPACE}/"
+
+      - name: Upload plugin artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: acadlix-plugin
+          path: plugin.zip
+          retention-days: 7
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # Download the plugin artifact from the build job
+      - name: Download plugin artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: acadlix-plugin
 
       # ----------------------------------
       # Upload ZIP to Hostinger
