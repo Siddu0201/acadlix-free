@@ -93,4 +93,7 @@ if (function_exists('acadlix')) {
 
 require_once ACADLIX_INCLUDES_PATH . '/AcadlixAbstract.php';
 require_once ACADLIX_INCLUDES_PATH . '/Acadlix.php';
-acadlix();
+// acadlix();
+add_action('plugins_loaded', function () {
+  acadlix();
+});
