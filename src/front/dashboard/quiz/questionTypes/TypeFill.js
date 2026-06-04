@@ -272,7 +272,7 @@ const TypeFill = (props) => {
                             }
                           }}
                           value={getAnswerData(found[j])}
-                        // disabled
+                          disabled
                         />
                       </React.Fragment>
                     );
