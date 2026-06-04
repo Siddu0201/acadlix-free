@@ -374,26 +374,24 @@ You can share feedback and suggest new features through the Acadlix website. Use
 
 = 1.0.9 - 04-06-2026 =
 * Added: Free checkout support without requiring any payment gateway configuration.
-* Added: User can change password from student dashboard.
-* Added: Resume video playback feature for lessons.
-* Added: Login functionality option for non-logged-in at view answersheet.
+* Added: Change password from student dashboard.
+* Added: Resume video playback for lessons.
+* Added: Login functionality for non-logged-in users at view answersheet or start quiz.
 * Added: Sticky save button in settings and admin pages for improved usability.
-* Added: Redirect option specifically for login shortcode functionality.
-* Added: Add redirect URL option in login shortcode settings for better user flow control.
-* Added: Add template override support quiz shortcode for frontend customization.
-* Added: Add skeleton loader for in student dashboard for better user experience during data fetching.
-* Added: Add Course Student pagen in admin to view students enrolled in a course.
-* Added: Add course analytics in admin to view course performance and student engagement.
-* Added: Add design studio palette for better design control.
+* Added: Redirect option specifically for login shortcode.
+* Added: Template override support for quiz shortcode with configurable fields.
+* Added: Skeleton loader for student dashboard for better user experience during data fetch.
+* Added: Course analytics in admin to view course performance and student engagement.
+* Added: Design studio palette for better design control.
 * Updated: Student certificate name formatting now displays first letter in uppercase automatically.
-* Updated: Passing percentage restriction now disables answer sheet access button when requirements are not met.
-* Updated: Free course purchase validation by checking course pricing before checkout.
-* Updated: Student dashboard update user avatar background. 
-* Updated: Scroll to top when view answer sheet button is clicked for better user experience. 
-* Fixed: Quiz answer sheet reopening issue when using finish quiz button.
+* Updated: Passing percentage restriction now disables the answer sheet access button when set score is not met.
+* Updated: Course price validation at checkout before leaving to payment gateway.
+* Updated: User avatar background in student dashboard top bar. 
+* Updated: Scroll to viewport when view answer sheet button is clicked for better user experience. 
+* Fixed: Quiz answer sheet reopening issue when quiz is submitted using finish quiz button.
 * Fixed: Video player button CSS styling inconsistencies.
 * Fixed: Single choice & true false question manual save issue caused by multiple clicks.
-* Fixed: Reduce the volumn slider for mobile view in video player.
+* Fixed: Reduced the volume slider for mobile view in video player.
 
 = 1.0.8 - 18-05-2026 =
 * Added: Knit Pay payment gateway integration.
