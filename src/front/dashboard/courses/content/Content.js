@@ -11,6 +11,7 @@ import {
 import AppFront from "@acadlix/front/AppFront";
 import VideoPlayer from "@acadlix/modules/video-player/VideoPlayer";
 import {
+  GetTextLessonContent,
   PostUpdateLessonTime,
   PostUpdateLessonTimeStatistics,
 } from "@acadlix/requests/front/FrontDashboardRequest";
@@ -453,6 +454,9 @@ const LessonTextContent = (props) => {
       );
     };
   }, []);
+  const { isFetching, data } = GetTextLessonContent(props?.c?.content_type_id);
+
+  console.log("text lesson content", { isFetching, data });
   return (
     <Box
       sx={{
