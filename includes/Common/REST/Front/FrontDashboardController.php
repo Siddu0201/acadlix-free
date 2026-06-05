@@ -76,18 +76,6 @@ class FrontDashboardController
 
     register_rest_route(
       $this->namespace,
-      '/' . $this->base . '/get-text-lesson-content',
-      [
-        [
-          'methods' => WP_REST_Server::READABLE,
-          'callback' => [$this, 'get_text_lesson_content'],
-          'permission_callback' => [$this, 'check_permission'],
-        ],
-      ]
-    );
-
-    register_rest_route(
-      $this->namespace,
       '/' . $this->base . '/post-update-lesson-time-statistics',
       [
         [
@@ -450,27 +438,6 @@ class FrontDashboardController
       acadlix()->model()->lesson()->updateLesson($lessonId, [], $meta);
     }
     return rest_ensure_response(['success' => true, 'lesson' => acadlix()->model()->lesson()->ofLesson()->find($lessonId)]);
-  }
-
-  public function get_text_lesson_content($request)
-  {
-    $res = [];
-    $lessonId = $request->get_param('lesson_id');
-
-    if (empty($lessonId)) {
-      return new WP_Error('missing_params', __('The lesson_id parameter is required.', 'acadlix'), array('status' => 400));
-    }
-
-    $lesson = acadlix()->model()->lesson()->ofLesson()->find($lessonId);
-    if (!$lesson) {
-      return new WP_Error('not_found', __('Lesson not found.', 'acadlix'), array('status' => 404));
-    }
-    $content = $lesson->post_content;
-    ob_start();
-    echo do_shortcode($content);
-    $html = ob_get_clean();
-    $res['content'] = $html;
-    return rest_ensure_response($res);
   }
 
   public function post_update_lesson_time_statistics($request)

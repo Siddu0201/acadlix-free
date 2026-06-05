@@ -108,26 +108,6 @@ export const PostUpdateLessonTime = () => {
   })
 }
 
-export const GetTextLessonContent = (lesson_id = 0) => {
-  const instance = useInstance();
-  const result = useQuery({
-    queryKey: ["getTextLessonContent", lesson_id],
-    queryFn: () => {
-      return instance.get(`${base}/get-text-lesson-content`, {
-        params: {
-          lesson_id: lesson_id,
-          _t: Date.now(),
-        },
-        headers: {
-          'X-WP-Nonce': acadlixOptions.nonce
-        },
-      });
-    }
-  });
-  handleQueryError(result);
-  return result;
-}
-
 export const PostUpdateLessonTimeStatistics = () => {
   const instance = useInstance();
   return useMutation({
