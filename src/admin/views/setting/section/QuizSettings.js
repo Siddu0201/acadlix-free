@@ -94,7 +94,7 @@ const QuizSettings = (props) => {
           <SubjectSettings methods={methods} />
         </Box>
       </CardContent>
-      <CardActions>
+      {/* <CardActions>
         <Button
           variant="contained"
           color="primary"
@@ -103,7 +103,7 @@ const QuizSettings = (props) => {
         >
           {__("Save", "acadlix")}
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   )
 }

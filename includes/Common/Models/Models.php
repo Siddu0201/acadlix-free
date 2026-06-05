@@ -150,6 +150,11 @@ class Models
     return $this->getInstance('courseReview', CourseReview::class);
   }
 
+  public function comment(): Comment|null
+  {
+    return $this->getInstance('comment', Comment::class);
+  }
+
   public function commentMeta(): CommentMeta|null
   {
     return $this->getInstance('commentMeta', CommentMeta::class);

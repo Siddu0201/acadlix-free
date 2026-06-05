@@ -3,7 +3,6 @@ build
 *.zip
 vendor/
 composer.lock
-package-lock.json
 
 
 languages/**/*.php

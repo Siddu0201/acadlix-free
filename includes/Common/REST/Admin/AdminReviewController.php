@@ -21,7 +21,9 @@ class AdminReviewController
         [
           'methods' => WP_REST_Server::READABLE,
           'callback' => [$this, 'get_reviews'],
-          'permission_callback' => fn() => current_user_can('acadlix_show_review') && $this->check_permission(),
+          'permission_callback' => function () {
+            return current_user_can('acadlix_show_review');
+          },
         ],
       ]
     );
@@ -33,7 +35,9 @@ class AdminReviewController
         [
           'methods' => WP_REST_Server::EDITABLE,
           'callback' => [$this, 'update_review_by_id'],
-          'permission_callback' => fn() => current_user_can('acadlix_edit_review') && $this->check_permission(),
+          'permission_callback' => function () {
+            return current_user_can('acadlix_edit_review');
+          },
           'args' => array(
             'review_id' => array(
               'validate_callback' => function ($param, $request, $key) {
@@ -45,7 +49,9 @@ class AdminReviewController
         [
           'methods' => WP_REST_Server::DELETABLE,
           'callback' => [$this, 'delete_review_by_id'],
-          'permission_callback' => fn() => current_user_can('acadlix_delete_review') && $this->check_permission(),
+          'permission_callback' => function () {
+            return current_user_can('acadlix_delete_review');
+          },
           'args' => array(
             'review_id' => array(
               'validate_callback' => function ($param, $request, $key) {

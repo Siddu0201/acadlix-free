@@ -5,6 +5,8 @@ import {
   Typography,
   Divider,
   Alert,
+  RadioGroup,
+  Radio,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import CustomSwitch from "@acadlix/components/CustomSwitch";
@@ -478,12 +480,57 @@ const General = (props) => {
                 shouldDirty: true,
               });
             }}
-            disabled={
-              props?.watch("meta.mode") === "advance_mode" &&
-              props?.watch("meta.advance_mode_type") !== "advance_panel"
-            }
+            // disabled={
+            //   props?.watch("meta.mode") === "advance_mode" &&
+            //   props?.watch("meta.advance_mode_type") !== "advance_panel"
+            // }
             label={__("Activate", "acadlix")}
           />
+        </GridItem1>
+
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
+          <CustomTypography>{__("Required Login To", "acadlix")}
+            <CustomFeatureTooltip
+              plan="open"
+              msg={__(
+                "Start Quiz: Students must log in before they can begin the quiz. This is the most secure option and ensures quiz attempt limits are enforced accurately.</br> View Answer Sheet: Students can attempt the quiz without logging in, but must log in or sign up to view the detailed answer sheet. The result summary, topper comparison, and leaderboard can be viewed without logging in. Attempt limits are enforced on a best-effort basis and may be bypassed if users clear cookies or switch devices.", "acadlix")}
+            />
+          </CustomTypography>
+        </GridItem1>
+
+        <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }} sx={{ display: 'flex', alignItems: 'center' }}>
+          <RadioGroup
+            row
+            name="required_login_to"
+            onChange={(e) => {
+              props?.setValue("meta.quiz_settings.required_login_to", e?.target?.value, { shouldDirty: true });
+            }}
+          >
+            <FormControlLabel
+              value="start_quiz"
+              control={<Radio />}
+              label={__("Start Quiz", "acadlix")}
+              checked={props?.watch("meta.quiz_settings.required_login_to") === "start_quiz"}
+              disabled={!props?.watch("meta.quiz_settings.enable_login_register")}
+              slotProps={{
+                typography: {
+                  variant: "body2",
+                }
+              }}
+            />
+            <FormControlLabel
+              value="view_answer_sheet"
+              control={<Radio />}
+              label={__("Answersheet", "acadlix")}
+              checked={props?.watch("meta.quiz_settings.required_login_to") === "view_answer_sheet"}
+              disabled={!props?.watch("meta.quiz_settings.enable_login_register")}
+              slotProps={{
+                typography: {
+                  variant: "body2",
+                }
+              }}
+            />
+          </RadioGroup>
         </GridItem1>
 
         <GridItem1 size={{ xs: 12, sm: 6, lg: 3 }}>
@@ -493,7 +540,7 @@ const General = (props) => {
               msg={__("You can set a maximum limit for allowed attempts per user (0 = Unlimited). User must be logged in before starting the quiz.", "acadlix")}
               placement="right-start"
               redirectTo={`${acadlixOptions?.acadlix_docs_url}quiz-management/general-options/#per-user-allowed-attempt`}
-            />  
+            />
           </CustomTypography>
         </GridItem1>
 

@@ -4,6 +4,7 @@ namespace Yuvayana\Acadlix\Common\Admin;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Addon;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Categories;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Coupon;
+use Yuvayana\Acadlix\Common\Submenu\Submenu_Course_Student;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Courses;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Design_Studio;
 use Yuvayana\Acadlix\Common\Submenu\Submenu_Home;
@@ -38,7 +39,8 @@ class Menu
   protected ?Submenu_Reviews $reviews = null;
   protected ?Submenu_Coupon $coupon = null;
   protected ?Submenu_Tools $tools = null;
-  protected ?Submenu_Upgrade $upgrade = null; 
+  protected ?Submenu_Upgrade $upgrade = null;
+  protected ?Submenu_Course_Student $course_student = null;
 
   public function __construct()
   {
@@ -79,6 +81,7 @@ class Menu
       'acadlix_review',
       'acadlix_coupon',
       'acadlix_tool',
+      'acadlix_course_students',
     ];
   }
 
@@ -110,9 +113,10 @@ class Menu
     $this->submenu_reviews();
     $this->submenu_coupon();
     $this->submenu_tools();
-    if(!acadlix()->pro){
+    if (!acadlix()->pro) {
       $this->submenu_upgrade();
     }
+    $this->submenu_course_student();
   }
 
   public function init_admin_menu()
@@ -261,6 +265,15 @@ class Menu
     }
     $this->_submenus[] = $this->upgrade;
     return $this->upgrade;
+  }
+
+  public function submenu_course_student()
+  {
+    if (is_null($this->course_student)) {
+      $this->course_student = new Submenu_Course_Student();
+    }
+    $this->_submenus[] = $this->course_student;
+    return $this->course_student;
   }
 
   public function acadlix_set_active_menu_class($parent_file)

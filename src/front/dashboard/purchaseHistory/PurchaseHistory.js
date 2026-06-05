@@ -8,6 +8,7 @@ import {
   CardContent,
   CardHeader,
   Chip,
+  Skeleton,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { GetUserPurchases } from "@acadlix/requests/front/FrontDashboardRequest";
@@ -16,7 +17,6 @@ import { currencyPosition } from "@acadlix/helpers/util";
 import { __ } from "@wordpress/i18n";
 import CustomRefresh from "@acadlix/components/CustomRefresh";
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
-import Loader from "@acadlix/components/Loader";
 
 const PurchaseHistory = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -441,7 +441,13 @@ const MobileOnlyView = (props) => {
   )?.filter(Boolean) || [];
 
   if (props?.isFetching) {
-    return <Loader />;
+    return (
+      <>
+        {Array.from({ length: props?.paginationModel?.pageSize || 5 }).map((_, i) => (
+          <SingleOrderSkeleton key={i} />
+        ))}
+      </>
+    );
   }
 
   return (
@@ -671,3 +677,71 @@ const SingleOrder = ({ row, ...props }) => {
     </>
   )
 }
+
+const SingleOrderSkeleton = () => {
+  return (
+    <Box
+      sx={{
+        padding: "8px",
+        marginTop: "8px",
+        marginBottom: "8px",
+        borderBottom: "1px solid #e0e0e0",
+        display: "flex",
+        flexDirection: "column",
+        gap: "8px",
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+        borderRadius: "8px",
+        backgroundColor: "white",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Skeleton variant="text" width="75%" height={28} animation="wave" />
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: "4px",
+        }}
+      >
+        <Skeleton variant="circular" width={16} height={16} animation="wave" />
+        <Skeleton variant="text" width="55%" height={20} animation="wave" />
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: "4px",
+        }}
+      >
+        <Skeleton variant="circular" width={16} height={16} animation="wave" />
+        <Skeleton variant="text" width="45%" height={20} animation="wave" />
+        <Skeleton variant="rounded" width={72} height={24} sx={{ marginLeft: "auto" }} animation="wave" />
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Skeleton variant="text" width="30%" height={20} animation="wave" />
+        <Box sx={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          <Skeleton variant="circular" width={16} height={16} animation="wave" />
+          <Skeleton variant="text" width={90} height={20} animation="wave" />
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+

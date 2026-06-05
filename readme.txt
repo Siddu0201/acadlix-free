@@ -3,7 +3,7 @@ Contributors: acadlix
 Donate link: https://acadlix.com/
 Tags: lms, ai quiz, course, assessment, exam
 Requires at least: 6.8
-Tested up to: 6.9.4
+Tested up to: 7.0
 Requires PHP: 8.2
 Stable tag: {{VERSION}}
 License: GPLv2 or later
@@ -18,6 +18,12 @@ Acadlix bridges the gap between advanced assessment and course management. Effor
 It is an all-in-one LMS and quiz plugin for WordPress designed for coaching institutes, training centers, and course creators. Whether you need to sell online courses, conduct mock exams, or manage a student body, Acadlix handles it all from one dashboard.
 
 **The Acadlix Difference**: Unlike basic quiz tools, education plugins, or traditional LMS plugins, we combine AI-powered creation, advanced proctoring features, and built-in eCommerce with subscriptions—eliminating the need for a messy stack of expensive add-ons.
+
+👉 [Acadlix LMS Pro](https://acadlix.com/pricing/)
+
+👉 [Live Demo](https://demo.acadlix.com/)
+
+👉 [Documentation](https://acadlix.com/docs/acadlix/)
 
 == Why Choose Acadlix? ==
 
@@ -365,6 +371,27 @@ You can share feedback and suggest new features through the Acadlix website. Use
 15. Customizable Student Dashboard Menu
 
 == Changelog ==
+
+= 1.0.9 - 04-06-2026 =
+* Added: Free checkout support without requiring any payment gateway configuration.
+* Added: Change password from student dashboard.
+* Added: Resume video playback for lessons.
+* Added: Login functionality for non-logged-in users at view answersheet or start quiz.
+* Added: Sticky save button in settings and admin pages for improved usability.
+* Added: Redirect option specifically for login shortcode.
+* Added: Template override support for quiz shortcode with configurable fields.
+* Added: Skeleton loader for student dashboard for better user experience during data fetch.
+* Added: Course analytics in admin to view course performance and student engagement.
+* Added: Design studio palette for better design control.
+* Updated: Student certificate name formatting now displays first letter in uppercase automatically.
+* Updated: Passing percentage restriction now disables the answer sheet access button when set score is not met.
+* Updated: Course price validation at checkout before leaving to payment gateway.
+* Updated: User avatar background in student dashboard top bar. 
+* Updated: Scroll to viewport when view answer sheet button is clicked for better user experience. 
+* Fixed: Quiz answer sheet reopening issue when quiz is submitted using finish quiz button.
+* Fixed: Video player button CSS styling inconsistencies.
+* Fixed: Single choice & true false question manual save issue caused by multiple clicks.
+* Fixed: Reduced the volume slider for mobile view in video player.
 
 = 1.0.8 - 18-05-2026 =
 * Added: Knit Pay payment gateway integration.

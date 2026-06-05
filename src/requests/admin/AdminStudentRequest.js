@@ -23,3 +23,23 @@ export const GetStudents = (page = 0, pageSize = 10, search = '') => {
     }
   });
 }
+
+export const GetStudentQuizResult = (student_id, quiz_id, course_section_content_id) => {
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getStudentQuizResult", student_id, quiz_id, course_section_content_id],
+    queryFn: () => {
+      return instance.get(`${base}/get-student-quiz-result`, {
+        params: {
+          student_id: student_id,
+          quiz_id: quiz_id,
+          course_section_content_id: course_section_content_id,
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    }
+  });
+}

@@ -2,12 +2,46 @@ import UserAuth from '@acadlix/modules/user-auth/UserAuth'
 import React from 'react'
 import { useForm } from 'react-hook-form';
 
-const FrontLogin = () => {
+const FrontLogin = ({
+  redirect_url,
+  type = "shortcode", // shortcode
+}) => {
   const methods = useForm({
     defaultValues: {
       login_modal: true,
     }
   });
+
+  const onSuccessLogin = () => {
+    if (type === "shortcode") {
+      if (redirect_url) {
+        window.location.href = redirect_url;
+      } else {
+        window.location.reload();
+      }
+    }
+  }
+
+  const onSuccessRegister = () => {
+    if (type === "shortcode") {
+      if (redirect_url) {
+        window.location.href = redirect_url;
+      } else {
+        window.location.reload();
+      }
+    }
+  }
+
+  const onSuccessForgotPassword = () => {
+    if (type === "shortcode") {
+      if (redirect_url) {
+        window.location.href = redirect_url;
+      } else {
+        window.location.reload();
+      }
+    }
+  }
+
   return (
     <>
       <UserAuth
@@ -17,6 +51,9 @@ const FrontLogin = () => {
         ajax_url={acadlixOptions?.ajax_url}
         nonce={acadlixOptions?.nonces?.auth || ""}
         handleClose={() => methods?.setValue("login_modal", false)}
+        onSuccessLogin={onSuccessLogin}
+        onSuccessRegister={onSuccessRegister}
+        onSuccessForgotPassword={onSuccessForgotPassword}
       />
     </>
   )

@@ -69,6 +69,7 @@ const ModernLandscape = (props) => {
             fontSize: 28,
             fontStyle: 'italic',
             color: '#af4c0f',
+            textTransform: 'capitalize',
           }}>
             {props?.watch('user_name') || ""}
           </Text>

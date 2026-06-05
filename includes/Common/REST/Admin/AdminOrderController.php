@@ -470,6 +470,10 @@ class AdminOrderController
       $order->updateOrCreateMeta('billing_info', $billing_info);
 
       $order->updateOrCreateMeta(
+        'currency',
+        $params['meta']['currency']
+      );
+      $order->updateOrCreateMeta(
         'payment_method',
         $params['meta']['payment_method']
       );
@@ -592,6 +596,7 @@ class AdminOrderController
       //     ]);
       // }
 
+      $order->updateOrCreateMeta('currency', $params['meta']['currency']);
       $order->updateOrCreateMeta('billing_info', $billing_info);
       // $order->updateOrCreateMeta('is_free', (bool) $params['meta']['is_free']);
     }

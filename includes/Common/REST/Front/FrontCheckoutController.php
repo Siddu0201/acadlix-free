@@ -640,6 +640,24 @@ class FrontCheckoutController
       }
     }
 
+    foreach ($request->get_param('order_items') as $item) {
+      $item_id = $item['item_id'];
+      $type = $item['type'];
+      if($type == 'course'){
+        $course = acadlix()->model()->course()->find($item_id);
+        if ($course && $course->isPurchasedBy($request->get_param('user_id'))) {
+          $errors[] = sprintf(
+            /* translators: %s is the item title */
+            __('%s already purchased.', 'acadlix'),
+            $course->post_title
+          );
+        }
+        // if(!$course->isFree()) {
+        //   $errors[] = __('It looks like price have been changed, please refresh the page.', 'acadlix');
+        // }
+      }
+    }
+
     if (!empty($errors)) {
       return new WP_Error('missing_params', implode(' ', $errors), array('status' => 400));
     }
@@ -676,7 +694,7 @@ class FrontCheckoutController
       if (!empty($request->get_param('billing_info'))) {
         $order->updateOrCreateMeta('billing_info', $request->get_param('billing_info'));
       }
-
+      $order->updateOrCreateMeta('currency', $request->get_param('currency'));
       $order->updateOrCreateMeta('payment_method', 'free');
       $order->update([
         'status' => 'success',

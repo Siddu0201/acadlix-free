@@ -245,7 +245,7 @@ export const currencyPosition = (price = 0, currency_symbol = '') => {
     case "Right with space ( 99.99 $ )":
       return `${newPrice} ${symbol}`;
     default:
-      return `${symbol}${price}`;
+      return `${symbol}${newPrice}`;
   }
 };
 

@@ -33,6 +33,8 @@ const QuizContent = (props) => {
   const baseSettings = {
     logo: props?.logo,
     login_modal: false,
+    login_modal_at_answer_sheet: false,
+    error_modal_at_answer_sheet: false,
     start: props?.start ?? false,
     view_instruction1: props?.start ?? false,
     view_instruction2: false,
@@ -82,6 +84,7 @@ const QuizContent = (props) => {
     enable_login_register: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
     ),
+    required_login_to: props?.quiz?.rendered_metas?.quiz_settings?.required_login_to ?? "start_quiz", // start_quiz/view_answer_sheet
     per_user_allowed_attempt: Number(props?.quiz?.rendered_metas?.quiz_settings?.per_user_allowed_attempt), // 0 => infinity
     enable_prerequisite: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_prerequisite)),
     save_statistic: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.save_statistic)),
@@ -92,13 +95,14 @@ const QuizContent = (props) => {
       Number(props?.quiz?.rendered_metas?.quiz_settings?.show_only_specific_number_of_questions)
     ),
     specific_number_of_questions: props?.quiz?.rendered_metas?.quiz_settings?.specific_number_of_questions, // 0 => all
-    result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
-    result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
-    scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
     enable_inline_answer_options_layout: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_inline_answer_options_layout)
     ),
     options_per_row: props?.quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 0/1/2/3/4/5
+    scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
+    disable_scroll: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.disable_scroll)),
+    result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
+    result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
     // Question settings
     show_marks: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.show_marks)),
     display_subject: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.display_subject)),
@@ -155,6 +159,7 @@ const QuizContent = (props) => {
     ),
     minimum_percent_to_pass: props?.quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass, // above 0 => pass
     hide_answer_sheet: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
+    min_percentage_to_view_answer_sheet: props?.quiz?.rendered_metas?.quiz_settings?.min_percentage_to_view_answer_sheet, // above 0 => view answer sheet
     show_per_question_time: Boolean(
       Number(props?.quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
     ),
@@ -342,6 +347,7 @@ const QuizContent = (props) => {
       name: "",
       email: "",
     },
+    quiz_attempts: props?.quiz?.quiz_attempts ?? 0,
     toplist_id: 0,
     toplist: [],
     toplist_count: 0,
@@ -633,7 +639,29 @@ const QuizContent = (props) => {
     methods?.setValue('finish', false, { shouldDirty: true });
     methods?.setValue('view_result', true, { shouldDirty: true });
     methods?.setValue('view_question', false, { shouldDirty: true });
+    methods?.setValue('questions', methods?.watch('questions')?.map((q, i) => {
+      if (i === 0) {
+        q.selected = true;
+      } else {
+        q.selected = false;
+      }
+      return {
+        ...q,
+      }
+    }), { shouldDirty: true });
   }
+
+  React.useEffect(() => {
+    const handleAdvanceLoginAtAnswerSheet = (event) => {
+      if (event?.data?.type === "ADVANCE_LOGIN_AT_ANSWER_SHEET") {
+        window.location.reload();
+      }
+    }
+    window.addEventListener("message", handleAdvanceLoginAtAnswerSheet);
+    return () => {
+      window.removeEventListener("message", handleAdvanceLoginAtAnswerSheet);
+    }
+  }, []);
 
   const checkMode = () => {
     switch (methods?.watch("mode")) {
@@ -748,6 +776,7 @@ const QuizContent = (props) => {
           userToken={userToken}
           countdownApi={countdownApi}
           handleQuizAttempt={handleQuizAttempt}
+          getTotalPoints={getTotalPoints}
         />
       </>
     );

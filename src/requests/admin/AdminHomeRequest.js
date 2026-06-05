@@ -19,3 +19,54 @@ export const GetHomeData = () => {
     }
   });
 }
+
+export const GetQuickPerformanceData = () => {
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getQuickPerformanceData"],
+    queryFn: () => {
+      return instance.get(`${base}/quick-performance`, {
+        params: {
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    }
+  });
+}
+
+export const GetTopCoursesByEnrollment = () => {
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getTopCoursesByEnrollment"],
+    queryFn: () => {
+      return instance.get(`${base}/top-courses-by-enrollment`, {
+        params: {
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    }
+  });
+}
+
+export const GetTopCoursesBySales = () => {
+  const instance = useInstance();
+  return useQuery({
+    queryKey: ["getTopCoursesBySales"],
+    queryFn: () => {
+      return instance.get(`${base}/top-courses-by-sales`, {
+        params: {
+          _t: Date.now(),
+        },
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    }
+  });
+}

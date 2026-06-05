@@ -10,82 +10,129 @@ import KnitPay from "./payment_gateways/KnitPay";
 
 function Payment(props) {
   const defaultSetting = {
-    component: "Card",
-    component_name: "setting_payment_card",
+    component: "Grid",
+    component_name: "setting_payment_grid_container",
+    props: {
+      container: true,
+      spacing: 4,
+    },
     children: [
       {
-        component: "CardContent",
-        component_name: "setting_payment_card_content",
+        component: "Grid",
+        component_name: "setting_payment_grid_item",
+        props: {
+          size: { xs: 12, sm: 12 },
+        },
         children: [
           {
-            component: "Box",
-            component_name: "setting_payment_card_box",
+            component: "Card",
+            component_name: "setting_payment_card",
             children: [
               {
-                component: "Box",
-                component_name: "setting_payment_card_box_sx",
+                component: "CardContent",
+                component_name: "setting_payment_card_content",
+                children: [
+                  {
+                    component: "Box",
+                    component_name: "setting_payment_card_box",
+                    children: [
+                      {
+                        component: "Box",
+                        component_name: "setting_payment_card_box_sx",
+                        props: {
+                          sx: {
+                            marginY: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 2,
+                          },
+                        },
+                        children: [
+                          {
+                            component: "Typography",
+                            component_name: "setting_payment_card_title",
+                            props: {
+                              variant: "h4",
+                            },
+                            value: __("Payment Gateway", "acadlix"),
+                          },
+                          {
+                            component: "Divider",
+                          },
+                        ],
+                      },
+                      {
+                        component: <RazorPay {...props} />,
+                      },
+                      {
+                        component: <PayPal {...props} />,
+                      },
+                      {
+                        component: <PayU {...props} />,
+                      },
+                      {
+                        component: <Stripe {...props} />,
+                      },
+                      {
+                        component: <Offline {...props} />,
+                      },
+                      acadlixOptions?.isKnitPayActive && ({
+                        component: <KnitPay {...props} />,
+                      }),
+                    ],
+                  },
+                ],
+              },
+            ],
+          }
+        ]
+      },
+      {
+        component: "Grid",
+        component_name: "setting_payment_grid_item_save",
+        props: {
+          size: { xs: 12, sm: 12 },
+          sx: {
+            position: "sticky",
+            bottom: 0,
+            zIndex: 10,
+          }
+        },
+        children: [
+          {
+            component: "Card",
+            component_name: "setting_payment_card_save",
+            children: [
+              {
+                component: "CardContent",
+                component_name: "setting_payment_card_content_save",
                 props: {
                   sx: {
-                    marginY: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 2,
+                    padding: 4,
+                    ":last-child": {
+                      paddingBottom: 4,
+                    },
                   },
                 },
                 children: [
                   {
-                    component: "Typography",
-                    component_name: "setting_payment_card_title",
+                    component: "Button",
+                    component_name: "setting_payment_save_button",
                     props: {
-                      variant: "h4",
+                      variant: "contained",
+                      color: "primary",
+                      type: "submit",
+                      loading: props?.isPending,
                     },
-                    value: __("Payment Gateway", "acadlix"),
-                  },
-                  {
-                    component: "Divider",
+                    value: __("Save", "acadlix"),
                   },
                 ],
               },
-              {
-                component: <RazorPay {...props} />,
-              },
-              {
-                component: <PayPal {...props} />,
-              },
-              {
-                component: <PayU {...props} />,
-              },
-              {
-                component: <Stripe {...props} />,
-              },
-              {
-                component: <Offline {...props} />,
-              },
-              acadlixOptions?.isKnitPayActive && ({
-                component: <KnitPay {...props} />,
-              }),
             ],
-          },
-        ],
-      },
-      {
-        component: "CardActions",
-        component_name: "setting_payment_card_actions",
-        children: [
-          {
-            component: "Button",
-            component_name: "setting_payment_card_actions_button",
-            props: {
-              variant: "contained",
-              color: "primary",
-              type: "submit",
-              loading: props?.isPending,
-            },
-            value: __("Save", "acadlix"),
-          },
-        ],
+          }
+        ]
       }
-    ],
+    ]
   };
 
   // 🔹 Apply WordPress-style filter for extensibility

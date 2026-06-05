@@ -5,7 +5,7 @@ import MultipleChoice from "./types/MultipleChoice";
 import SingleChoice from "./types/SingleChoice";
 import SortingChoice from "./types/SortingChoice";
 import MatrixSortingChoice from "./types/MatrixSortingChoice";
-import { Button, Box, Typography, CircularProgress } from "@mui/material";
+import { Button, Box, Typography, CircularProgress, Card, CardContent } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useForm } from "react-hook-form";
 import GeneralOptionSection from "./sections/GeneralOptionSection";
@@ -557,14 +557,30 @@ const QuestionContent = (props) => {
             />
           )} */}
 
-          <Grid size={{ xs: 12, sm: 12 }}>
-            <Button variant="contained" type="submit">
-              {createMutation?.isPending || updateMutation?.isPending ? (
-                <CircularProgress color="inherit" size={20} />
-              ) : (
-                __("Save Changes", "acadlix")
-              )}
-            </Button>
+          <Grid
+            size={{ xs: 12, sm: 12 }}
+            sx={{
+              position: "sticky",
+              bottom: 0,
+              zIndex: 10,
+            }}>
+            <Card>
+              <CardContent sx={{
+                padding: 4,
+                ":last-child": {
+                  paddingBottom: 4,
+                },
+              }}>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  size="medium"
+                  loading={createMutation?.isPending || updateMutation?.isPending}
+                >
+                  {__("Save Changes", "acadlix")}
+                </Button>
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
       </form>

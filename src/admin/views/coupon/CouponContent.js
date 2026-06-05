@@ -99,15 +99,30 @@ const CouponContent = (props) => {
             {...methods}
           />
 
-          <Grid size={{ xs: 12, sm: 12 }}>
+          <Grid
+            size={{ xs: 12, sm: 12 }}
+            sx={{
+              position: "sticky",
+              bottom: 0,
+              zIndex: 10,
+            }}
+          >
             <Card>
-              <CardContent>
-                <Button variant="contained" size="medium" type="submit">
-                  {createMutation?.isPending || updateMutation?.isPending ? (
-                    <CircularProgress color="inherit" size={20} />
-                  ) : (
-                    __("Save Changes", "acadlix")
-                  )}
+              <CardContent
+                sx={{
+                  padding: 4,
+                  ":last-child": {
+                    paddingBottom: 4,
+                  },
+                }}
+              >
+                <Button
+                  variant="contained"
+                  size="medium"
+                  type="submit"
+                  loading={createMutation?.isPending || updateMutation?.isPending}
+                >
+                  {__("Save Changes", "acadlix")}
                 </Button>
               </CardContent>
             </Card>

@@ -125,6 +125,7 @@ const LeaderboardSection = ({
         justifyContent: "center",
         flexDirection: "column",
       }}
+      id={`acadlix_normal_quiz_leaderboard_section_${props?.watch("id")}`}
     >
       <Box sx={styles.header}>
         <Typography

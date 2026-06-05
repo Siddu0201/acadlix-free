@@ -20,7 +20,7 @@ const routes = [
     path: "/palette",
     name: "palette",
     label: __('Palette', 'acadlix'),
-    isFree: false,
+    isFree: true,
     element: <DesignStudio selected="palette" />,
   },
   hasCapability("acadlix_show_design_studio") && {

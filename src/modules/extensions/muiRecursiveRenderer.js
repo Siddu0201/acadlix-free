@@ -47,6 +47,8 @@ import {
   DialogActions,
   FormGroup,
   Avatar,
+  LinearProgress,
+  Collapse,
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import React from "react";
@@ -69,6 +71,8 @@ import BootstrapDialog from "@acadlix/components/BootstrapDialog";
 import DragDropUpload from "@acadlix/components/DragDropUpload";
 import CustomFeatureTooltip from "@acadlix/components/CustomFeatureTooltip";
 import CustomFeatureElement from "@acadlix/components/CustomFeatureElement";
+import Loader from "@acadlix/components/Loader";
+import CustomRating from "@acadlix/components/CustomRating";
 
 const HTML_COMPONENTS = [
   "form",
@@ -160,6 +164,8 @@ const COMPONENT_MAP = {
   TimelineOppositeContent,
   TimelineSeparator,
   TablePagination,
+  LinearProgress,
+  Collapse,
   // Custom Components
   GridItem1,
   CustomSwitch,
@@ -175,6 +181,8 @@ const COMPONENT_MAP = {
   DragDropUpload,
   CustomFeatureTooltip,
   CustomFeatureElement,
+  CustomRating,
+  Loader,
   // WordPress Components
   RawHTML,
   MediaUpload,

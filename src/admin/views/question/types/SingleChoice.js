@@ -26,10 +26,39 @@ const SingleChoice = (props) => {
         }
       ></CardHeader>
       <CardContent>
+        <Controller
+          control={props.control}
+          name={`language.${props.index}.answer_data.${props.type}`}
+          rules={{
+            validate: (answers) => {
+              const hasCorrect = answers?.some(a => a?.isCorrect);
+
+              if (
+                props.watch(`language.${props.index}.default`) &&
+                !hasCorrect
+              ) {
+                return __("Please set atleast one correct option", "acadlix");
+              }
+
+              return true;
+            },
+          }}
+          render={() => null}
+        />
+        {props.formState.errors?.language?.[props.index]
+          ?.answer_data?.[props.type] && (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {
+                props.formState.errors.language[props.index]
+                  .answer_data[props.type].message
+              }
+            </Alert>
+          )}
         <RadioGroup>
           <Grid container spacing={4}>
-              {props?.lang?.answer_data?.[props?.type]?.length > 0 &&
-              props?.lang?.answer_data?.[props?.type]?.map((option, index) => (
+            {
+              props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.length > 0 &&
+              props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.map((option, index) => (
                 <Grid size={{ xs: 12, lg: 12 }} key={index}>
                   <Option
                     {...props}
@@ -41,7 +70,7 @@ const SingleChoice = (props) => {
                     option_index={index}
                     language_index={props?.index}
                     last={
-                      props?.lang?.answer_data?.[props?.type]?.length - 1 ===
+                      props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.length - 1 ===
                       index
                     }
                     autoFocus={index === newlyAddedOptionIndex}
@@ -54,7 +83,7 @@ const SingleChoice = (props) => {
                 variant="contained"
                 color="success"
                 onClick={() => {
-                  const currentLength = props?.lang?.answer_data?.[props?.type]?.length ?? 0;
+                  const currentLength = props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.length ?? 0;
                   props?.watch("language")?.forEach((_, index) => {
                     props?.setValue(
                       `language.${index}.answer_data.${props?.type}`,
@@ -132,69 +161,30 @@ const Option = (props) => {
       >
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, lg: 2 }}>
-            {Boolean(
-              props.formState?.errors?.language?.[props?.language_index]
-                ?.answer_data?.[props?.type]?.[props?.option_index]?.isCorrect
-            ) && (
-                <Alert
-                  severity="error"
-                  sx={{
-                    marginTop: 2,
-                  }}
-                >
-                  {
-                    props.formState.errors?.language?.[props?.language_index]
-                      ?.answer_data?.[props?.type]?.[props?.option_index]
-                      ?.isCorrect?.message
-                  }
-                </Alert>
-              )}
             <Controller
-              rules={{
-                required: {
-                  value:
-                    props?.watch(`language.${props?.index}.default`) &&
-                    props
-                      ?.watch(
-                        `language.${props?.language_index}.answer_data.${props?.type}`
-                      )
-                      .filter((d) => d?.isCorrect).length === 0,
-                  message: __(
-                    "Please set atleast one correct option",
-                    "acadlix"
-                  ),
-                },
-              }}
               control={props.control}
               name={`language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.isCorrect`}
               render={(data) => (
                 <FormControlLabel
-                  control={
-                    <Radio />
-                  }
+                  control={<Radio />}
                   onBlur={data.field.onBlur}
+                  checked={data.field.value}
                   onChange={(e) => {
-                    props?.setValue(
-                      "language",
-                      props?.watch("language")?.map((lang) => {
-                        lang.answer_data[props?.type] = lang?.answer_data?.[
-                          props?.type
-                        ]?.map((answer, option_index) => {
-                          if (option_index === props?.option_index) {
-                            answer.isCorrect = true;
-                          } else {
-                            answer.isCorrect = false;
-                          }
-                          return answer;
-                        });
-                        return lang;
-                      }),
-                      { shouldDirty: true }
+                    const answers = props.watch(
+                      `language.${props.language_index}.answer_data.${props.type}`
                     );
+
+                    answers.forEach((_, index) => {
+                      props.setValue(
+                        `language.${props.language_index}.answer_data.${props.type}.${index}.isCorrect`,
+                        index === props.option_index,
+                        {
+                          shouldDirty: true,
+                          shouldValidate: true,
+                        }
+                      );
+                    });
                   }}
-                  checked={props?.watch(
-                    `language.${props?.language_index}.answer_data.${props?.type}.${props?.option_index}.isCorrect`
-                  )}
                   label={__("Correct", "acadlix")}
                 />
               )}

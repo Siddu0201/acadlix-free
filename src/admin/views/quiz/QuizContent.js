@@ -73,6 +73,7 @@ const QuizContent = (props) => {
         enable_login_register: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.enable_login_register)
         ),
+        required_login_to: props?.quiz?.rendered_metas?.quiz_settings?.required_login_to ?? "start_quiz", // start_quiz/view_answer_sheet
         per_user_allowed_attempt: props?.quiz?.rendered_metas?.quiz_settings?.per_user_allowed_attempt ?? 0, // 0 => infinity
         save_statistic: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.save_statistic)) ?? 0,
         statistic_ip_lock: props?.quiz?.rendered_metas?.quiz_settings?.statistic_ip_lock ?? 0,
@@ -90,6 +91,7 @@ const QuizContent = (props) => {
         ),
         options_per_row: props?.quiz?.rendered_metas?.quiz_settings?.options_per_row ?? 2, // 0/1/2/3/4/5
         scientific_calculator: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.scientific_calculator)),
+        disable_scroll: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.disable_scroll)),
         result_feedback_by_ai: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_by_ai)),
         result_feedback_additional_prompt: props?.quiz?.rendered_metas?.quiz_settings?.result_feedback_additional_prompt ?? "",
         // Question settings
@@ -138,6 +140,7 @@ const QuizContent = (props) => {
         ),
         minimum_percent_to_pass: props?.quiz?.rendered_metas?.quiz_settings?.minimum_percent_to_pass ?? 0, // above 0 => pass
         hide_answer_sheet: Boolean(Number(props?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet)),
+        min_percentage_to_view_answer_sheet: props?.quiz?.rendered_metas?.quiz_settings?.min_percentage_to_view_answer_sheet ?? 0,
         show_per_question_time: Boolean(
           Number(props?.quiz?.rendered_metas?.quiz_settings?.show_per_question_time)
         ),
@@ -346,9 +349,20 @@ const QuizContent = (props) => {
             removeEditor={removeEditor}
           />
 
-          <Grid size={{ xs: 12, sm: 12 }}>
+          <Grid
+            size={{ xs: 12, sm: 12 }}
+            sx={{
+              position: "sticky",
+              bottom: 0,
+              zIndex: 10,
+            }}>
             <Card>
-              <CardContent>
+              <CardContent sx={{
+                padding: 4,
+                ":last-child": {
+                  paddingBottom: 4,
+                },
+              }}>
                 <Grid container spacing={{ xs: 1, sm: 3 }}>
                   <Grid size={{ xs: 5, sm: 3 }}>
                     <Button variant="contained" size="medium" type="submit">

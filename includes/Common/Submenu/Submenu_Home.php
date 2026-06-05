@@ -15,7 +15,7 @@ class Submenu_Home
     $this->_options = [
       'page_title' => __('Acadlix', 'acadlix'),
       'menu_title' => __('Acadlix', 'acadlix'),
-      'capability' => 'manage_options',
+      'capability' => 'acadlix_show_homepage',
       'menu_slug' => ACADLIX_SLUG,
       'callback' => [$this, 'home_callback'],
       'dashicon' => ACADLIX_ASSETS_IMAGE_URL . 'acadlix-icon.svg',
@@ -45,6 +45,8 @@ class Submenu_Home
 
   public function localize_options()
   {
+    $current_user = wp_get_current_user();
+    $capabilities = $current_user->exists() ? $current_user->allcaps : [];
     return [
       'api_url' => esc_url_raw(rest_url('acadlix/v1')),
       'max_execution_time' => acadlix()->helper()->acadlix_max_execution_time(),
@@ -54,8 +56,12 @@ class Submenu_Home
       'currency_symbol' => acadlix()->helper()->acadlix_currency_symbols()[acadlix()->helper()->acadlix_get_option('acadlix_currency')],
       'acadlix_documentation_url' => ACADLIX_DOCUMENTATION_URL,
       'acadlix_contact_us_url' => ACADLIX_CONTACT_US_URL,
+      'acadlix_youtube_channel_url' => ACADLIX_YOUTUBE_CHANNEL_URL,
+      'admin_url' => admin_url(),
+      'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . "demo-course.jpg"),
       'isActive' => acadlix()->license()->isActive ?? false,
       'theme_settings' => acadlix()->helper()->acadlix_get_option('acadlix_theme_settings'),
+      'capabilities' => $capabilities,
     ];
   }
 

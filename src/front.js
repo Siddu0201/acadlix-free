@@ -20,6 +20,8 @@ import Provider from './provider/Provider';
             short.__REACT_ROOT__ = createRoot(short);
           }
           const quizId = "acadlix_quiz_" + short.getAttribute('id');
+          const template = short.getAttribute('template') ?? "";
+          const fields = JSON.parse(short.getAttribute('data-fields')) ?? [];
           short.__REACT_ROOT__.render(
             <div id={quizId}>
               <Provider id={quizId}>
@@ -32,6 +34,8 @@ import Provider from './provider/Provider';
                   advance={false}
                   hide_title={true}
                   hide_description={true}
+                  template={template}
+                  fields={fields}
                 />
               </Provider>
             </div>
@@ -69,7 +73,10 @@ import Provider from './provider/Provider';
         short.__REACT_ROOT__.render(
           <div id={loginId}>
             <Provider id={loginId}>
-              <FrontLogin />
+              <FrontLogin
+                redirect_url={short.getAttribute('data-redirect-url')}
+                type="shortcode"
+              />
             </Provider>
           </div>
         );

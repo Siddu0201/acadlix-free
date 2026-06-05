@@ -22,62 +22,66 @@ function TrueFalse(props) {
           paddingTop: 1,
         }}
       >
-        {Boolean(
-          props.formState?.errors?.language?.[props?.index]
-            ?.answer_data?.[props?.type]?.length > 0
-        ) && (
-            <Alert
-              severity="error"
-              sx={{
-                marginTop: 2,
-              }}
-            >
-              {__("Please set atleast one correct option", "acadlix")}
+        <Controller
+          control={props.control}
+          name={`language.${props.index}.answer_data.${props.type}`}
+          rules={{
+            validate: (answers) => {
+              const hasCorrect = answers?.some(a => a?.isCorrect);
+
+              if (
+                props.watch(`language.${props.index}.default`) &&
+                !hasCorrect
+              ) {
+                return __("Please set atleast one correct option", "acadlix");
+              }
+
+              return true;
+            },
+          }}
+          render={() => null}
+        />
+        {props.formState.errors?.language?.[props.index]
+          ?.answer_data?.[props.type] && (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {
+                props.formState.errors.language[props.index]
+                  .answer_data[props.type].message
+              }
             </Alert>
           )}
         <RadioGroup row>
-          {props?.lang?.answer_data?.[props?.type]?.length > 0 &&
-            props?.lang?.answer_data?.[props?.type]?.map(
+          {props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.length > 0 &&
+            props?.watch(`language.${props?.index}.answer_data.${props?.type}`)?.map(
               (option, option_index) => (
                 <Controller
                   key={option_index}
-                  rules={{
-                    required: props?.watch(`language.${props?.index}.default`) &&
-                      props
-                        ?.watch(
-                          `language.${props?.index}.answer_data.${props?.type}`
-                        )
-                        .filter((d) => d?.isCorrect).length === 0
-                  }}
+                  
                   control={props?.control}
                   name={`language.${props?.index}.answer_data.${props?.type}.${option_index}.isCorrect`}
                   render={(data) => (
                     <FormControlLabel
                       key={option_index}
-                      control={
-                        <Radio
-                          checked={option?.isCorrect}
-                          onChange={() => {
-                            props?.setValue(
-                              "language",
-                              props?.watch("language")?.map((lang) => {
-                                lang.answer_data[props?.type] = lang?.answer_data?.[
-                                  props?.type
-                                ]?.map((answer, o_index) => {
-                                  if (option_index === o_index) {
-                                    answer.isCorrect = true;
-                                  } else {
-                                    answer.isCorrect = false;
-                                  }
-                                  return answer;
-                                });
-                                return lang;
-                              }),
-                              { shouldDirty: true }
-                            );
-                          }}
-                        />
-                      }
+                      control={<Radio />}
+                      onBlur={data.field.onBlur}
+                      checked={data.field.value}
+                      onChange={() => {
+                        const answers = props.watch(
+                          `language.${props.index}.answer_data.${props.type}`
+                        );
+                        console.log(answers, "answers");
+
+                        answers.forEach((_, index) => {
+                          props.setValue(
+                            `language.${props.index}.answer_data.${props.type}.${index}.isCorrect`,
+                            index === option_index,
+                            {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            }
+                          );
+                        });
+                      }}
                       label={option?.option === "True" ? __("True", "acadlix") : __("False", "acadlix")}
                     />
                   )}

@@ -742,7 +742,7 @@ export const TbCertificate = (props) => {
 
 export const LockContent = (props) => {
   return (
-    <svg fill="#000000" viewBox="0 0 24 24" id="lock-file-2" dataName="Flat Color" xmlns="http://www.w3.org/2000/svg" className="icon flat-color" width="1em" height="1em" {...props}>
+    <svg fill="#000000" viewBox="0 0 24 24" id="lock-file-2" xmlns="http://www.w3.org/2000/svg" className="icon flat-color" width="1em" height="1em" {...props}>
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
       <g id="SVGRepo_iconCarrier">
@@ -848,6 +848,122 @@ export const FaRegClock = (props) => {
 export const FaBookOpen = (props) => {
   return (
     <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 576 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M542.22 32.05c-54.8 3.11-163.72 14.43-230.96 55.59-4.64 2.84-7.27 7.89-7.27 13.17v363.87c0 11.55 12.63 18.85 23.28 13.49 69.18-34.82 169.23-44.32 218.7-46.92 16.89-.89 30.02-14.43 30.02-30.66V62.75c.01-17.71-15.35-31.74-33.77-30.7zM264.73 87.64C197.5 46.48 88.58 35.17 33.78 32.05 15.36 31.01 0 45.04 0 62.75V400.6c0 16.24 13.13 29.78 30.02 30.66 49.49 2.6 149.59 12.11 218.77 46.95 10.62 5.35 23.21-1.94 23.21-13.46V100.63c0-5.29-2.62-10.14-7.27-12.99z"></path></svg>
+  )
+}
+
+export const TbFilePencilFilled = (props) => {
+  return (
+    <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l.117 .007a1 1 0 0 1 .876 .876l.007 .117v4l.005 .15a2 2 0 0 0 1.838 1.844l.157 .006h4l.117 .007a1 1 0 0 1 .876 .876l.007 .117v9a3 3 0 0 1 -2.824 2.995l-.176 .005h-10a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-14a3 3 0 0 1 2.824 -2.995l.176 -.005zm1 10l-5 5v2h2l5 -5a1.414 1.414 0 0 0 -2 -2"></path><path d="M19 7h-4l-.001 -4.001z"></path></svg>
+  )
+}
+
+export const CourseIcon = (props) => {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 64 64">
+
+      <g data-name="18_Online Library" id="_18_Online_Library">
+
+        <path d="M59,52H5a1,1,0,0,1-1-1V16a3,3,0,0,1,3-3H57a3,3,0,0,1,3,3V51A1,1,0,0,1,59,52Z" style={{
+          fill: "#0455bf"
+        }} />
+
+        <path d="M42,50A36,36,0,0,1,6,14H6a2.943,2.943,0,0,1,.141-.859A2.993,2.993,0,0,0,4,16V51a1,1,0,0,0,1,1H59a1,1,0,0,0,1-1V50Z" style={{
+          fill: "#004787"
+        }} />
+
+        <path d="M55,48H9a1,1,0,0,1-1-1V18a1,1,0,0,1,1-1H55a1,1,0,0,1,1,1V47A1,1,0,0,1,55,48Z" style={{
+          fill: "#fdfeff"
+        }} />
+
+        <path d="M14,45l32,.039h0a1,1,0,0,0,1-1V17H13V44A1,1,0,0,0,14,45Z" style={{
+          fill: "#b8ced3"
+        }} />
+
+        <path d="M48,40.039h0L16,40a1,1,0,0,1-1-1V5a3,3,0,0,1,3-3H46a3,3,0,0,1,3,3V39.039a1,1,0,0,1-1,1Z" style={{
+          fill: "#03a65a"
+        }} />
+
+        <path d="M17.614,39.922A1,1,0,0,1,17,39V5a3,3,0,0,1,3-3H18a3,3,0,0,0-3,3V39a1,1,0,0,0,1,1l1.615,0Z" style={{
+          fill: "#027d44"
+        }} />
+
+        <path d="M26,16a1,1,0,0,1-.556-.169L23.005,14.2l-2.451,1.631A1,1,0,0,1,19,15V2h8V15a1,1,0,0,1-1,1Z" style={{
+          fill: "#027d44"
+        }} />
+
+        <path d="M27,15a1,1,0,0,1-.556-.169L24.005,13.2l-2.451,1.631A1,1,0,0,1,20,14V2h8V14a1,1,0,0,1-1,1Z" style={{
+          fill: "#febc00"
+        }} />
+
+        <path d="M22,14V2H20V14a1,1,0,0,0,1.554.833l.564-.375A.99.99,0,0,1,22,14Z" style={{
+          fill: "#edaa03"
+        }} />
+
+        <rect height="2" style={{
+          fill: "#febc00"
+        }} width="6" x="39" y="27" />
+
+        <rect height="2" style={{
+          fill: "#febc00"
+        }} width="6" x="39" y="31" />
+
+        <rect height="2" style={{
+          fill: "#febc00"
+        }} width="2" x="35" y="27" />
+
+        <rect height="2" style={{
+          fill: "#febc00"
+        }} width="2" x="35" y="31" />
+
+        <path d="M53,60H11a9.01,9.01,0,0,1-9-9,1,1,0,0,1,1-1H61a1,1,0,0,1,1,1A9.01,9.01,0,0,1,53,60Z" style={{
+          fill: "#0455bf"
+        }} />
+
+        <path d="M55,58H13a9.01,9.01,0,0,1-8.941-8H3a1,1,0,0,0-1,1,9.01,9.01,0,0,0,9,9H53a8.984,8.984,0,0,0,7.276-3.724A8.942,8.942,0,0,1,55,58Z" style={{
+          fill: "#004787"
+        }} />
+
+        <rect height="4" style={{
+          fill: "#004787"
+        }} width="2" x="13" y="13" />
+
+        <path d="M18.5,36H49a0,0,0,0,1,0,0v5a2,2,0,0,1-2,2H18.5A3.5,3.5,0,0,1,15,39.5v0A3.5,3.5,0,0,1,18.5,36Z" style={{
+          fill: "#fdfeff"
+        }} />
+
+        <path d="M20.72,41a3.7,3.7,0,0,1-3.57-2.517,3.358,3.358,0,0,1,.092-2.241,3.494,3.494,0,0,0-2.225,3.606A3.617,3.617,0,0,0,18.672,43H47a2,2,0,0,0,2-2H20.72Z" style={{
+          fill: "#dfeaef"
+        }} />
+
+        <polygon points="38 53 26 53 24 50 40 50 38 53" style={{
+          fill: "#febc00"
+        }} />
+
+        <path d="M25.667,50H24l2,3H38l.667-1H29.4A4.492,4.492,0,0,1,25.667,50Z" style={{
+          fill: "#edaa03"
+        }} />
+
+      </g>
+
+    </svg>
+  )
+}
+
+export const FaChartLine = (props) => {
+  return (
+    <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64L0 400c0 44.2 35.8 80 80 80l400 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 416c-8.8 0-16-7.2-16-16L64 64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z"></path></svg>
+  )
+}
+
+export const RiReplay10Line = (props) => {
+  return (
+    <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C17.5228 2 22 6.47715 22 12 22 17.5228 17.5228 22 12 22 6.47715 22 2 17.5228 2 12H4C4 16.4183 7.58172 20 12 20 16.4183 20 20 16.4183 20 12 20 7.58172 16.4183 4 12 4 9.25022 4 6.82447 5.38734 5.38451 7.50024L8 7.5V9.5H2V3.5H4L3.99989 5.99918C5.82434 3.57075 8.72873 2 12 2ZM15.5 13.25C15.5 13.8023 15.0523 14.25 14.5 14.25 13.9477 14.25 13.5 13.8023 13.5 13.25V10.75C13.5 10.1977 13.9477 9.75 14.5 9.75 15.0523 9.75 15.5 10.1977 15.5 10.75V13.25ZM14.5 8.25C13.1193 8.25 12 9.36929 12 10.75V13.25C12 14.6307 13.1193 15.75 14.5 15.75 15.8807 15.75 17 14.6307 17 13.25V10.75C17 9.36929 15.8807 8.25 14.5 8.25ZM8.5 15.5V8.5H10V15.5H8.5Z"></path></svg>
+  )
+}
+
+export const RiForward10Line = (props) => {
+  return (
+    <svg {...props} stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.47715 2 2 6.47715 2 12 2 17.5228 6.47715 22 12 22 17.5228 22 22 17.5228 22 12H20C20 16.4183 16.4183 20 12 20 7.58172 20 4 16.4183 4 12 4 7.58172 7.58172 4 12 4 14.7498 4 17.1755 5.38734 18.6155 7.50024L16 7.5V8.74982C15.5822 8.43597 15.0628 8.25 14.5 8.25 13.1193 8.25 12 9.36929 12 10.75V13.25C12 14.6307 13.1193 15.75 14.5 15.75 15.8807 15.75 17 14.6307 17 13.25V10.75C17 10.2946 16.8783 9.86772 16.6655 9.5H22V3.5H20L20.0001 5.99918C18.1757 3.57075 15.2713 2 12 2ZM15.5 10.75V13.25C15.5 13.8023 15.0523 14.25 14.5 14.25 13.9477 14.25 13.5 13.8023 13.5 13.25V10.75C13.5 10.1977 13.9477 9.75 14.5 9.75 15.0523 9.75 15.5 10.1977 15.5 10.75ZM10 8.5H8.5V15.5H10V8.5Z"></path></svg>
   )
 }
 
@@ -975,5 +1091,10 @@ export const iconMap = {
   KnitPayIcon: <KnitPayIcon />,
   FaClipboardQuestion: <FaClipboardQuestion />,
   FaRegClock: <FaRegClock />,
-  FaBookOpen: <FaBookOpen />
+  FaBookOpen: <FaBookOpen />,
+  TbFilePencilFilled: <TbFilePencilFilled />,
+  CourseIcon: <CourseIcon />,
+  FaChartLine: <FaChartLine />,
+  RiReplay10Line: <RiReplay10Line />,
+  RiForward10Line: <RiForward10Line />
 };

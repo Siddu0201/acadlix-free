@@ -47,7 +47,8 @@ namespace Yuvayana\Acadlix {
         'ACADLIX_MARKETPLACE_URL' => 'https://acadlix.com/',
         'ACADLIX_DOCUMENTATION_URL' => 'https://acadlix.com/docs/acadlix/',
         'ACADLIX_CONTACT_US_URL' => 'https://acadlix.com/contact-us/',
-        'ACADLIX_MARKETING_DOMAIN' => 'acadlix.com'
+        'ACADLIX_MARKETING_DOMAIN' => 'acadlix.com',
+        'ACADLIX_YOUTUBE_CHANNEL_URL' => 'https://www.youtube.com/@AcadLix',
       ];
 
       foreach ($constants as $constant => $value) {

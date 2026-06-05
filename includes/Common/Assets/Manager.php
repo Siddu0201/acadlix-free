@@ -16,7 +16,7 @@ class Manager
   public function __construct()
   {
     add_action('init', function () {
-      if(acadlix()->isDev){
+      if (acadlix()->isDev) {
         acadlix()->helper()->queryLogger()->enable();
       }
     });
@@ -39,6 +39,10 @@ class Manager
   public function add_shortcode_quiz($atts)
   {
     $id = $atts[0];
+    $atts = shortcode_atts([
+      'template' => '',
+      'fields' => '',
+    ], $atts);
     $content = '';
 
     if (is_numeric($id)) {
@@ -54,26 +58,39 @@ class Manager
         if (!empty($quiz->rendered_metas['quiz_settings']['hide_quiz_title'])) {
           $title_classes[] = 'acadlix-hide';
         }
-        ?>
 
-        <div class="acadlix-front-quiz-container">
-          <h2 class="<?php echo esc_attr(implode(' ', $title_classes)); ?>"
-            id="acadlix_front_quiz_title_<?php echo esc_html($quiz->ID); ?>">
-            <?php echo esc_html($quiz->post_title); ?>
-          </h2>
-          <div class="acadlix-front-quiz-description" id="acadlix_front_quiz_description_<?php echo esc_html($quiz->ID); ?>">
-            <?php echo wp_kses_post(
-              do_shortcode(
-                apply_filters('comment_text', $quiz->post_content) // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-              )
-            ); ?>
-          </div>
-          <div class="acadlix-front" id="<?php echo esc_html($quiz->ID); ?>">
+        if (!empty($atts['template'])) {
+          $template = $atts['template'];
+          $fields = !empty($atts['fields']) ? array_map('trim', explode(',', $atts['fields'])) : [];
+          ?>
+          <div class="acadlix-front" id="<?php echo esc_html($quiz->ID); ?>" template="<?php echo esc_attr($template); ?>"
+            data-fields="<?php echo esc_attr(json_encode($fields)); ?>">
             <div class="acadlix-front-quiz-button">
             </div>
           </div>
-        </div>
-        <?php
+          <?php
+        } else {
+          ?>
+          <div class="acadlix-front-quiz-container">
+            <h2 class="<?php echo esc_attr(implode(' ', $title_classes)); ?>"
+              id="acadlix_front_quiz_title_<?php echo esc_html($quiz->ID); ?>">
+              <?php echo esc_html($quiz->post_title); ?>
+            </h2>
+            <div class="acadlix-front-quiz-description" id="acadlix_front_quiz_description_<?php echo esc_html($quiz->ID); ?>">
+              <?php echo wp_kses_post(
+                do_shortcode(
+                  apply_filters('comment_text', $quiz->post_content) // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+                )
+              ); ?>
+            </div>
+            <div class="acadlix-front" id="<?php echo esc_html($quiz->ID); ?>">
+              <div class="acadlix-front-quiz-button">
+              </div>
+            </div>
+          </div>
+          <?php
+        }
+
         wp_enqueue_script('acadlix-front-quiz-shortcode-js');
       } else {
         echo '[Acadlix_Quiz ' . esc_html($id) . ']';
@@ -108,14 +125,26 @@ class Manager
     return $content;
   }
 
-  public function add_shortcode_login()
+  public function add_shortcode_login($atts)
   {
     $content = '';
+    $atts = shortcode_atts([
+      'redirect_url' => '',
+      'redirect_page_id' => '',
+    ], $atts);
+    $redirect_url = '';
+    if (!empty($atts['redirect_url'])) {
+      $redirect_url = esc_url($atts['redirect_url']);
+    }
+
+    if (!empty($atts['redirect_page_id']) && is_numeric($atts['redirect_page_id'])) {
+      $redirect_url = get_permalink($atts['redirect_page_id']);
+    }
     $user_id = get_current_user_id();
     ob_start();
     if (!$user_id) {
       ?>
-      <div class="acadlix-front-login"></div>
+      <div class="acadlix-front-login" data-redirect-url="<?php echo esc_url($redirect_url); ?>"></div>
       <?php
     }
     $content = ob_get_contents();

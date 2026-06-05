@@ -22,7 +22,6 @@ const AdvanceModeOptions = (props) => {
     props?.setValue("meta.quiz_settings.quiz_timing_type", "full_quiz_time", {
       shouldDirty: true,
     });
-    props?.setValue("meta.quiz_settings.enable_login_register", true, { shouldDirty: true });
     props?.setValue("meta.quiz_settings.login_register_type", "at_start_of_quiz", {
       shouldDirty: true,
     });

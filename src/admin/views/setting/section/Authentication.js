@@ -5,433 +5,481 @@ import RegistrationOptions from './authentication/RegistrationOptions';
 
 const Authentication = (props) => {
   const defaultSetting = {
-    component: "Card",
-    component_name: "setting_authentication_card",
+    component: "Grid",
+    component_name: "setting_authentication_grid_container",
+    props: {
+      container: true,
+      spacing: 4,
+    },
     children: [
       {
-        component: "CardContent",
-        component_name: "setting_authentication_card_content",
+        component: "Grid",
+        component_name: "setting_authentication_grid_item",
+        props: {
+          size: { xs: 12, sm: 12 },
+        },
         children: [
           {
-            component: "Box",
-            component_name: "setting_authentication_login_option_card_box",
+            component: "Card",
+            component_name: "setting_authentication_card",
             children: [
               {
-                component: "Box",
-                component_name: "setting_authentication_login_option_card_box_header",
-                props: {
-                  sx: {
-                    marginY: 2,
-                  },
-                },
-                children: [
-                  {
-                    component: "Typography",
-                    component_name: "setting_authentication_login_option_card_title",
-                    props: {
-                      variant: "h4",
-                    },
-                    children: [
-                      {
-                        component: "span",
-                        value: __("Login Options", "acadlix"),
-                      },
-                      {
-                        component: "CustomFeatureTooltip",
-                        component_name: "login_feature_tooltip",
-                        props: {
-                          plan: "open",
-                          msg: __("Refer docs to configure login options.", "acadlix"),
-                          placement: "right-start",
-                          redirectTo: `${acadlixOptions?.acadlix_docs_url}settings/authentication/#login-options`,
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    component: "Divider",
-                  },
-                ],
-              },
-              {
-                component: "Grid",
-                component_name: "setting_authentication_login_option_grid",
-                props: {
-                  container: true,
-                  spacing: {
-                    xs: 2,
-                    sm: 4,
-                  },
-                  sx: {
-                    alignItems: "center",
-                  },
-                },
-                children: [
-                  {
-                    component: "Grid",
-                    component_name: "setting_authentication_login_option_grid_item_login_shortcode_label",
-                    props: {
-                      size: { xs: 12, sm: 6, lg: 3 },
-                    },
-                    children: [
-                      {
-                        component: "CustomTypography",
-                        value: __("Login Shortcode", "acadlix"),
-                      }
-                    ],
-                  },
-                  {
-                    component: "Grid",
-                    component_name: "setting_authentication_login_option_grid_item_login_shortcode_value",
-                    props: {
-                      size: { xs: 12, sm: 6, lg: 4 },
-                    },
-                    children: [
-                      {
-                        component: "CustomCopyableText",
-                        props: {
-                          value: "[acadlix_login]",
-                          successMessage: __("Login shortcode copied to clipboard!", "acadlix"),
-                          errorMessage: __("Failed to copy login shortcode: ", "acadlix"),
-                        },
-                      }
-                    ],
-                  },
-                  {
-                    component: "Grid",
-                    component_name: "setting_authentication_login_option_grid_item_spacer",
-                    props: {
-                      size: { xs: 0, sm: 0, lg: 5 },
-                      sx: {
-                        display: {
-                          xs: "none",
-                          sm: "none",
-                          lg: "block",
-                        }
-                      }
-                    }
-                  },
-                  {
-                    component: "Grid",
-                    component_name: "setting_authentication_login_option_grid_item_default_screen_label",
-                    props: {
-                      size: { xs: 12, sm: 6, lg: 3 },
-                    },
-                    children: [
-                      {
-                        component: "CustomTypography",
-                        value: __("Default Screen", "acadlix"),
-                      }
-                    ],
-                  },
-                  {
-                    component: "Grid",
-                    component_name: "setting_authentication_login_option_grid_item_default_screen_value",
-                    props: {
-                      size: { xs: 12, sm: 6, lg: 9 },
-                    },
-                    children: [
-                      {
-                        component: "FormGroup",
-                        component_name: "setting_authentication_login_option_default_screen_form_group",
-                        props: {
-                          row: true,
-                        },
-                        children: [
-                          {
-                            component: "FormControlLabel",
-                            component_name: "setting_authentication_login_option_default_screen_form_control_label_login",
-                            props: {
-                              control: {
-                                component: "Radio",
-                                props: {
-                                  size: "small",
-                                },
-                              },
-                              label: __("Login Screen", "acadlix"),
-                              value: "login",
-                              checked: props?.watch("acadlix_default_auth_screen") === "login",
-                              onClick: (e) => {
-                                if (e?.target?.checked !== undefined) {
-                                  props?.setValue(
-                                    "acadlix_default_auth_screen",
-                                    e?.target?.value,
-                                    { shouldDirty: true }
-                                  )
-                                }
-                              },
-                            },
-                          },
-                          {
-                            component: "FormControlLabel",
-                            component_name: "setting_authentication_login_option_default_screen_form_control_label_register",
-                            props: {
-                              control: {
-                                component: "Radio",
-                                props: {
-                                  size: "small",
-                                },
-                              },
-                              label: __("Register Screen", "acadlix"),
-                              value: "register",
-                              checked: props?.watch("acadlix_default_auth_screen") === "register",
-                              onClick: (e) => {
-                                if (e?.target?.checked !== undefined) {
-                                  props?.setValue(
-                                    "acadlix_default_auth_screen",
-                                    e?.target?.value,
-                                    { shouldDirty: true }
-                                  )
-                                }
-                              },
-                            },
-                          },
-                        ],
-                      }
-                    ],
-                  }
-                ],
-              }
-            ],
-          },
-          {
-            component: "Box",
-            children: [
-              {
-                component: "Box",
-                props: {
-                  sx: {
-                    marginY: 2,
-                  },
-                },
-                children: [
-                  {
-                    component: "Typography",
-                    props: {
-                      variant: "h4",
-                    },
-                    children: [
-                      {
-                        component: "span",
-                        value: __("Registration Options", "acadlix"),
-                      },
-                      {
-                        component: "CustomFeatureTooltip",
-                        component_name: "register_feature_tooltip",
-                        props: {
-                          plan: "open",
-                          msg: __("Refer docs to configure registration options.", "acadlix"),
-                          placement: "right-start",
-                          redirectTo: `${acadlixOptions?.acadlix_docs_url}settings/authentication/#registration-options`,
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    component: "Divider",
-                  },
-                ],
-              },
-              {
-                component: <RegistrationOptions {...props} />,
-              }
-            ],
-          },
-          {
-            component: "Box",
-            component_name: "setting_authentication_card_box",
-            children: [
-              {
-                component: "Box",
-                component_name: "setting_authentication_card_box_header",
-                props: {
-                  sx: {
-                    marginY: 2,
-                  },
-                },
-                children: [
-                  {
-                    component: "Typography",
-                    component_name: "setting_authentication_card_title",
-                    props: {
-                      variant: "h4",
-                    },
-                    value: __("Fraud Protection", "acadlix"),
-                  },
-                  {
-                    component: "Divider",
-                  },
-                ],
-              },
-              {
-                component: "Box",
-                props: {
-                  sx: {
-                    marginY: 2,
-                    backgroundColor: "grey.light",
-                  },
-                },
+                component: "CardContent",
+                component_name: "setting_authentication_card_content",
                 children: [
                   {
                     component: "Box",
-                    props: {
-                      sx: {
-                        display: "flex",
-                        justifyContent: "space-between",
-                      },
-                    },
+                    component_name: "setting_authentication_login_option_card_box",
                     children: [
                       {
-                        component: "Typography",
+                        component: "Box",
+                        component_name: "setting_authentication_login_option_card_box_header",
                         props: {
-                          variant: "h5",
                           sx: {
-                            padding: 2
+                            marginY: 2,
                           },
                         },
                         children: [
                           {
-                            component: "span",
-                            value: __("Fraud Protection (reCAPTCHA v3)", "acadlix"),
+                            component: "Typography",
+                            component_name: "setting_authentication_login_option_card_title",
+                            props: {
+                              variant: "h4",
+                            },
+                            children: [
+                              {
+                                component: "span",
+                                value: __("Login Options", "acadlix"),
+                              },
+                              {
+                                component: "CustomFeatureTooltip",
+                                component_name: "login_feature_tooltip",
+                                props: {
+                                  plan: "open",
+                                  msg: __("Refer docs to configure login options.", "acadlix"),
+                                  placement: "right-start",
+                                  redirectTo: `${acadlixOptions?.acadlix_docs_url}settings/authentication/#login-options`,
+                                }
+                              }
+                            ]
                           },
                           {
-                            component: "CustomFeatureTooltip",
-                            component_name: "fraud_protection_feature_tooltip",
-                            props: {
-                              plan: "open",
-                              msg: __("Refer docs to configure the Google reCAPTCHA v3.", "acadlix"),
-                              placement: "right-start",
-                              redirectTo: `${acadlixOptions?.acadlix_docs_url}settings/authentication/#fraud-protection`,
-                            }
-                          }
+                            component: "Divider",
+                          },
                         ],
                       },
                       {
-                        component: "FormControlLabel",
+                        component: "Grid",
+                        component_name: "setting_authentication_login_option_grid",
                         props: {
-                          control: {
-                            component: "CustomSwitch",
+                          container: true,
+                          spacing: {
+                            xs: 2,
+                            sm: 4,
                           },
-                          label: __("Enable Fraud Protection", "acadlix"),
-                          value: "yes",
-                          checked: props?.watch("acadlix_enable_fraud_protection") === "yes",
-                          onClick: (e) => {
-                            if (e?.target?.checked !== undefined) {
-                              props?.setValue(
-                                "acadlix_enable_fraud_protection",
-                                e?.target?.checked ? e?.target?.value : "no",
-                                { shouldDirty: true }
-                              )
-                            }
+                          sx: {
+                            alignItems: "center",
                           },
                         },
-                      },
+                        children: [
+                          {
+                            component: "Grid",
+                            component_name: "setting_authentication_login_option_grid_item_login_shortcode_label",
+                            props: {
+                              size: { xs: 12, sm: 6, lg: 3 },
+                            },
+                            children: [
+                              {
+                                component: "CustomTypography",
+                                children: [
+                                  {
+                                    component: "span",
+                                    value: __("Login Shortcode", "acadlix"),
+                                  },
+                                  {
+                                    component: "CustomFeatureTooltip",
+                                    component_name: "login_feature_tooltip",
+                                    props: {
+                                      plan: "open",
+                                      msg: __(`redirect_page_id redirects users to a specific WordPress page after login using the page ID.</br>
+                                                redirect_url redirects users to any custom URL after login.</br> 
+                                                If both are used, redirect_url will take priority over redirect_page_id`, "acadlix"),
+                                    }
+                                  }
+                                ]
+                              }
+                            ],
+                          },
+                          {
+                            component: "Grid",
+                            component_name: "setting_authentication_login_option_grid_item_login_shortcode_value",
+                            props: {
+                              size: { xs: 12, sm: 6, lg: 9 },
+                            },
+                            children: [
+                              {
+                                component: "CustomCopyableText",
+                                props: {
+                                  value: `[acadlix_login redirect_url=""]`,
+                                  successMessage: __("Login shortcode copied to clipboard!", "acadlix"),
+                                  errorMessage: __("Failed to copy login shortcode: ", "acadlix"),
+                                },
+                              }
+                            ],
+                          },
+                          {
+                            component: "Grid",
+                            component_name: "setting_authentication_login_option_grid_item_default_screen_label",
+                            props: {
+                              size: { xs: 12, sm: 6, lg: 3 },
+                            },
+                            children: [
+                              {
+                                component: "CustomTypography",
+                                value: __("Default Screen", "acadlix"),
+                              }
+                            ],
+                          },
+                          {
+                            component: "Grid",
+                            component_name: "setting_authentication_login_option_grid_item_default_screen_value",
+                            props: {
+                              size: { xs: 12, sm: 6, lg: 9 },
+                            },
+                            children: [
+                              {
+                                component: "FormGroup",
+                                component_name: "setting_authentication_login_option_default_screen_form_group",
+                                props: {
+                                  row: true,
+                                },
+                                children: [
+                                  {
+                                    component: "FormControlLabel",
+                                    component_name: "setting_authentication_login_option_default_screen_form_control_label_login",
+                                    props: {
+                                      control: {
+                                        component: "Radio",
+                                        props: {
+                                          size: "small",
+                                        },
+                                      },
+                                      label: __("Login Screen", "acadlix"),
+                                      value: "login",
+                                      checked: props?.watch("acadlix_default_auth_screen") === "login",
+                                      onClick: (e) => {
+                                        if (e?.target?.checked !== undefined) {
+                                          props?.setValue(
+                                            "acadlix_default_auth_screen",
+                                            e?.target?.value,
+                                            { shouldDirty: true }
+                                          )
+                                        }
+                                      },
+                                    },
+                                  },
+                                  {
+                                    component: "FormControlLabel",
+                                    component_name: "setting_authentication_login_option_default_screen_form_control_label_register",
+                                    props: {
+                                      control: {
+                                        component: "Radio",
+                                        props: {
+                                          size: "small",
+                                        },
+                                      },
+                                      label: __("Register Screen", "acadlix"),
+                                      value: "register",
+                                      checked: props?.watch("acadlix_default_auth_screen") === "register",
+                                      onClick: (e) => {
+                                        if (e?.target?.checked !== undefined) {
+                                          props?.setValue(
+                                            "acadlix_default_auth_screen",
+                                            e?.target?.value,
+                                            { shouldDirty: true }
+                                          )
+                                        }
+                                      },
+                                    },
+                                  },
+                                ],
+                              }
+                            ],
+                          }
+                        ],
+                      }
                     ],
                   },
                   {
-                    component: "Divider",
+                    component: "Box",
+                    children: [
+                      {
+                        component: "Box",
+                        props: {
+                          sx: {
+                            marginY: 2,
+                          },
+                        },
+                        children: [
+                          {
+                            component: "Typography",
+                            props: {
+                              variant: "h4",
+                            },
+                            children: [
+                              {
+                                component: "span",
+                                value: __("Registration Options", "acadlix"),
+                              },
+                              {
+                                component: "CustomFeatureTooltip",
+                                component_name: "register_feature_tooltip",
+                                props: {
+                                  plan: "open",
+                                  msg: __("Refer docs to configure registration options.", "acadlix"),
+                                  placement: "right-start",
+                                  redirectTo: `${acadlixOptions?.acadlix_docs_url}settings/authentication/#registration-options`,
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            component: "Divider",
+                          },
+                        ],
+                      },
+                      {
+                        component: <RegistrationOptions {...props} />,
+                      }
+                    ],
+                  },
+                  {
+                    component: "Box",
+                    component_name: "setting_authentication_card_box",
+                    children: [
+                      {
+                        component: "Box",
+                        component_name: "setting_authentication_card_box_header",
+                        props: {
+                          sx: {
+                            marginY: 2,
+                          },
+                        },
+                        children: [
+                          {
+                            component: "Typography",
+                            component_name: "setting_authentication_card_title",
+                            props: {
+                              variant: "h4",
+                            },
+                            value: __("Fraud Protection", "acadlix"),
+                          },
+                          {
+                            component: "Divider",
+                          },
+                        ],
+                      },
+                      {
+                        component: "Box",
+                        props: {
+                          sx: {
+                            marginY: 2,
+                            backgroundColor: "grey.light",
+                          },
+                        },
+                        children: [
+                          {
+                            component: "Box",
+                            props: {
+                              sx: {
+                                display: "flex",
+                                justifyContent: "space-between",
+                              },
+                            },
+                            children: [
+                              {
+                                component: "Typography",
+                                props: {
+                                  variant: "h5",
+                                  sx: {
+                                    padding: 2
+                                  },
+                                },
+                                children: [
+                                  {
+                                    component: "span",
+                                    value: __("Fraud Protection (reCAPTCHA v3)", "acadlix"),
+                                  },
+                                  {
+                                    component: "CustomFeatureTooltip",
+                                    component_name: "fraud_protection_feature_tooltip",
+                                    props: {
+                                      plan: "open",
+                                      msg: __("Refer docs to configure the Google reCAPTCHA v3.", "acadlix"),
+                                      placement: "right-start",
+                                      redirectTo: `${acadlixOptions?.acadlix_docs_url}settings/authentication/#fraud-protection`,
+                                    }
+                                  }
+                                ],
+                              },
+                              {
+                                component: "FormControlLabel",
+                                props: {
+                                  control: {
+                                    component: "CustomSwitch",
+                                  },
+                                  label: __("Enable Fraud Protection", "acadlix"),
+                                  value: "yes",
+                                  checked: props?.watch("acadlix_enable_fraud_protection") === "yes",
+                                  onClick: (e) => {
+                                    if (e?.target?.checked !== undefined) {
+                                      props?.setValue(
+                                        "acadlix_enable_fraud_protection",
+                                        e?.target?.checked ? e?.target?.value : "no",
+                                        { shouldDirty: true }
+                                      )
+                                    }
+                                  },
+                                },
+                              },
+                            ],
+                          },
+                          {
+                            component: "Divider",
+                          },
+                        ],
+                      },
+                      props?.watch("acadlix_enable_fraud_protection") === "yes" && ({
+                        component: "Grid",
+                        props: {
+                          container: true,
+                          spacing: {
+                            xs: 2,
+                            sm: 4,
+                          },
+                          sx: {
+                            alignItems: "center",
+                          },
+                        },
+                        children: [
+                          {
+                            component: "Grid",
+                            props: {
+                              size: { xs: 12, sm: 6, lg: 3 },
+                            },
+                            children: [
+                              {
+                                component: "CustomTypography",
+                                value: __("v3 Site Key", "acadlix"),
+                              }
+                            ],
+                          },
+                          {
+                            component: "Grid",
+                            props: {
+                              size: { xs: 12, sm: 6, lg: 9 },
+                            },
+                            children: [
+                              {
+                                component: "PasswordTextField",
+                                props: {
+                                  ...props?.register("acadlix_v3_site_key"),
+                                  fullWidth: true,
+                                  size: "small",
+                                  label: __("Enter v3 Site Key", "acadlix"),
+                                  // value: props?.watch("acadlix_v3_site_key"),
+                                  onChange: (e) => props?.setValue("acadlix_v3_site_key", e.target.value, { shouldDirty: true }),
+                                },
+                              }
+                            ],
+                          },
+                          {
+                            component: "Grid",
+                            props: {
+                              size: { xs: 12, sm: 6, lg: 3 },
+                            },
+                            children: [
+                              {
+                                component: "CustomTypography",
+                                value: __("v3 Secret Key", "acadlix"),
+                              }
+                            ],
+                          },
+                          {
+                            component: "Grid",
+                            props: {
+                              size: { xs: 12, sm: 6, lg: 9 },
+                            },
+                            children: [
+                              {
+                                component: "PasswordTextField",
+                                props: {
+                                  ...props?.register("acadlix_v3_secret_key"),
+                                  fullWidth: true,
+                                  size: "small",
+                                  label: __("Enter v3 Secret Key", "acadlix"),
+                                  // value: props?.watch("acadlix_v3_secret_key"),
+                                  onChange: (e) => props?.setValue("acadlix_v3_secret_key", e.target.value, { shouldDirty: true }),
+                                },
+                              }
+                            ],
+                          },
+                        ],
+                      })
+                    ],
                   },
                 ],
               },
-              props?.watch("acadlix_enable_fraud_protection") === "yes" && ({
-                component: "Grid",
+            ],
+          }
+        ]
+      },
+      {
+        component: "Grid",
+        component_name: "setting_payment_grid_item_save",
+        props: {
+          size: { xs: 12, sm: 12 },
+          sx: {
+            position: "sticky",
+            bottom: 0,
+            zIndex: 10,
+          }
+        },
+        children: [
+          {
+            component: "Card",
+            component_name: "setting_authentication_card_save",
+            children: [
+              {
+                component: "CardContent",
+                component_name: "setting_authentication_card_content_save",
                 props: {
-                  container: true,
-                  spacing: {
-                    xs: 2,
-                    sm: 4,
-                  },
                   sx: {
-                    alignItems: "center",
+                    padding: 4,
+                    ":last-child": {
+                      paddingBottom: 4,
+                    },
                   },
                 },
                 children: [
                   {
-                    component: "Grid",
+                    component: "Button",
+                    component_name: "setting_authentication_card_actions_button",
                     props: {
-                      size: { xs: 12, sm: 6, lg: 3 },
+                      variant: "contained",
+                      color: "primary",
+                      type: "submit",
+                      loading: props?.isPending,
                     },
-                    children: [
-                      {
-                        component: "CustomTypography",
-                        value: __("v3 Site Key", "acadlix"),
-                      }
-                    ],
-                  },
-                  {
-                    component: "Grid",
-                    props: {
-                      size: { xs: 12, sm: 6, lg: 9 },
-                    },
-                    children: [
-                      {
-                        component: "PasswordTextField",
-                        props: {
-                          ...props?.register("acadlix_v3_site_key"),
-                          fullWidth: true,
-                          size: "small",
-                          label: __("Enter v3 Site Key", "acadlix"),
-                          // value: props?.watch("acadlix_v3_site_key"),
-                          onChange: (e) => props?.setValue("acadlix_v3_site_key", e.target.value, { shouldDirty: true }),
-                        },
-                      }
-                    ],
-                  },
-                  {
-                    component: "Grid",
-                    props: {
-                      size: { xs: 12, sm: 6, lg: 3 },
-                    },
-                    children: [
-                      {
-                        component: "CustomTypography",
-                        value: __("v3 Secret Key", "acadlix"),
-                      }
-                    ],
-                  },
-                  {
-                    component: "Grid",
-                    props: {
-                      size: { xs: 12, sm: 6, lg: 9 },
-                    },
-                    children: [
-                      {
-                        component: "PasswordTextField",
-                        props: {
-                          ...props?.register("acadlix_v3_secret_key"),
-                          fullWidth: true,
-                          size: "small",
-                          label: __("Enter v3 Secret Key", "acadlix"),
-                          // value: props?.watch("acadlix_v3_secret_key"),
-                          onChange: (e) => props?.setValue("acadlix_v3_secret_key", e.target.value, { shouldDirty: true }),
-                        },
-                      }
-                    ],
+                    value: __("Save", "acadlix"),
                   },
                 ],
-              })
+              },
             ],
-          },
-        ],
-      },
-      {
-        component: "CardActions",
-        component_name: "setting_authentication_card_actions",
-        children: [
-          {
-            component: "Button",
-            component_name: "setting_authentication_card_actions_button",
-            props: {
-              variant: "contained",
-              color: "primary",
-              type: "submit",
-              loading: props?.isPending,
-            },
-            value: __("Save", "acadlix"),
-          },
-        ],
+          }
+        ]
       }
-    ],
+    ]
   };
 
   // 🔹 Apply WordPress-style filter for extensibility

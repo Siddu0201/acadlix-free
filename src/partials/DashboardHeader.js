@@ -58,6 +58,7 @@ const DashboardHeader = ({ handleDrawerToggle, isDesktop }) => {
                       sx={{
                         width: 40,
                         height: 40,
+                        backgroundColor: "primary.contrastText",
                       }}
                     />
                   )

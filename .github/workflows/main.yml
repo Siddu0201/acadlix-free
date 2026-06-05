@@ -6,10 +6,10 @@ on:
       - yuvayana
 
 env:
-  PLUGIN_VERSION: "1.0.8"
+  PLUGIN_VERSION: "1.0.9"
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,9 +20,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm" 
 
       - name: Install Node dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build React app (Free)
         run: npm run build:free
@@ -46,33 +47,92 @@ jobs:
           composer install --no-dev --optimize-autoloader --classmap-authoritative
           composer dumpautoload -o --no-dev --classmap-authoritative
       
-      # ----------------------------------
-      # Install WP-CLI (REQUIRED)
-      # ----------------------------------
-      - name: Install WP-CLI
+      - name: Purge Vendor Development Trash
         run: |
-          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-          php wp-cli.phar --info
-          chmod +x wp-cli.phar
-          sudo mv wp-cli.phar /usr/local/bin/wp
-      
-      # ----------------------------------
-      # Install dist-archive command
-      # ----------------------------------
-      - name: Install wp dist-archive command
-        run: |
-          wp package install wp-cli/dist-archive-command:3.1.0 --allow-root
+          echo "Blazing fast native cleanup of vendor dev artifacts..."
+
+          find vendor/ -type d \( \
+            -name "tests" -o \
+            -name "Tests" -o \
+            -name "test" -o \
+            -name "testing" -o \
+            -name "phpunit" -o \
+            -name "PHPUnit" -o \
+            -name "docs" -o \
+            -name ".github" -o \
+            -name "bin" -o \
+            -name "stubs" \
+          \) -exec rm -rf {} +
+
+          find vendor/ -type f \( \
+            -name "*.md" -o \
+            -name "*.toml" -o \
+            -name "*.bat" -o \
+            -name "*.sh" -o \
+            -name "composer.json" -o \
+            -name "installed.json" \
+          \) -delete
 
       # ----------------------------------
-      # Build WordPress.org compliant ZIP
+      # Build plugin ZIP (native rsync + zip)
       # ----------------------------------
-      - name: Build plugin ZIP using wp dist-archive
+      - name: Build plugin ZIP
         run: |
-            wp dist-archive . --allow-root
-            echo "Files created:"
-            ls -lh
-            ls -lh ..
-            mv ../acadlix*.zip plugin.zip
+          PLUGIN_SLUG="acadlix"
+          DEST="/tmp/${PLUGIN_SLUG}"
+          mkdir -p "$DEST"
+
+          rsync -a --no-links \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.gitignore' \
+            --exclude='.editorconfig' \
+            --exclude='node_modules/' \
+            --exclude='/src/' \
+            --exclude='*.map' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='webpack.config.js' \
+            --exclude='composer.lock' \
+            --exclude='jsconfig.json' \
+            --exclude='.distignore' \
+            --exclude='README.md' \
+            --exclude='handle-dev-server.sh' \
+            --exclude='api.txt' \
+            --exclude='test.json' \
+            --exclude='phpunit.xml' \
+            --exclude='phpunit.xml.dist' \
+            --exclude='vendor/illuminate/database/Console/' \
+            --exclude='vendor/illuminate/database/Migrations/' \
+            --exclude='vendor/brick/' \
+            --exclude='*.po' \
+            --exclude='languages/Pro/' \
+            . "$DEST/"
+
+          # Carbon Lang: keep only en.php, remove all others
+          find "$DEST/vendor/nesbot/carbon/src/Carbon/Lang/" -type f ! -name 'en.php' -delete 2>/dev/null || true
+
+          cd /tmp
+          zip -r "${GITHUB_WORKSPACE}/plugin.zip" "${PLUGIN_SLUG}/"
+          echo "Files created:"
+          ls -lh "${GITHUB_WORKSPACE}/"
+
+      - name: Upload plugin artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: acadlix-plugin
+          path: plugin.zip
+          retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # Download the plugin artifact from the build job
+      - name: Download plugin artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: acadlix-plugin
 
       # ----------------------------------
       # Upload ZIP to Hostinger
@@ -87,7 +147,7 @@ jobs:
           echo "$HOSTINGER_SSH_KEY" > private_key
           chmod 600 private_key
           echo "Uploading as $HOSTINGER_USER@$HOSTINGER_HOST on port $HOSTINGER_PORT"
-          scp -o StrictHostKeyChecking=no -i private_key -P $HOSTINGER_PORT plugin.zip \
+          scp -o StrictHostKeyChecking=no -o ConnectTimeout=60 -i private_key -P $HOSTINGER_PORT plugin.zip \
             $HOSTINGER_USER@$HOSTINGER_HOST:/home/$HOSTINGER_USER/
 
       # ----------------------------------
@@ -110,7 +170,7 @@ jobs:
           ACADLIX_DIR_FREE="$PLUGIN_DIR_FREE/acadlix"
           ZIP_PATH="$USER_HOME/plugin.zip"
 
-          ssh -o StrictHostKeyChecking=no -i private_key -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" << EOF
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=60 -i private_key -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" << EOF
 
             echo "Deploying to Hostinger..."
 

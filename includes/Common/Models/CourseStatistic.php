@@ -3,6 +3,7 @@
 namespace Yuvayana\Acadlix\Common\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Capsule\Manager as DB;
 
 defined('ABSPATH') || exit();
 
@@ -63,6 +64,36 @@ if (!class_exists(class: 'CourseStatistic')) {
     {
       return $this->hasMany(acadlix()->model()->userActivityMeta(), 'type_id', 'id')
         ->where('type', 'course_statistic');
+    }
+
+    public function getUserStatsOverview($course_id, $user_id)
+    {
+      return DB::table($this->table)
+        ->where('course_id', $course_id)
+        ->where('user_id', $user_id)
+        ->selectRaw("
+        user_id,
+
+        SUM(
+            CASE
+                WHEN meta_type = 'lesson'
+                AND is_completed = 1
+                THEN 1
+                ELSE 0
+            END
+        ) as completed_lessons,
+
+        SUM(
+            CASE
+                WHEN meta_type = 'quiz'
+                AND is_completed = 1
+                THEN 1
+                ELSE 0
+            END
+        ) as completed_quizzes
+    ")
+        ->groupBy('user_id')
+        ->first();
     }
   }
 }

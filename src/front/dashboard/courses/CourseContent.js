@@ -65,6 +65,18 @@ const CourseContent = () => {
       toast.error("Invalid content id");
       return;
     }
+    navigate(`/course/${methods?.watch("course_id")}/content/${id}`);
+    handleSetActive(id);
+  };
+
+  const handleSetActive = (id = 0) => {
+    if (id == 0) {
+      toast.error("Invalid content id");
+      return;
+    }
+    if(courseSectionContentId != id) {
+      return;
+    }
     methods?.setValue(
       `sections`,
       methods?.watch("sections")?.map((s) => {
@@ -83,7 +95,6 @@ const CourseContent = () => {
       }),
       { shouldDirty: true }
     );
-    navigate(`/course/${methods?.watch("course_id")}/content/${id}`);
 
     const sectionIndex = methods?.watch("sections")?.findIndex((s) => s?.content?.find((c) => c?.id === id));
     const contentIndex = methods?.watch("sections")?.[sectionIndex]?.content?.findIndex((c) => c?.id === id);
@@ -168,7 +179,7 @@ const CourseContent = () => {
   );
 
   React.useEffect(() => {
-    if(data?.data?.certificate){
+    if (data?.data?.certificate) {
       methods?.setValue("certificate", data?.data?.certificate ?? {}, { shouldDirty: true });
     }
     if (data?.data?.course) {
@@ -221,6 +232,7 @@ const CourseContent = () => {
                 sort: c?.menu_order ?? "",
                 content_type_id: c?.contentable?.id ?? null,
                 course_statistic_id: statistic?.id ?? null,
+                meta_value: statistic?.meta_value ?? null,
                 is_active: data?.data?.course_section_content_id == c?.ID,
                 is_completed: Boolean(Number(statistic?.is_completed)) ?? false,
                 type: c?.contentable?.type ?? "", // lesson/quiz/assignment,
@@ -336,7 +348,7 @@ const CourseContent = () => {
           shouldDirty: true,
         }
       );
-      if (filteredSection?.length > 0) {
+      if (filteredSection?.length > 0 && !courseSectionContentId) {
         const activeId = filteredSection
           ?.find((s) => s?.active)
           ?.content?.find((c) => c?.is_active)?.id;
@@ -444,7 +456,7 @@ const CourseContent = () => {
               // })
               methods?.setValue("course_completed", true, { shouldDirty: true });
             }
-            if(data?.data?.certificate){
+            if (data?.data?.certificate) {
               methods?.setValue("certificate", data?.data?.certificate ?? {}, { shouldDirty: true });
             }
           }
@@ -510,6 +522,45 @@ const CourseContent = () => {
       });
     }
   }, [location]);
+
+  useEffect(() => {
+    const activeId = Number(courseSectionContentId);
+    if (!activeId || Number.isNaN(activeId)) {
+      return;
+    }
+
+    const sections = methods?.watch("sections") ?? [];
+    if (!sections?.length) {
+      return;
+    }
+
+    const hasTarget = sections?.some((s) =>
+      s?.content?.some((c) => c?.id === activeId)
+    );
+
+    if (!hasTarget) {
+      return;
+    }
+
+    handleSetActive(activeId);
+
+    // methods?.setValue(
+    //   "sections",
+    //   sections?.map((s) => {
+    //     const target = s?.content?.find((c) => c?.id === activeId);
+    //     return {
+    //       ...s,
+    //       open: target ? true : s?.open,
+    //       active: target ? true : false,
+    //       content: s?.content?.map((c) => ({
+    //         ...c,
+    //         is_active: c?.id === activeId,
+    //       })),
+    //     };
+    //   }),
+    //   { shouldDirty: true }
+    // );
+  }, [courseSectionContentId, methods]);
 
   return (
     <Box>

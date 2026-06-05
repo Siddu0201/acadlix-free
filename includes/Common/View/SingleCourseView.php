@@ -661,7 +661,7 @@ class SingleCourseView
 		$buy_now_button = $this->acadlix_course_buy_now_button($type);
 		$error_button = $this->acadlix_course_error_button($check_registration_date);
 		if ($check_registration_date['status']) {
-			if ($course->isCourseFree()) {
+			if ($course->isFree()) {
 				if ($this->is_course_purchased) {
 					$button = $go_to_course_button;
 				} elseif ($this->cart) {
@@ -1860,7 +1860,7 @@ class SingleCourseView
 							'component' => 'button',
 							'props' => [
 								'type' => 'submit',
-								'class' => 'acadlix-submit-review-btn',
+								'class' => 'acadlix-submit-review-btn acadlix-subtitle2',
 							],
 							'children' => [
 								[
@@ -1950,7 +1950,7 @@ class SingleCourseView
 								[
 									'component' => 'button',
 									'props' => [
-										'class' => 'acadlix-load-review-button ' . ($view_pagination_button ? '' : 'acadlix-hidden'),
+										'class' => 'acadlix-load-review-button acadlix-subtitle2 ' . ($view_pagination_button ? '' : 'acadlix-hidden'),
 										'type' => 'button',
 										'id' => 'acadlix-load-review-button',
 										'data-pagination-count' => esc_attr($this->review_pagination_count),
@@ -1982,7 +1982,7 @@ class SingleCourseView
 						[
 							'component' => 'button',
 							'props' => [
-								'class' => 'acadlix-add-edit-review-button ' . ($this->is_course_purchased ? '' : 'acadlix-hidden'),
+								'class' => 'acadlix-add-edit-review-button acadlix-subtitle2 ' . ($this->is_course_purchased ? '' : 'acadlix-hidden'),
 								'type' => 'button',
 								'id' => 'acadlix-add-edit-review-button',
 							],

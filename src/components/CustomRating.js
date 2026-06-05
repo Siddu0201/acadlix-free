@@ -1,4 +1,4 @@
-import { FaRegStar, FaStar } from '@acadlix/helpers/icons';
+import { FaRegStar, FaStar, FaStarHalfStroke } from '@acadlix/helpers/icons';
 import { Rating } from '@mui/material';
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -14,8 +14,9 @@ const CustomRating = ({
     <Rating 
       name="custom-rating"
       value={Number(value)}
-      icon={<FaStar fontSize="inherit" color={color} />} 
-      emptyIcon={<FaRegStar fontSize="inherit" color={color} />}
+      // icon={<FaStar fontSize="inherit" color={color} />}
+      // halffilledIcon={<FaStarHalfStroke fontSize="inherit" color={color} />} 
+      // emptyIcon={<FaRegStar fontSize="inherit" color={color} />}
       precision={0.5}
       sx={{
         // color: color,

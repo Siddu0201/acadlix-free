@@ -75,7 +75,7 @@ const Review = () => {
       renderCell: (params) => {
         return (
           <>
-            <CustomRating value={params.row?.rating} fontSize={16} style={{ marginRight: 8 }} />
+            <CustomRating value={params.row?.rating} fontSize={20} style={{ marginRight: 8 }} />
             <Box>
               {params.value}
             </Box>

@@ -38,6 +38,17 @@ const ViewAnswersheet = () => {
     leaderborad_text_background: "#f5faea",
   };
 
+  const percentage = parseFloat(data?.data?.statistic_ref?.result?.toFixed(2)) ?? 0;
+  const minPercentageToView = parseFloat(data?.data?.quiz?.rendered_metas?.quiz_settings?.min_percentage_to_view_answer_sheet) ?? 0;
+  const isAllowedToViewAnswerSheet = () => {
+    if (data?.data?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet) {
+      return false;
+    }
+    if (minPercentageToView > 0 && percentage < minPercentageToView) {
+      return false;
+    }
+    return true;
+  };
 
   const defaultSetting = {
     component: "Box",
@@ -129,7 +140,7 @@ const ViewAnswersheet = () => {
                           }
                         })
                         :
-                        (data?.data?.statistic_ref && !data?.data?.quiz?.rendered_metas?.quiz_settings?.hide_answer_sheet) ? ({
+                        (data?.data?.statistic_ref && isAllowedToViewAnswerSheet()) ? ({
                           component: <AnswerSheet
                             statistic={data?.data?.statistic}
                             colorCode={colorCode}
@@ -143,7 +154,7 @@ const ViewAnswersheet = () => {
                             props: {
                               component: "div",
                             },
-                            value: __("You are not alowed to access this page.", "acadlix")
+                            value: __("You are not allowed to access this page.", "acadlix")
                           })
                     ]
                   }

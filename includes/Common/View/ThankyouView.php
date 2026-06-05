@@ -18,12 +18,12 @@ class ThankyouView
 
   public function __construct()
   {
-    $this->nonce = isset($_GET['nonce']) ? sanitize_text_field(wp_unslash($_GET['nonce'])) : '';
+    // $this->nonce = isset($_GET['nonce']) ? sanitize_text_field(wp_unslash($_GET['nonce'])) : '';
 
-    if (!wp_verify_nonce($this->nonce, 'acadlix_payment_nonce')) {
-      $this->status = 'failed';
-      return;
-    }
+    // if (!wp_verify_nonce($this->nonce, 'acadlix_payment_nonce')) {
+    //   $this->status = 'failed';
+    //   return;
+    // }
 
     $this->status = 'pending';
     $this->courses_url = get_post_type_archive_link(ACADLIX_COURSE_CPT);

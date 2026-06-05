@@ -250,7 +250,6 @@ const Lesson = () => {
               }}
             ></CardHeader>
             <CardContent>
-
               <Box
                 sx={{
                   paddingBottom: 2,

@@ -9,7 +9,7 @@ import { __ } from "@wordpress/i18n";
 import { RawHTML } from "@wordpress/element";
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 import CustomButton from "@acadlix/components/CustomButton";
-import { redirect } from "react-router-dom";
+import TemplateRenderer from "@acadlix/templates/TemplateRenderer";
 
 const DescriptionSection = (props) => {
   const rand = function () {
@@ -48,8 +48,8 @@ const DescriptionSection = (props) => {
         if (props?.course_statistic_id) {
           queryParams.course_statistic_id = props?.course_statistic_id ?? 0;
         }
-        advance_quiz_url = createQueryUrl(advance_quiz_url, queryParams);
       }
+      advance_quiz_url = createQueryUrl(advance_quiz_url, queryParams);
       const link = `${advance_quiz_url}#/advance-quiz/${props?.watch(
         "id"
       )}/${token}`;
@@ -106,7 +106,8 @@ const DescriptionSection = (props) => {
   const handleQuizStart = () => {
     if (
       props?.watch("enable_login_register") &&
-      props?.watch("user_id") == 0
+      props?.watch("user_id") == 0 &&
+      props?.watch("required_login_to") === "start_quiz"
     ) {
       props?.setValue("login_modal", true, { shouldDirty: true });
       return;
@@ -123,7 +124,7 @@ const DescriptionSection = (props) => {
     handleStart();
   }
 
-  const handleUserLogin = (data) => {
+  const handleUserLoginAtStart = (data) => {
     if (data?.user) {
       props?.setValue("user_id", Number(data?.user?.ID), {
         shouldDirty: true,
@@ -151,6 +152,15 @@ const DescriptionSection = (props) => {
 
   return (
     <Box>
+      <UserAuth
+        login_modal={props?.watch("login_modal")}
+        users_can_register={Boolean(Number(acadlixOptions?.users_can_register))}
+        ajax_url={acadlixOptions?.ajax_url}
+        nonce={acadlixOptions?.nonces?.auth || ""}
+        handleClose={() => props?.setValue("login_modal", false)}
+        onSuccessLogin={handleUserLoginAtStart}
+        onSuccessRegister={handleUserLoginAtStart}
+      />
       {!(props?.watch("hide_quiz_title") || props?.hide_title) && (
         <Typography
           variant="h1"
@@ -176,38 +186,70 @@ const DescriptionSection = (props) => {
           </CustomLatex>
         </Typography>
       }
-      <CustomButton
-        onClick={handleQuizStart}
-        disabled={checkQuiz?.isPending}
-        className="acadlix-start-quiz-button"
-      >
-        {checkQuiz?.isPending ? __("Loading...", "acadlix") : props?.watch("start_button_text")}
-      </CustomButton>
-      <UserAuth
-        login_modal={props?.watch("login_modal")}
-        users_can_register={Boolean(Number(acadlixOptions?.users_can_register))}
-        ajax_url={acadlixOptions?.ajax_url}
-        nonce={acadlixOptions?.nonces?.auth || ""}
-        handleClose={() => props?.setValue("login_modal", false)}
-        onSuccessLogin={handleUserLogin}
-        onSuccessRegister={handleUserLogin}
-      />
-      {props?.watch("quiz_error") && (
-        <Box
-          sx={{
-            marginY: 2,
-          }}
-          className="acadlix-quiz-error"
-        >
-          <Alert severity="error" sx={{
-            alignItems: "center",
-          }}>
-            <RawHTML>
-              {props?.watch("quiz_error")}
-            </RawHTML>
-          </Alert>
-        </Box>
-      )}
+      {
+        (props?.template !== "" && ["template-1", "template-2"].includes(props?.template)) ? (
+          <TemplateRenderer
+            type="quiz"
+            subtype="shortcode"
+            template={props?.template}
+            fields={props?.fields}
+            {...props}
+          >
+            <Box sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              width: "100%",
+            }}>
+              {props?.watch("quiz_error") && (
+                <Box
+                  className="acadlix-quiz-error"
+                >
+                  <Alert severity="error" >
+                    <RawHTML>
+                      {props?.watch("quiz_error")}
+                    </RawHTML>
+                  </Alert>
+                </Box>
+              )}
+              <CustomButton
+                onClick={handleQuizStart}
+                disabled={checkQuiz?.isPending}
+                className="acadlix-start-quiz-button"
+                fullWidth
+              >
+                {checkQuiz?.isPending ? __("Loading...", "acadlix") : props?.watch("start_button_text")}
+              </CustomButton>
+            </Box>
+          </TemplateRenderer>
+        ) : (
+          <>
+            <CustomButton
+              onClick={handleQuizStart}
+              disabled={checkQuiz?.isPending}
+              className="acadlix-start-quiz-button"
+            >
+              {checkQuiz?.isPending ? __("Loading...", "acadlix") : props?.watch("start_button_text")}
+            </CustomButton>
+            {props?.watch("quiz_error") && (
+              <Box
+                sx={{
+                  marginY: 2,
+                }}
+                className="acadlix-quiz-error"
+              >
+                <Alert severity="error" sx={{
+                  alignItems: "center",
+                }}>
+                  <RawHTML>
+                    {props?.watch("quiz_error")}
+                  </RawHTML>
+                </Alert>
+              </Box>
+            )}
+          </>
+        )
+      }
     </Box>
   );
 };
