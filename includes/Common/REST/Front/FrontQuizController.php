@@ -174,7 +174,6 @@ class FrontQuizController
       'category',
       'languages',
       'rendered_questions',
-      'quiz_attempts'
     ]);
     $custom_logo_id = get_theme_mod('custom_logo');
     $res['logo'] = wp_get_attachment_image_url($custom_logo_id, 'full');
