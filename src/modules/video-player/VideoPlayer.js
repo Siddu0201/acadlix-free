@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { createRoot } from "@wordpress/element";
 // import Plyr from "plyr";
-import { RawHTML } from "@wordpress/element";
 import {
   GiNextButton,
   GiPreviousButton,
@@ -42,13 +41,52 @@ const VideoPlayer = ({
   ...props
 }) => {
   const playerRef = useRef(null);
-  const maskRef = useRef(null);
+  const plyrInstanceRef = useRef(null);
   const saveIntervalRef = useRef(null);
   const lastSavedSecondRef = useRef(0);
+  const lastMobileTapRef = useRef({
+    backward: 0,
+    forward: 0,
+  });
   const hasResumedRef = useRef(false);
   const pendingResumeRef = useRef(
     meta_value?.current_time || 0
   );
+
+  const handleMobileDoubleTap = (direction) => (event) => {
+    const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)")?.matches;
+    if (!isMobile) {
+      return;
+    }
+
+    const now = Date.now();
+    const previousTapTime = lastMobileTapRef.current?.[direction] || 0;
+    lastMobileTapRef.current[direction] = now;
+
+    if (now - previousTapTime > 280) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const player = plyrInstanceRef.current;
+    if (!player) {
+      return;
+    }
+
+    const duration = player.duration || 0;
+    const currentTime = player.currentTime || 0;
+    const delta = direction === "forward" ? 10 : -10;
+    let nextTime = currentTime + delta;
+
+    if (duration > 0) {
+      nextTime = Math.min(duration, Math.max(0, nextTime));
+    } else {
+      nextTime = Math.max(0, nextTime);
+    }
+
+    player.currentTime = nextTime;
+  };
 
   useEffect(() => {
     const Plyr = window.Plyr;
@@ -102,6 +140,7 @@ const VideoPlayer = ({
         ...vimeo,
       },
     });
+    plyrInstanceRef.current = plyrInstance;
 
 
     const updateDuration = (duration = 0) => {
@@ -381,6 +420,7 @@ const VideoPlayer = ({
         handleFullscreenChange
       );
       plyrInstance.destroy();
+      plyrInstanceRef.current = null;
     };
   }, []);
 
@@ -457,6 +497,23 @@ const VideoPlayer = ({
   // console.log('src', src)
   return <div className="acadlix-video-wrapper">
     {renderContent()}
+    <div className="acadlix-mobile-doubletap-overlay" aria-hidden="true">
+      <button
+        type="button"
+        className="acadlix-mobile-doubletap-zone acadlix-mobile-doubletap-zone-backward"
+        onTouchEnd={handleMobileDoubleTap("backward")}
+        tabIndex={-1}
+        aria-label="Seek backward 10 seconds"
+      ></button>
+      <span className="acadlix-mobile-doubletap-gap"></span>
+      <button
+        type="button"
+        className="acadlix-mobile-doubletap-zone acadlix-mobile-doubletap-zone-forward"
+        onTouchEnd={handleMobileDoubleTap("forward")}
+        tabIndex={-1}
+        aria-label="Seek forward 10 seconds"
+      ></button>
+    </div>
   </div>;
 };
 
