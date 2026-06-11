@@ -110,11 +110,9 @@ const VideoPlayer = ({
 
   const handleMobileControlBarToggle = (event) => {
     // const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)")?.matches;
-    console.log('handleMobileControlBarToggle', event.target)
     if (!isMobile) {
       return;
     }
-    console.log('toggle controls')
 
     const target = event.target;
     if (
