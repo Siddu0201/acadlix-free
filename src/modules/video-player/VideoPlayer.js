@@ -88,6 +88,22 @@ const VideoPlayer = ({
     player.currentTime = nextTime;
   };
 
+  const handleCenterPlayPause = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const player = plyrInstanceRef.current;
+    if (!player) {
+      return;
+    }
+
+    if (player.paused) {
+      player.play();
+    } else {
+      player.pause();
+    }
+  };
+
   useEffect(() => {
     const Plyr = window.Plyr;
     if (!Plyr) {
@@ -497,6 +513,15 @@ const VideoPlayer = ({
   // console.log('src', src)
   return <div className="acadlix-video-wrapper">
     {renderContent()}
+    <button
+      type="button"
+      className="icon-button player-control-play-pause-icon acadlix-center-play-toggle"
+      onClick={handleCenterPlayPause}
+      onTouchEnd={handleCenterPlayPause}
+      aria-label="Play/Pause"
+    >
+      <span className="acadlix-center-play-toggle-icon" aria-hidden="true">&#9658;</span>
+    </button>
     <div className="acadlix-mobile-doubletap-overlay" aria-hidden="true">
       <button
         type="button"
