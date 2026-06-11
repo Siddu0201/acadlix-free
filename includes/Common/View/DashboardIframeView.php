@@ -31,6 +31,12 @@ class DashboardIframeView
   {
     $method = "render_{$this->type}";
 
+    if(!is_user_logged_in()) {
+      wp_die(
+        esc_html__('You must be logged in to view this content.', 'acadlix')
+      );
+    }
+
     if (method_exists($this, $method)) {
       $this->{$method}();
       return;

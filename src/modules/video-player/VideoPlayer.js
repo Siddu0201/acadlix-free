@@ -5,7 +5,8 @@ import {
   GiNextButton,
   GiPreviousButton,
   RiExpandDiagonalFill,
-  MdCloseFullscreen
+  MdCloseFullscreen,
+  FaPlay
 } from "@acadlix/helpers/icons";
 import { convertTime } from "@acadlix/helpers/util";
 import PropTypes from "prop-types";
@@ -520,7 +521,9 @@ const VideoPlayer = ({
       onTouchEnd={handleCenterPlayPause}
       aria-label="Play/Pause"
     >
-      <span className="acadlix-center-play-toggle-icon" aria-hidden="true">&#9658;</span>
+      <span className="acadlix-center-play-toggle-icon" aria-hidden="true">
+        <FaPlay />
+      </span>
     </button>
     <div className="acadlix-mobile-doubletap-overlay" aria-hidden="true">
       <button
