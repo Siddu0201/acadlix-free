@@ -105,6 +105,39 @@ const VideoPlayer = ({
     }
   };
 
+  const handleMobileControlBarToggle = (event) => {
+    const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)")?.matches;
+    if (!isMobile) {
+      return;
+    }
+    console.log('toggle controls')
+
+    const target = event.target;
+    if (
+      target?.closest?.(".plyr__controls, .plyr__control, .acadlix-center-play-toggle")
+    ) {
+      return;
+    }
+
+    const player = plyrInstanceRef.current;
+    const playerContainer = player?.elements?.container;
+    if (!player?.toggleControls || !playerContainer) {
+      return;
+    }
+
+    const isSeekZoneTouch = target?.closest?.(".acadlix-mobile-doubletap-zone");
+    const controlsHidden = playerContainer.classList.contains("plyr--hide-controls");
+
+    if (isSeekZoneTouch) {
+      if (controlsHidden) {
+        player.toggleControls(true);
+      }
+      return;
+    }
+
+    player.toggleControls(controlsHidden);
+  };
+
   useEffect(() => {
     const Plyr = window.Plyr;
     if (!Plyr) {
@@ -512,7 +545,7 @@ const VideoPlayer = ({
     }
   };
   // console.log('src', src)
-  return <div className="acadlix-video-wrapper">
+  return <div className="acadlix-video-wrapper" onTouchStart={handleMobileControlBarToggle}>
     {renderContent()}
     <button
       type="button"
