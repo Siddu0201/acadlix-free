@@ -84,13 +84,13 @@ abstract class CPT_Abstract
 		register_post_type($this->_post_type, $args);
 	}
 
-	final public function _do_save_post(int $post_id = 0, WP_Post $post = null, bool $is_update = false)
+	final public function _do_save_post(int $post_id = 0, ?WP_Post $post = null, bool $is_update = false)
 	{
 
 		$this->save_post($post_id, $post, $is_update);
 	}
 
-	public function save_post(int $post_id = 0, WP_Post $post = null, bool $is_update = false)
+	public function save_post(int $post_id = 0, ?WP_Post $post = null, bool $is_update = false)
 	{
 		// Implement from child
 	}
