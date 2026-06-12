@@ -38,6 +38,7 @@ import QuestionDifficultyLevel from "@acadlix/components/QuestionDifficultyLevel
 import { DynamicMUIRenderer } from "@acadlix/modules/extensions/muiRecursiveRenderer";
 import AddQuestionWithAiButton from "./AddQuestionWithAiButton";
 import ValidateWithAiModel from "./actions/ValidateWithAiModel";
+import SortQuestionButton from "./SortQuestionButton";
 
 const CopyQuestionButton = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -571,6 +572,14 @@ const Question = () => {
                               {
                                 component: <AddQuestionWithAiButton quiz_id={quiz_id} />,
                                 component_name: "admin_quiz_question_add_with_ai_button",
+                              },
+                              {
+                                component: <SortQuestionButton
+                                  quiz_id={quiz_id}
+                                  getType={getType}
+                                  refetch={refetch}
+                                />,
+                                component_name: "admin_quiz_question_sort_button",
                               },
                               {
                                 component: "Suspense",

@@ -229,7 +229,6 @@ const ActiveItem = React.forwardRef(({ activeId, ...props }, ref) => {
         display: "block",
         border: `1px solid ${props?.colorCode?.view_content_border}`,
         borderRadius: "6px",
-        opacity: 1,
         cursor: "grab",
         opacity: 0.5,
       }}

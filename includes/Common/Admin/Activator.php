@@ -226,6 +226,7 @@ class Activator
       14 => 'updateV14', // update 1.6.5 (pro) 1.0.7 (free),
       15 => 'updateV15', // update 1.6.8 (pro) 1.0.8 (free),
       16 => 'updateV16', // update 1.6.9 (pro) 1.0.9 (free),
+      17 => 'updateV17', // update 1.7.0 (pro) 1.1.0 (free),
     ];
 
     foreach ($updates as $version => $method) {
@@ -239,6 +240,13 @@ class Activator
         $this->$method();
       }
     }
+  }
+
+  public function updateV17()
+  {
+    /**
+     * In this add question sorting.
+     */
   }
 
   public function updateV16()
