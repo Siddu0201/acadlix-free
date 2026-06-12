@@ -11,7 +11,7 @@ import {
 import { convertTime } from "@acadlix/helpers/util";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 
 const VideoPlayer = ({
   src = '',
@@ -54,12 +54,15 @@ const VideoPlayer = ({
   const pendingResumeRef = useRef(
     meta_value?.current_time || 0
   );
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const hasCoarsePointer = useMediaQuery("(hover: none), (pointer: coarse)");
+  const isTouchCapable =
+    hasCoarsePointer ||
+    (typeof navigator !== "undefined" &&
+      (navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0));
 
   const handleMobileDoubleTap = (direction) => (event) => {
     // const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)")?.matches;
-    if (!isMobile) {
+    if (!isTouchCapable) {
       return;
     }
 
@@ -110,7 +113,7 @@ const VideoPlayer = ({
 
   const handleMobileControlBarToggle = (event) => {
     // const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)")?.matches;
-    if (!isMobile) {
+    if (!isTouchCapable) {
       return;
     }
 
