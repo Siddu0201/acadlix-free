@@ -55,7 +55,7 @@ const VideoPlayer = ({
     meta_value?.current_time || 0
   );
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleMobileDoubleTap = (direction) => (event) => {
     // const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)")?.matches;
