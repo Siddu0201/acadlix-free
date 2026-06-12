@@ -118,8 +118,12 @@ const VideoPlayer = ({
     }
 
     const target = event.target;
+    const isPlyrUiTouch = target?.closest?.(
+      ".plyr__controls, .plyr__control, .plyr__menu, .plyr__menu__container, [role='menu'], [role='menuitem'], [role='menuitemradio'], .plyr__tooltip, .plyr__tooltip--visible, .acadlix-center-play-toggle"
+    );
+
     if (
-      target?.closest?.(".plyr__controls, .plyr__control, .acadlix-center-play-toggle")
+      isPlyrUiTouch
     ) {
       return;
     }
@@ -550,7 +554,10 @@ const VideoPlayer = ({
     }
   };
   // console.log('src', src)
-  return <div className="acadlix-video-wrapper" onTouchStart={handleMobileControlBarToggle}>
+  return <div 
+      className="acadlix-video-wrapper" 
+      onTouchEnd={handleMobileControlBarToggle}
+      >
     {renderContent()}
     <button
       type="button"
