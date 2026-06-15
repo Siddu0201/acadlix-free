@@ -35,7 +35,7 @@ class Manager
     // add_filter('page_template', [$this, 'acadlix_template']);
     add_action('wp_footer', [$this, 'acadlix_front_footer']);
   }
-
+  
   public function add_shortcode_quiz($atts)
   {
     $id = $atts[0];

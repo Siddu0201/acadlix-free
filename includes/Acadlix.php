@@ -100,6 +100,7 @@ namespace Yuvayana\Acadlix {
 
     private function load()
     {
+      $this->blocks = new Common\Blocks\Blocks();
       $this->admin = $this->pro ? new Pro\Admin\Admin() : new Common\Admin\Admin();
       $this->assets = $this->pro ? new Pro\Assets\Assets() : new Common\Assets\Assets();
       $this->controller = $this->pro ? new Pro\Controller\Controller() : new Common\Controller\Controller();

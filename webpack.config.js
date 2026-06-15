@@ -55,6 +55,10 @@ module.exports = (env, argv) => {
       front_checkout: path.resolve(process.cwd(), "src", "front-checkout.js"),
       front_single_course: path.resolve(process.cwd(), "src", "front-single-course.js"),
       front_button_listener: path.resolve(process.cwd(), "src", "front-button-listener.js"),
+      
+      quiz_shortcode_block: path.resolve(process.cwd(), "src", "blocks", "quiz-shortcode", "index.js"),
+      quiz_leaderboard_shortcode_block: path.resolve(process.cwd(), "src", "blocks", "quiz-leaderboard-shortcode", "index.js"),
+      login_shortcode_block: path.resolve(process.cwd(), "src", "blocks", "login-shortcode", "index.js"),
     },
 
     output: {
