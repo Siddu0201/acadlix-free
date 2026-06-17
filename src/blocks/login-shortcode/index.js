@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 
 registerBlockType('acadlix/login-shortcode', {
   apiVersion: 3,
-  title: __('Acadlix Login Shortcode', 'acadlix'),
+  title: __('Acadlix Login', 'acadlix'),
   icon: 'editor-code',
   category: 'text',
   attributes: {

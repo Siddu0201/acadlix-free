@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 
 registerBlockType('acadlix/quiz-shortcode', {
   apiVersion: 3,
-  title: __('Acadlix Quiz Shortcode', 'acadlix'),
+  title: __('Acadlix Quiz', 'acadlix'),
   icon: 'editor-code',
   category: 'text',
   attributes: {
