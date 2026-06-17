@@ -200,12 +200,10 @@ if (!class_exists('Quiz')) {
       $random_option = $metas['quiz_settings']['random_option'] ?? false;
       $do_not_randomize_last_option = $metas['quiz_settings']['do_not_randomize_last_option'] ?? false;
 
-      $questions = acadlix()->model()->question()->
-        ofOnline()
-        ->where('quiz_id', $this->ID)
+      $questions = $this->questions()
         ->when($random_question, fn($query) => $query->inRandomOrder())
-        ->get()
-      ;
+        ->get();
+
       if ($sort_by_subject) {
         $questions = $questions->sortByDesc(fn($q) => optional($q->subject)->subject_name ?? '')->values();
       }
