@@ -6,7 +6,7 @@ defined('ABSPATH') || exit();
 
 class Activator
 {
-  public $dbVersion = 16;
+  public $dbVersion = 17;
   public function __construct()
   {
     if (!is_admin())

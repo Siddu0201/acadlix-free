@@ -372,6 +372,14 @@ You can share feedback and suggest new features through the Acadlix website. Use
 
 == Changelog ==
 
+= 1.1.0 - 17-06-2026
+* Added: Lesson render shortcode support.
+* Added: Sort Question question type.
+* Added: Quiz shortcode and leaderboard block support.
+* Added: Login shortcode block support.
+* Fixed: Quiz template attempt handling issue causing incorrect attempt behavior.
+* Fixed: Video player double-tap gesture support for play/pause and 10-second forward/backward seeking.
+
 = 1.0.9 - 04-06-2026 =
 * Added: Free checkout support without requiring any payment gateway configuration.
 * Added: Change password from student dashboard.
