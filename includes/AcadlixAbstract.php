@@ -4,6 +4,7 @@ defined('ABSPATH') || exit();
 
 abstract class AcadlixAbstract {
 	protected $database = null;
+	protected $blocks = null;
 	protected $license = null;
 	protected $admin = null;
 	protected $controller = null;
@@ -25,6 +26,10 @@ abstract class AcadlixAbstract {
 	public function database()
 	{
 		return $this->database;
+	}
+
+	public function blocks(){
+		return $this->blocks;
 	}
 
 	public function license(){

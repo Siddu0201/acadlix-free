@@ -6,6 +6,18 @@ const BootstrapDialog = ({
   sm = "70%",
   md = "60%",
   xl = "100%",
+  height = {
+    xs: "auto", // 70% height on small screens
+    sm: "auto", // 60% height on medium screens
+    md: "auto",
+    xl: "auto", // 50% height on larger screens
+  },
+  contentMaxHeight = {
+    xs: "450px",
+    sm: "350px",
+    md: "350px",
+    xl: "450px",
+  },
   ...props
 }) => {
 
@@ -43,12 +55,12 @@ const BootstrapDialog = ({
               md: md,
               xl: xl,
             },
-            height: {
-              xs: "auto", // 70% height on small screens
-              sm: "auto", // 60% height on medium screens
-              md: "auto",
-              xl: "auto", // 50% height on larger screens
-            },
+              height: {
+                xs: height.xs,
+                sm: height.sm,
+                md: height.md,
+                xl: height.xl,
+              },
             margin: 4,
           },
         },
@@ -57,10 +69,10 @@ const BootstrapDialog = ({
         "& .MuiDialogContent-root": {
           padding: 2,
           maxHeight: {
-            xs: "450px",
-            sm: "350px",
-            md: "350px",
-            xl: "450px",
+            xs: contentMaxHeight.xs,
+            sm: contentMaxHeight.sm,
+            md: contentMaxHeight.md,
+            xl: contentMaxHeight.xl,
           },
         },
         "& .MuiIconButton-root": {

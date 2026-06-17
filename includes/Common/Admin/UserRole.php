@@ -143,6 +143,7 @@ class UserRole
       'acadlix_bulk_set_subject_and_point_question' => true,
       'acadlix_bulk_question_validate_ai_model' => true,
       'acadlix_add_question_with_ai' => true,
+      'acadlix_sort_question' => true,
     ];
   }
 

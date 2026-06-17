@@ -1,16 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import { createRoot } from "@wordpress/element";
 // import Plyr from "plyr";
-import { RawHTML } from "@wordpress/element";
 import {
   GiNextButton,
   GiPreviousButton,
   RiExpandDiagonalFill,
-  MdCloseFullscreen
+  MdCloseFullscreen,
+  FaPlay
 } from "@acadlix/helpers/icons";
 import { convertTime } from "@acadlix/helpers/util";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import { useMediaQuery } from "@mui/material";
 
 const VideoPlayer = ({
   src = '',
@@ -42,13 +43,109 @@ const VideoPlayer = ({
   ...props
 }) => {
   const playerRef = useRef(null);
-  const maskRef = useRef(null);
+  const plyrInstanceRef = useRef(null);
   const saveIntervalRef = useRef(null);
   const lastSavedSecondRef = useRef(0);
+  const lastMobileTapRef = useRef({
+    backward: 0,
+    forward: 0,
+  });
   const hasResumedRef = useRef(false);
   const pendingResumeRef = useRef(
     meta_value?.current_time || 0
   );
+  const hasCoarsePointer = useMediaQuery("(hover: none), (pointer: coarse)");
+  const isTouchCapable =
+    hasCoarsePointer ||
+    (typeof navigator !== "undefined" &&
+      (navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0));
+
+  const handleMobileDoubleTap = (direction) => (event) => {
+    // const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)")?.matches;
+    if (!isTouchCapable) {
+      return;
+    }
+
+    const now = Date.now();
+    const previousTapTime = lastMobileTapRef.current?.[direction] || 0;
+    lastMobileTapRef.current[direction] = now;
+
+    if (now - previousTapTime > 280) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const player = plyrInstanceRef.current;
+    if (!player) {
+      return;
+    }
+
+    const duration = player.duration || 0;
+    const currentTime = player.currentTime || 0;
+    const delta = direction === "forward" ? 10 : -10;
+    let nextTime = currentTime + delta;
+
+    if (duration > 0) {
+      nextTime = Math.min(duration, Math.max(0, nextTime));
+    } else {
+      nextTime = Math.max(0, nextTime);
+    }
+
+    player.currentTime = nextTime;
+  };
+
+  const handleCenterPlayPause = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const player = plyrInstanceRef.current;
+    if (!player) {
+      return;
+    }
+
+    if (player.paused) {
+      player.play();
+    } else {
+      player.pause();
+    }
+  };
+
+  const handleMobileControlBarToggle = (event) => {
+    // const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)")?.matches;
+    if (!isTouchCapable) {
+      return;
+    }
+
+    const target = event.target;
+    const isPlyrUiTouch = target?.closest?.(
+      ".plyr__controls, .plyr__control, .plyr__menu, .plyr__menu__container, [role='menu'], [role='menuitem'], [role='menuitemradio'], .plyr__tooltip, .plyr__tooltip--visible, .acadlix-center-play-toggle"
+    );
+
+    if (
+      isPlyrUiTouch
+    ) {
+      return;
+    }
+
+    const player = plyrInstanceRef.current;
+    const playerContainer = player?.elements?.container;
+    if (!player?.toggleControls || !playerContainer) {
+      return;
+    }
+
+    const isSeekZoneTouch = target?.closest?.(".acadlix-mobile-doubletap-zone");
+    const controlsHidden = playerContainer.classList.contains("plyr--hide-controls");
+
+    if (isSeekZoneTouch) {
+      if (controlsHidden) {
+        player.toggleControls(true);
+      }
+      return;
+    }
+
+    player.toggleControls(controlsHidden);
+  };
 
   useEffect(() => {
     const Plyr = window.Plyr;
@@ -102,6 +199,7 @@ const VideoPlayer = ({
         ...vimeo,
       },
     });
+    plyrInstanceRef.current = plyrInstance;
 
 
     const updateDuration = (duration = 0) => {
@@ -381,6 +479,7 @@ const VideoPlayer = ({
         handleFullscreenChange
       );
       plyrInstance.destroy();
+      plyrInstanceRef.current = null;
     };
   }, []);
 
@@ -455,8 +554,39 @@ const VideoPlayer = ({
     }
   };
   // console.log('src', src)
-  return <div className="acadlix-video-wrapper">
+  return <div 
+      className="acadlix-video-wrapper" 
+      onTouchEnd={handleMobileControlBarToggle}
+      >
     {renderContent()}
+    <button
+      type="button"
+      className="icon-button player-control-play-pause-icon acadlix-center-play-toggle"
+      onClick={handleCenterPlayPause}
+      onTouchEnd={handleCenterPlayPause}
+      aria-label="Play/Pause"
+    >
+      <span className="acadlix-center-play-toggle-icon" aria-hidden="true">
+        <FaPlay />
+      </span>
+    </button>
+    <div className="acadlix-mobile-doubletap-overlay" aria-hidden="true">
+      <button
+        type="button"
+        className="acadlix-mobile-doubletap-zone acadlix-mobile-doubletap-zone-backward"
+        onTouchEnd={handleMobileDoubleTap("backward")}
+        tabIndex={-1}
+        aria-label="Seek backward 10 seconds"
+      ></button>
+      <span className="acadlix-mobile-doubletap-gap"></span>
+      <button
+        type="button"
+        className="acadlix-mobile-doubletap-zone acadlix-mobile-doubletap-zone-forward"
+        onTouchEnd={handleMobileDoubleTap("forward")}
+        tabIndex={-1}
+        aria-label="Seek forward 10 seconds"
+      ></button>
+    </div>
   </div>;
 };
 

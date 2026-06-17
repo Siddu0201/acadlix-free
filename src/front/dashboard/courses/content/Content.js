@@ -22,6 +22,7 @@ import {
 import CustomLatex from "@acadlix/modules/latex/CustomLatex";
 import { __ } from "@wordpress/i18n";
 import ContentLocked from "../courseComponents/ContentLocked";
+import Loader from "@acadlix/components/Loader";
 
 const AssignmentContent = React.lazy(() =>
   process.env.REACT_APP_IS_PREMIUM === 'true'
@@ -425,6 +426,7 @@ const LessonVideoContent = (props) => {
 };
 
 const LessonTextContent = (props) => {
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     const handleFullscreenChange = () => {
       props?.setValue("is_fullscreen", !!document.fullscreenElement, {
@@ -453,6 +455,10 @@ const LessonTextContent = (props) => {
       );
     };
   }, []);
+
+  React.useEffect(() => {
+    setLoading(true);
+  }, [props?.c?.content_type_id]);
   return (
     <Box
       sx={{
@@ -474,13 +480,30 @@ const LessonTextContent = (props) => {
           sm: "80vh",
           xl: "80vh",
         },
-        overflowY: "auto",
+        overflowY: "hidden",
       }}
     >
+      {/* Loader Overlay */}
+      {loading && (
+        <Loader />
+      )}
 
-      <CustomLatex>
+      <iframe
+        src={`${acadlixOptions.dashboard_url}?acadlix_iframe=1
+                  &type=lesson
+                  &id=${props?.c?.content_type_id}`}
+        style={{
+          width: "100%",
+          border: "none",
+          height: props?.watch("is_fullscreen") ? "100%" : "80vh",
+          opacity: loading ? 0 : 1,
+          transition: "opacity 0.25s ease"
+        }}
+        onLoad={() => setLoading(false)}
+      />
+      {/* <CustomLatex>
         {props?.c?.content}
-      </CustomLatex>
+      </CustomLatex> */}
     </Box>
   );
 };

@@ -184,19 +184,46 @@ class AdminQuestionController
         ],
       ]
     );
+
+    register_rest_route(
+      $this->namespace,
+      '/' . $this->base . '/(?P<quiz_id>[\d]+)/question/sort',
+      [
+        [
+          'methods' => WP_REST_Server::EDITABLE,
+          'callback' => [$this, 'post_sort_questions'],
+          'permission_callback' => function () {
+            return current_user_can('acadlix_sort_question');
+          },
+        ],
+      ]
+    );
   }
 
   public function get_quiz_questions($request)
   {
     $res = [];
-    $quiz_id = $request['quiz_id'];
+    $quiz_id = absint($request['quiz_id']);
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_quiz_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
     $params = $request->get_params();
-    $skip = $params['page'] * $params['pageSize'];
-    $search = $params['search'];
+    $page = isset($params['page']) ? max(0, (int) $params['page']) : 0;
+    $pageSize = isset($params['pageSize']) ? (int) $params['pageSize'] : 10;
+    $pageSize = max(0, $pageSize);
+    $skip = $page * $pageSize;
+    $search = isset($params['search']) ? trim((string) $params['search']) : '';
+
     $question = acadlix()->model()->question()
       ->ofOnline()
       ->where('quiz_id', $quiz_id)
       ->orderBy("sort");
+
     if (!empty($search)) {
       $question->where(function ($query) use ($search) {
         $query->where('title', 'LIKE', "%{$search}%")
@@ -208,9 +235,13 @@ class AdminQuestionController
           });
       });
     }
+
     $res['quiz'] = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
-    $res['total'] = $question->count();
-    $res['questions'] = $question->skip($skip)->take($params['pageSize'])->get();
+    $res['total'] = (clone $question)->count();
+    $res['questions'] = $pageSize === 0
+      ? $question->get()
+      : $question->skip($skip)->take($pageSize)->get();
+
     return rest_ensure_response($res);
   }
 
@@ -498,6 +529,87 @@ class AdminQuestionController
     }
 
     $res['questions'] = $questions;
+    return rest_ensure_response($res);
+  }
+
+  public function post_sort_questions($request)
+  {
+    $res = [];
+    $quiz_id = absint($request['quiz_id']);
+    $params = $request->get_json_params();
+    $questions = $params['questions'] ?? [];
+
+    if (empty($quiz_id)) {
+      return new WP_Error(
+        'missing_quiz_id',
+        __('Quiz id is required.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    if (empty($questions) || !is_array($questions)) {
+      return new WP_Error(
+        'missing_questions',
+        __('Questions are required for sorting.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    $quiz = acadlix()->model()->quiz()->ofQuiz()->find($quiz_id);
+
+    if (!$quiz) {
+      return new WP_Error(
+        'invalid_quiz_id',
+        __('Invalid quiz id.', 'acadlix'),
+        ['status' => 404]
+      );
+    }
+
+    $questionIds = array_values(array_filter(array_map(function ($question) {
+      return isset($question['id']) ? (int) $question['id'] : 0;
+    }, $questions), function ($id) {
+      return $id > 0;
+    }));
+
+    if (empty($questionIds)) {
+      return new WP_Error(
+        'missing_question_ids',
+        __('Question ids are required for sorting.', 'acadlix'),
+        ['status' => 400]
+      );
+    }
+
+    $questionModel = acadlix()->model()->question();
+    $quizQuestions = $questionModel
+      ->where('quiz_id', $quiz_id)
+      ->whereIn('id', $questionIds)
+      ->get()
+      ->keyBy('id');
+
+    $connection = $questionModel->getConnection();
+    $connection->beginTransaction();
+
+    try {
+      $sort = 1;
+      foreach ($questionIds as $questionId) {
+        $question = $quizQuestions->get($questionId);
+        if ($question) {
+          $question->update(['sort' => $sort]);
+          $sort++;
+        }
+      }
+
+      $connection->commit();
+    } catch (\Throwable $e) {
+      $connection->rollBack();
+      return new WP_Error(
+        'failed_sort_questions',
+        __('Failed to sort questions.', 'acadlix'),
+        ['status' => 500]
+      );
+    }
+
+    $res['questions'] = $quiz->questions()->orderBy('sort')->get();
     return rest_ensure_response($res);
   }
 }

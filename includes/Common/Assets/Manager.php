@@ -35,7 +35,7 @@ class Manager
     // add_filter('page_template', [$this, 'acadlix_template']);
     add_action('wp_footer', [$this, 'acadlix_front_footer']);
   }
-
+  
   public function add_shortcode_quiz($atts)
   {
     $id = $atts[0];
@@ -523,6 +523,7 @@ class Manager
       'date_time_format' => acadlix()->helper()->acadlix_get_date_time_format(),
       'default_img_url' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'demo-course.jpg'),
       'certificate_url_path' => esc_url(ACADLIX_ASSETS_IMAGE_URL . 'certificate/'),
+      'dashboard_url' => get_permalink(acadlix()->helper()->acadlix_get_option('acadlix_dashboard_page_id')),
       'pdf_url' => ACADLIX_ASSETS_PDF_URL,
       'users_can_register' => acadlix()->helper()->acadlix_get_option('users_can_register'),
       'isActive' => acadlix()->license()->isActive ?? false,

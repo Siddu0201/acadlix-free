@@ -27,6 +27,9 @@ if (!class_exists("DashboardController")) {
     {
       if ($this->is_dashboard_page()) {
         // !defined('DONOTCACHEPAGE') && define('DONOTCACHEPAGE', true); // phpcs:ignore
+        if (!empty($_GET['acadlix_iframe'])) {
+          return acadlix()->view()->dashboardIframe()->render();
+        }
         $dashboard_template = ACADLIX_INCLUDES_PATH . 'Common/View/DashboardView.php';
         if ($dashboard_template) {
           return $dashboard_template;

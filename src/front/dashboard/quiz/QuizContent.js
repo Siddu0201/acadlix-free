@@ -347,7 +347,6 @@ const QuizContent = (props) => {
       name: "",
       email: "",
     },
-    quiz_attempts: props?.quiz?.quiz_attempts ?? 0,
     toplist_id: 0,
     toplist: [],
     toplist_count: 0,

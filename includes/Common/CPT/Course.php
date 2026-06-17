@@ -191,8 +191,12 @@ final class Course extends CPT_Abstract
     );
   }
 
-  public function save_post(int $postId = 0, WP_Post $post = null, bool $isUpdate = false): void
+  public function save_post(int $postId = 0, ?WP_Post $post = null, bool $isUpdate = false): void
   {
+    if (!$post instanceof WP_Post) {
+      return;
+    }
+
     if ($post->post_type !== $this->get_post_type()) {
       return;
     }

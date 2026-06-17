@@ -9,8 +9,8 @@ class View
   protected static $_instance = null;
   protected $allCourse = null;
   protected $singleCourse = null;
-
   protected $thankyou = null;
+  protected $dashboardIframe = null;
 
   public function __construct()
   {
@@ -39,6 +39,14 @@ class View
       $this->thankyou = new ThankyouView();
     }
     return $this->thankyou;
+  }
+
+  public function dashboardIframe(): DashboardIframeView
+  {
+    if(is_null($this->dashboardIframe)) {
+      $this->dashboardIframe = new DashboardIframeView();
+    }
+    return $this->dashboardIframe;
   }
 
   public static function instance()

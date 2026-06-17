@@ -250,3 +250,16 @@ export const PostUploadAiQuestions = (quiz_id = '') => {
     }
   })
 }
+
+export const PostSortQuestions = (quiz_id = '') => {
+  const instance = useInstance();
+  return useMutation({
+    mutationFn: (data) => {
+      return instance.post(`${base}/${quiz_id}/question/sort`, data, {
+        headers: {
+          "X-WP-Nonce": acadlixOptions?.nonce,
+        }
+      });
+    },
+  })
+}
